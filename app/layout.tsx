@@ -4,6 +4,8 @@ import CanvasLayer from "@/components/three/CanvasLayer";
 import SystemLog from "@/components/ui/SystemLog";
 import CommandBar from "@/components/ui/CommandBar";
 import CustomCursor from "@/components/ui/CustomCursor";
+import SmoothScroll from "@/components/ui/SmoothScroll";
+import MouseSpotlight from "@/components/ui/MouseSpotlight";
 
 // Cyber Typography
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
@@ -35,12 +37,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable} scroll-smooth`}>
       <body className="antialiased bg-void selection:bg-cyan/30 text-white">
 
+        <SmoothScroll />
+
         {/* =======================================================
             PHYSICAL LAYER (z-0): Persistent WebGL Context
             ======================================================= */}
         <div className="fixed inset-0 z-0 pointer-events-none">
           <CanvasLayer />
         </div>
+
+        {/* =======================================================
+            SPOTLIGHT LAYER (z-1): Mouse-Following Gradient
+            ======================================================= */}
+        <MouseSpotlight />
 
         {/* =======================================================
             TERMINAL LAYER (z-10): React UI & Content

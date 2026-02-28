@@ -3,8 +3,10 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { PERSONAL_INFO, CURRENTLY_LEARNING, EDUCATION, BIO, BIO_HIGHLIGHTED_WORDS } from "@/lib/constants";
 import { Instagram } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export default function About() {
+  const sectionRef = useScrollReveal();
   const getHighlightedBio = (text: string) => {
     let highlightedText = text;
     // We sort by length descending so that longer phrases like "SP Jain School of Global Management"
@@ -41,7 +43,7 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-12 md:py-16 px-4 md:px-6 max-w-7xl mx-auto overflow-x-hidden" style={{ perspective: 1000 }}>
+    <section ref={sectionRef} id="about" className="py-12 md:py-16 px-4 md:px-6 max-w-7xl mx-auto overflow-x-hidden" style={{ perspective: 1000 }}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Bio Card - Takes up 2 columns now to leave room for Social Signal */}

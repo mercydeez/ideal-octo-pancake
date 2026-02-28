@@ -6,10 +6,13 @@ import { useState } from "react";
 import { Github, ExternalLink, Cpu, Database, Globe } from "lucide-react";
 import ProjectExpanded from "@/components/ui/ProjectExpanded";
 import { useStore } from "@/lib/store";
+import { useStaggerReveal } from "@/hooks/useStaggerReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("All");
   const setHoveringProject = useStore((state) => state.setHoveringProject);
+  const gridRef = useStaggerReveal<HTMLDivElement>();
 
   const filtered = activeFilter === "All"
     ? PROJECTS.filter(p => !p.featured)
@@ -26,7 +29,7 @@ export default function Projects() {
           className="mb-12 text-center"
         >
           <h2 className="text-3xl md:text-3xl lg:text-4xl font-display font-black text-white mb-4 uppercase">
-            PROJECT <span className="text-cyan">MATRIX</span>
+            <ScrambleText text="PROJECT " /><span className="text-cyan"><ScrambleText text="MATRIX" /></span>
           </h2>
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {PROJECT_FILTERS.map((filter) => (
@@ -44,7 +47,7 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {(activeFilter === "All" || activeFilter === "Big Data" || activeFilter === "AI/ML") && (
             <ProjectExpanded />

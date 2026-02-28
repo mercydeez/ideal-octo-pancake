@@ -3,10 +3,13 @@
 import { motion } from "framer-motion";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { Download, Eye, FileCode } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Resume() {
+  const sectionRef = useScrollReveal();
   return (
-    <section id="resume" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
+    <section ref={sectionRef} id="resume" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -24,7 +27,7 @@ export default function Resume() {
 
           <p className="text-amber-500 font-mono text-sm tracking-[0.4em] mb-4 uppercase font-bold">Document_Manifest</p>
           <h2 className="text-4xl md:text-6xl font-display font-black text-white uppercase tracking-tighter mb-6">
-            DOWNLOAD <span className="text-glow-white">VITAE</span>
+            <ScrambleText text="DOWNLOAD " /><span className="text-glow-white"><ScrambleText text="VITAE" /></span>
           </h2>
 
           <p className="text-white/40 font-mono text-sm leading-relaxed mb-12">
