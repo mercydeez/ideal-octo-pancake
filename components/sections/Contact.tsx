@@ -1,11 +1,55 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Terminal, Send, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Terminal, Send } from "lucide-react";
+import { toast } from "sonner";
+
+const SOCIALS = [
+  { name: "Email", value: "atharva3895@gmail.com", href: "mailto:atharva3895@gmail.com", color: "#FF6B35" },
+  { name: "Phone", value: "+91-7798884495", href: "tel:+917798884495", color: "#00F0FF" },
+  {
+    name: "LinkedIn",
+    value: "atharva-soundankar",
+    href: "https://www.linkedin.com/in/atharva-soundankar/",
+    color: "#0A66C2",
+  },
+  {
+    name: "GitHub",
+    value: "mercydeez",
+    href: "https://github.com/mercydeez",
+    color: "#ffffff",
+  },
+];
 
 export default function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        toast.success("Message sent! I'll reply soon 🚀");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        toast.error("Failed. Email atharva3895@gmail.com directly");
+      }
+    } catch {
+      toast.error("Failed. Email atharva3895@gmail.com directly");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <section id="contact" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
+    <section id="contact" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         {/* Contact Info */}
@@ -14,43 +58,42 @@ export default function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
         >
-          <div className="mb-8 border-l-4 border-cyan pl-8">
-            <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">
-              [ TRANSMISSION_LINK ]
-            </p>
+          <div className="mb-8 border-l-4 border-amber-500 pl-8">
+            <p className="text-amber-400 font-mono text-sm tracking-widest mb-2 uppercase">[ TRANSMISSION_LINK ]</p>
             <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
-              GET IN <span className="text-pink text-glow-pink">TOUCH</span>
+              OPEN <span className="text-amber-400 text-glow-amber">CHANNEL</span>
             </h2>
           </div>
 
           <p className="text-white/50 font-mono text-lg mb-12 max-w-md">
-            Interested in collaborating on AI/ML projects or hiring a data specialist?
-            Initialise a connection below.
+            Interested in collaborating on AI/ML projects or hiring a data specialist? Initialise a connection below.
           </p>
 
-          <div className="flex flex-col gap-6">
-            {[
-              { icon: <Mail />, label: "Email", value: "atharva.soundankar@spjai.edu", color: "#00f5ff" },
-              { icon: <Linkedin />, label: "LinkedIn", value: "atharva-soundankar", color: "#ff007a" },
-              { icon: <Twitter />, label: "Twitter", value: "@atharva_s", color: "#00f5ff" }
-            ].map((link, i) => (
-              <div key={i} className="flex items-center gap-4 group cursor-pointer">
+          <div className="flex flex-col gap-4">
+            {SOCIALS.map((link, i) => (
+              <a
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 group cursor-pointer min-h-[44px]"
+              >
                 <div
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:scale-110"
-                  style={{ color: link.color }}
+                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-sm font-bold font-mono transition-all group-hover:scale-110"
+                  style={{ color: link.color, borderColor: `${link.color}40` }}
                 >
-                  {link.icon}
+                  {link.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-white/30 font-mono text-[10px] uppercase tracking-widest">{link.label}</p>
-                  <p className="text-white font-mono text-sm">{link.value}</p>
+                  <p className="text-white/30 font-mono text-[10px] uppercase tracking-widest">{link.name}</p>
+                  <p className="text-white font-mono text-sm group-hover:opacity-80 transition-opacity">{link.value}</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </motion.div>
 
-        {/* Terminal Form */}
+        {/* Terminal Form - FIX 4 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -60,61 +103,84 @@ export default function Contact() {
           {/* macOS Title Bar */}
           <div className="bg-white/5 border-b border-white/10 px-6 py-3 flex items-center justify-between">
             <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/50" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-              <div className="w-3 h-3 rounded-full bg-green-500/50" />
+              <div className="w-3 h-3 rounded-full bg-red-500/70" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+              <div className="w-3 h-3 rounded-full bg-green-500/70" />
             </div>
             <div className="flex items-center gap-2 text-white/20 font-mono text-[10px] uppercase tracking-widest">
               <Terminal size={12} />
-              contact_portal.sh — 80x24
+              terminal — $ send_message --to="atharva3895@gmail.com"
             </div>
           </div>
 
-          <div className="p-8 font-mono">
-            <div className="mb-8">
-              <p className="text-cyan mb-2">atharva@quantum:~$ <span className="text-white">./init_contact_sequence</span></p>
-              <p className="text-white/40 text-xs tracking-tighter">Establishing secure connection via SSL/TLS...</p>
+          <form onSubmit={handleSubmit} className="p-8 font-mono space-y-6">
+            <div className="mb-4">
+              <p className="text-cyan mb-1">atharva@neural:~$ <span className="text-white">send_message</span></p>
+              <p className="text-white/40 text-xs">Establishing secure connection via SSL/TLS...</p>
             </div>
 
-            <form className="space-y-6">
-              <div>
-                <label className="text-cyan text-[10px] uppercase tracking-widest mb-2 block">01. Identification</label>
-                <input
-                  type="text"
-                  placeholder="NAME_OR_COMPANY"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-cyan transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-pink text-[10px] uppercase tracking-widest mb-2 block">02. Return_Address</label>
-                <input
-                  type="email"
-                  placeholder="EMAIL_ADDRESS"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-pink transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-cyan/60 text-[10px] uppercase tracking-widest mb-2 block">03. Payload_Content</label>
-                <textarea
-                  rows={4}
-                  placeholder="HOW_CAN_I_ASSIST?"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-cyan transition-colors resize-none"
-                />
-              </div>
+            <div>
+              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">01. Name</label>
+              <input
+                type="text"
+                required
+                value={form.name}
+                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                placeholder="YOUR_NAME"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+              />
+            </div>
+            <div>
+              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">02. Email</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                placeholder="YOUR_EMAIL"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+              />
+            </div>
+            <div>
+              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">03. Subject</label>
+              <input
+                type="text"
+                required
+                value={form.subject}
+                onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                placeholder="SUBJECT_LINE"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+              />
+            </div>
+            <div>
+              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">04. Message</label>
+              <textarea
+                rows={4}
+                required
+                value={form.message}
+                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                placeholder="HOW_CAN_I_ASSIST?"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none"
+              />
+            </div>
 
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-cyan/20 to-pink/20 border border-white/10 hover:border-white/30 py-4 rounded-xl flex items-center justify-center gap-3 group transition-all"
-              >
-                <span className="text-xs uppercase tracking-[0.3em] font-bold text-white">Transmit_Message</span>
-                <Send size={16} className="text-cyan group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 rounded-xl flex items-center justify-center gap-3 group transition-all min-h-[44px] font-bold text-sm uppercase tracking-[0.2em] disabled:opacity-50"
+              style={{
+                background: loading ? 'rgba(255,107,53,0.2)' : 'linear-gradient(135deg, rgba(255,107,53,0.3), rgba(255,184,0,0.2))',
+                border: '1px solid rgba(255,107,53,0.4)',
+                color: '#FF6B35',
+              }}
+            >
+              {loading ? "TRANSMITTING..." : "TRANSMIT →"}
+              {!loading && <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+            </button>
+          </form>
         </motion.div>
 
       </div>
-
     </section>
   );
 }

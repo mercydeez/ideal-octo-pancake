@@ -11,15 +11,11 @@ module.exports = {
         void: "#030303",
         cyan: "#00F0FF",
         amber: "#FF6B35",
+        military: "#1a1c1a",
       },
-      animation: {
-        "crt-scanline": "scanline 8s linear infinite",
-      },
-      keyframes: {
-        scanline: {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(100%)" },
-        },
+      fontFamily: {
+        cyber: ["var(--font-syncopate)", "sans-serif"],
+        terminal: ["var(--font-space)", "monospace"],
       },
     },
   },

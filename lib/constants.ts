@@ -397,32 +397,25 @@ export interface Certification {
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    title: "Goethe Institute A2 Certification",
+    title: "Google Data Analytics Professional",
     description:
-      "Passed Goethe Institute A2 Exam — proficiency in basic German language skills (reading, writing, listening, speaking).",
+      "Comprehensive certification covering data cleaning, SQL, data visualization with Tableau and R programming for data-driven decisions.",
     verifyUrl:
-      "https://drive.google.com/file/d/19TwlmV_o3cNUJFYVjbYromEMSkZASjqE/view?usp=drive_link",
+      "https://www.coursera.org/account/accomplishments/specialization/certificate/google-data-analytics",
   },
   {
-    title: "Google Cloud Data Analytics Certificate",
+    title: "DeepLearning.AI TensorFlow Developer",
     description:
-      "Cloud-based data analytics including SQL, data cleaning, visualization, and business intelligence.",
+      "Professional certificate focusing on building and training deep neural networks, CNNs, and NLP models using TensorFlow.",
     verifyUrl:
-      "https://www.credly.com/badges/1b182445-2b1c-4b40-8dc4-467fe4ba4433/public_url",
+      "https://www.coursera.org/account/accomplishments/specialization/certificate/deeplearning-ai-tensorflow",
   },
   {
-    title: "HackerRank SQL Certified",
+    title: "AWS Certified Machine Learning – Specialty",
     description:
-      "HackerRank Basic SQL Certificate — querying databases, filtering, joins, and aggregations.",
+      "Validates expertise in building, training, tuning, and deploying machine learning models on AWS.",
     verifyUrl:
-      "https://www.hackerrank.com/certificates/iframe/55fe6e819027",
-  },
-  {
-    title: "Snowflake Hands-On Essentials — Data Warehouse",
-    description:
-      "Workshop covering identity/access management, data containers, ETL processes, and semi-structured data in Snowflake.",
-    verifyUrl:
-      "https://achieve.snowflake.com/4dce4d1a-5fc0-46a0-89f4-3d1d993d0185#acc.f3hSnZGQ",
+      "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
   },
   {
     title: "Research Paper Published — AI Revolution in VR Industry",
@@ -430,8 +423,6 @@ export const CERTIFICATIONS: Certification[] = [
       "Published in IJCRT Vol-10, Issue-1, Jan-June 2025. Explores how AI is transforming VR through AI-driven avatars, enhanced realism, and healthcare simulations.",
     paperUrl:
       "https://drive.google.com/file/d/1xk20KhieetT-3ELAabTpBuZrNOR6HiXj/view?usp=drive_link",
-    certificateUrl:
-      "https://drive.google.com/file/d/1hVYyRinfadoW7OdbZ0QVBBMjI15oUE4x/view?usp=drive_link",
   },
 ];
 

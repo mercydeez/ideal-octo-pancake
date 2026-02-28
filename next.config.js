@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            { protocol: 'https', hostname: 'cdn.simpleicons.org' },
+            { protocol: 'https', hostname: 'www.vectorlogo.zone' },
+            { protocol: 'https', hostname: 'ui-avatars.com' },
+        ],
+    },
+};
 
 module.exports = nextConfig;

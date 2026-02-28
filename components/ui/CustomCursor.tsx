@@ -1,79 +1,77 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
+import { useStore } from "@/lib/store";
 
 export default function CustomCursor() {
-    const [isHovering, setIsHovering] = useState(false);
-    const [cursorColor, setCursorColor] = useState("#00f5ff");
-
-    const mouseX = useMotionValue(-100);
-    const mouseY = useMotionValue(-100);
-
-    const springConfig = { damping: 25, stiffness: 150 };
-    const cursorX = useSpring(mouseX, springConfig);
-    const cursorY = useSpring(mouseY, springConfig);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const cursorVariant = useStore((state) => state.cursorVariant);
 
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
+        const updateMousePosition = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
         };
 
-        const handleMouseOver = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            if (
-                target.tagName === "BUTTON" ||
-                target.tagName === "A" ||
-                target.closest("button") ||
-                target.closest("a") ||
-                target.getAttribute("data-cursor") === "pointer"
-            ) {
-                setIsHovering(true);
-                const color = target.getAttribute("data-cursor-color") || "#ff007a";
-                setCursorColor(color);
-            } else {
-                setIsHovering(false);
-                setCursorColor("#00f5ff");
+        window.addEventListener("mousemove", updateMousePosition);
+        return () => window.removeEventListener("mousemove", updateMousePosition);
+    }, []);
+
+    const variants = {
+        default: {
+            x: mousePosition.x - 6,
+            y: mousePosition.y - 6,
+            height: 12,
+            width: 12,
+            backgroundColor: "rgba(0, 240, 255, 1)",
+            border: "0px solid rgba(0, 240, 255, 0)",
+            transition: {
+                type: "spring",
+                mass: 0.1,
+                stiffness: 800,
+                damping: 30,
             }
-        };
-
-        window.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("mouseover", handleMouseOver);
-
-        return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-            window.removeEventListener("mouseover", handleMouseOver);
-        };
-    }, [mouseX, mouseY]);
+        },
+        target: {
+            x: mousePosition.x - 24,
+            y: mousePosition.y - 24,
+            height: 48,
+            width: 48,
+            backgroundColor: "rgba(255, 107, 53, 0.1)",
+            border: "1px dashed rgba(255, 107, 53, 1)",
+            borderRadius: "0%", // become a square crosshair reticle
+            transition: {
+                type: "spring",
+                mass: 0.1,
+                stiffness: 800,
+                damping: 30,
+            }
+        }
+    };
 
     return (
         <>
             <motion.div
-                className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 pointer-events-none z-[10000] hidden md:block"
-                style={{
-                    x: cursorX,
-                    y: cursorY,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                    borderColor: cursorColor,
-                    boxShadow: `0 0 15px ${cursorColor}80`,
-                }}
-                animate={{
-                    scale: isHovering ? 2 : 1,
-                    backgroundColor: isHovering ? `${cursorColor}10` : "transparent",
-                }}
+                className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999] mix-blend-screen"
+                variants={variants}
+                animate={cursorVariant}
             />
+
+            {/* Target Reticle Crosshairs appearing only in target mode */}
             <motion.div
-                className="fixed top-0 left-0 w-1 h-1 rounded-full pointer-events-none z-[10001] hidden md:block"
+                className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center mix-blend-screen"
                 style={{
-                    x: mouseX,
-                    y: mouseY,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                    backgroundColor: cursorColor,
+                    x: mousePosition.x - 24,
+                    y: mousePosition.y - 24,
+                    width: 48,
+                    height: 48
                 }}
-            />
+                initial={{ opacity: 0 }}
+                animate={{ opacity: cursorVariant === "target" ? 1 : 0 }}
+            >
+                <div className="absolute w-full h-[1px] bg-amber/50" />
+                <div className="absolute h-full w-[1px] bg-amber/50" />
+            </motion.div>
         </>
     );
 }

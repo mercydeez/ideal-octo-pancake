@@ -1,93 +1,192 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Award, FileText, ChevronRight } from "lucide-react";
-
-const CERTS = [
-  {
-    title: "Big Data & Hadoop Optimization",
-    issuer: "IBM / SP Jain",
-    impact: "Distributed Systems Expert",
-    color: "#00f5ff"
-  },
-  {
-    title: "Machine Learning Masterclass",
-    issuer: "DeepLearning.AI",
-    impact: "Neural Architect",
-    color: "#ff007a"
-  },
-  {
-    title: "Cloud Data Engineering (AWS)",
-    issuer: "Amazon Web Services",
-    impact: "Pipeline Orchestrator",
-    color: "#00f5ff"
-  }
-];
+import { motion, AnimatePresence } from "framer-motion";
+import { CERTIFICATIONS } from "@/lib/constants";
+import { Award, ExternalLink, FileText, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Certifications() {
-  return (
-    <section id="certifications" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className="mb-16 border-l-4 border-cyan pl-8"
-      >
-        <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">
-          [ ACADEMIC_CREDENTIALS ]
-        </p>
-        <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
-          SYSTEM <span className="text-cyan text-glow-cyan">VERIFIED</span>
-        </h2>
-      </motion.div>
+  const [selectedPaper, setSelectedPaper] = useState<string | null>(null);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Research Paper Special Card */}
+  // Separate the master card (Research Paper) from the rest
+  const masterCard = CERTIFICATIONS.find(c => Boolean(c.paperUrl));
+  const standardCerts = CERTIFICATIONS.filter(c => !c.paperUrl);
+
+  return (
+    <section id="certifications" className="relative py-20 px-6">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="lg:col-span-2 glass-card rounded-2xl p-8 border border-white/5 bg-gradient-to-br from-cyan/5 to-transparent flex flex-col md:flex-row items-center gap-8 group"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+          className="mb-12 text-center"
         >
-          <div className="w-24 h-24 rounded-2xl bg-cyan/10 flex items-center justify-center text-cyan group-hover:scale-110 transition-transform">
-            <FileText size={40} />
-          </div>
-          <div>
-            <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-cyan/20 text-cyan uppercase tracking-widest mb-4 inline-block">
-              PUBLISHED_RESEARCH
-            </span>
-            <h3 className="text-3xl font-bold text-white mb-2 uppercase tracking-tighter">
-              A Hybrid Model for Sales Prediction in E-commerce
-            </h3>
-            <p className="text-white/40 font-mono text-sm leading-relaxed mb-6">
-              Published in the International Journal of Data Science. Achieved 94% prediction accuracy using a novel ensemble of LSTM and XGBoost.
-            </p>
-            <button className="flex items-center gap-2 text-xs font-display font-bold text-cyan hover:gap-4 transition-all">
-              VIEW_PUBLICATION <ChevronRight size={14} />
-            </button>
-          </div>
+          <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-4 uppercase">
+            CREDENTIALS <span className="text-amber">VAULT</span>
+          </h2>
+          <p className="text-white/50 font-mono text-sm max-w-2xl mx-auto">
+            [ SECURE_ACCESS: Authorized credentials, publications, and professional benchmarks. ]
+          </p>
         </motion.div>
 
-        {/* Cert Cards */}
-        {CERTS.map((cert, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="glass-card rounded-2xl p-8 border border-white/5 relative group cursor-default"
-            style={{ borderTop: `4px solid ${cert.color}` }}
-          >
-            <Award size={24} className="mb-6 opacity-40 group-hover:opacity-100 transition-opacity" style={{ color: cert.color }} />
-            <h4 className="text-xl font-bold text-white mb-2 leading-tight">{cert.title}</h4>
-            <p className="text-white/40 font-mono text-[10px] uppercase tracking-widest mb-4">{cert.issuer}</p>
-            <div className="mt-auto inline-block px-3 py-1 rounded bg-white/5 text-white/60 font-mono text-[9px] uppercase tracking-[0.2em] group-hover:text-white transition-colors">
-              {cert.impact}
-            </div>
-          </motion.div>
-        ))}
+        {/* Masonry / Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
+
+          {/* MASTER CARD: Research Paper */}
+          {masterCard && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
+              className="md:col-span-2 md:row-span-2 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
+              style={{ background: "rgba(0,0,0,0.85)" }}
+            >
+              {/* Special Glass Texture & Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber/10 to-transparent opacity-50 pointer-events-none" />
+              <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber/20 blur-[100px] pointer-events-none" />
+
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 bg-amber/10 border border-amber/30 rounded-xl">
+                      <FileText size={24} className="text-amber animate-pulse" />
+                    </div>
+                    <span className="text-amber font-mono text-xs tracking-[0.2em]">
+                      [ MASTER DOC: PUBLICATION ]
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 uppercase tracking-tighter leading-tight">
+                    {masterCard.title}
+                  </h3>
+
+                  <p className="text-white/60 font-mono text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+                    {masterCard.description}
+                  </p>
+                </div>
+
+                <div className="flex gap-4 mt-auto">
+                  <button
+                    onClick={() => setSelectedPaper(masterCard.paperUrl || null)}
+                    className="flex items-center gap-2 text-void bg-amber hover:bg-white px-6 py-3 font-mono text-xs font-bold transition-colors"
+                  >
+                    <ExternalLink size={16} /> VIEW_PUBLICATION
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("Soundankar, A. (2025). AI Revolution in VR Industry. International Journal of Creative Research Thoughts (IJCRT), 10(1).");
+                      alert("Citation copied to clipboard!");
+                    }}
+                    className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-6 py-3 font-mono text-xs transition-colors bg-amber/5"
+                  >
+                    <FileText size={16} /> CITE_SOURCE
+                  </button>
+                  {masterCard.certificateUrl && (
+                    <a
+                      href={masterCard.certificateUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors"
+                    >
+                      <Award size={16} /> VERIFY_CERT
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* STANDARD CARDS */}
+          {standardCerts.map((cert, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group"
+              style={{
+                background: "rgba(0,0,0,0.7)",
+                backdropFilter: "blur(20px)"
+              }}
+            >
+              <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)" }} />
+
+              <div className="relative z-10">
+                <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />
+                <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight">
+                  {cert.title}
+                </h3>
+                <p className="text-white/40 text-xs font-mono line-clamp-3 mb-6 leading-relaxed">
+                  {cert.description}
+                </p>
+              </div>
+
+              {cert.verifyUrl && (
+                <a
+                  href={cert.verifyUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-auto self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10"
+                >
+                  DECRYPT_RECORD <ExternalLink size={12} />
+                </a>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </div>
+
+      {/* TACTICAL MODAL FOR PUBLICATION */}
+      <AnimatePresence>
+        {selectedPaper && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 backdrop-blur-xl bg-void/90"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="tactical-panel w-full max-w-4xl h-[80vh] rounded-3xl border border-amber/30 flex flex-col overflow-hidden"
+              style={{ background: "rgba(0,0,0,0.95)" }}
+            >
+              {/* Modal Header */}
+              <div className="flex justify-between items-center p-4 border-b border-white/10 bg-white/5">
+                <div className="flex items-center gap-2">
+                  <FileText size={16} className="text-amber animate-pulse" />
+                  <span className="font-mono text-xs text-amber tracking-widest uppercase">SECURE_VIEWER // IJCRT_VOL_10</span>
+                </div>
+                <button
+                  onClick={() => setSelectedPaper(null)}
+                  className="text-white/50 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Iframe Viewer */}
+              <div className="flex-1 bg-void relative">
+                {/* Loader behind iframe */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <p className="text-amber/50 font-mono animate-pulse tracking-widest text-sm">
+                    [ DECRYPTING_DOCUMENT... ]
+                  </p>
+                </div>
+                <iframe
+                  src={selectedPaper}
+                  className="w-full h-full relative z-10"
+                  allow="autoplay"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

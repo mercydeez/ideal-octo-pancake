@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 import { BLOGS } from "@/lib/constants";
 import { BookOpen, ArrowUpRight } from "lucide-react";
-import { FaMedium } from "react-icons/fa6";
+// Medium icon via CDN
 
 export default function Blog() {
   return (
-    <section id="blog" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
+    <section id="blog" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -53,7 +53,7 @@ export default function Blog() {
             </div>
 
             <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-white/20 group-hover:text-white transition-colors">
-              <FaMedium size={14} />
+              <img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="Medium" width={14} height={14} className="object-contain opacity-40 group-hover:opacity-100 transition-opacity" />
               Read on Medium
             </div>
           </motion.a>

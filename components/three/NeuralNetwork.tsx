@@ -3,171 +3,169 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useStore } from "@/lib/store";
 
-/* ─── Data Packets traveling along edges ───── */
-function DataPackets({
-  edges,
-  nodePositions,
-}: {
-  edges: [number, number][];
-  nodePositions: [number, number, number][];
-}) {
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-  const count = 8; // MAX 8 Packets
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  const duration = 2; // 2 Seconds travel time
-
-  const packetData = useMemo(() => {
-    return Array.from({ length: count }, () => ({
-      edgeIdx: Math.floor(Math.random() * edges.length),
-      offset: Math.random() * duration, // Stagger start times
-    }));
-  }, [count, edges.length]);
-
-  const vA = useMemo(() => new THREE.Vector3(), []);
-  const vB = useMemo(() => new THREE.Vector3(), []);
-
-  useFrame(({ clock }) => {
-    if (!meshRef.current) return;
-    const elapsed = clock.getElapsedTime();
-
-    packetData.forEach((p, i) => {
-      const time = (elapsed + p.offset) % duration;
-      const progress = time / duration;
-
-      if (progress < 0.01) {
-        // Pick new random edge when looping
-        p.edgeIdx = Math.floor(Math.random() * edges.length);
-      }
-
-      const [a, b] = edges[p.edgeIdx];
-      vA.set(...nodePositions[a]);
-      vB.set(...nodePositions[b]);
-
-      dummy.position.lerpVectors(vA, vB, progress);
-      dummy.scale.setScalar(0.08); // Size 0.08
-      dummy.updateMatrix();
-      meshRef.current!.setMatrixAt(i, dummy.matrix);
-    });
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  });
-
-  return (
-    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial
-        color="#FFB800"
-        toneMapped={false}
-        transparent
-        opacity={0.9}
-      />
-    </instancedMesh>
-  );
-}
-
-/* ─── Neural Network Nodes & Edges ─────────── */
 export default function NeuralNetwork() {
-  const groupRef = useRef<THREE.Group>(null);
-  const nodesRef = useRef<THREE.InstancedMesh>(null!);
-  const lineRef = useRef<THREE.LineSegments>(null!);
+  const isHoveringProject = useStore((state) => state.isHoveringProject);
+  const groupRef = useRef<THREE.Group>(null!);
+  const pointsRef = useRef<THREE.Points>(null!);
+  const linesRef = useRef<THREE.LineSegments>(null!);
 
-  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const particleCount = 200;
+  const maxDistance = 4.5;
+  const maxDistanceSq = maxDistance * maxDistance; // CPU Optimization
 
-  const { nodesCount, edges, nodePositions } = useMemo(() => {
-    const count = 30;
-    const positions: [number, number, number][] = [];
-    for (let i = 0; i < count; i++) {
-      positions.push([
-        (Math.random() - 0.5) * 15,
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 8,
-      ]);
+  // Initialize base positions (for breathing effect) and current positions/velocities
+  const [basePositions, positions, velocities] = useMemo(() => {
+    const basePos = new Float32Array(particleCount * 3);
+    const pos = new Float32Array(particleCount * 3);
+    const vel = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const radius = 10 + Math.random() * 10;
+      const theta = Math.random() * 2 * Math.PI;
+      const phi = Math.acos(Math.random() * 2 - 1);
+
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
+
+      basePos[i * 3] = x;
+      basePos[i * 3 + 1] = y;
+      basePos[i * 3 + 2] = z;
+
+      pos[i * 3] = x;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = z;
+
+      vel[i * 3] = (Math.random() - 0.5) * 0.02;
+      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.02;
+      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
     }
-    const edgeList: [number, number][] = [];
-    for (let i = 0; i < count; i++) {
-      for (let j = i + 1; j < count; j++) {
-        const dist = new THREE.Vector3(...positions[i]).distanceTo(new THREE.Vector3(...positions[j]));
-        if (dist < 5.0) edgeList.push([i, j]);
-      }
-    }
-    return { nodesCount: count, edges: edgeList, nodePositions: positions };
+    return [basePos, pos, vel];
   }, []);
 
-  const edgeGeometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    const posArray = new Float32Array(edges.length * 6);
-    edges.forEach(([a, b], idx) => {
-      posArray[idx * 6] = nodePositions[a][0];
-      posArray[idx * 6 + 1] = nodePositions[a][1];
-      posArray[idx * 6 + 2] = nodePositions[a][2];
-      posArray[idx * 6 + 3] = nodePositions[b][0];
-      posArray[idx * 6 + 4] = nodePositions[b][1];
-      posArray[idx * 6 + 5] = nodePositions[b][2];
-    });
-    geo.setAttribute("position", new THREE.BufferAttribute(posArray, 3));
-    return geo;
-  }, [edges, nodePositions]);
+  const linePositions = useMemo(() => new Float32Array(particleCount * particleCount * 3), []);
+  const lineColors = useMemo(() => new Float32Array(particleCount * particleCount * 3), []);
 
-  useFrame(({ clock, pointer }) => {
-    if (!groupRef.current || !nodesRef.current) return;
-    const t = clock.getElapsedTime();
+  // Use refs to smoothly transition the time multiplier and color 
+  const timeMultiplier = useRef(0.5);
+  const targetColor = useRef(new THREE.Color("#00F0FF"));
+  const currentColor = useRef(new THREE.Color("#00F0FF"));
 
-    // Rotate the entire network
-    groupRef.current.rotation.y = t * 0.05 + pointer.x * 0.1;
-    groupRef.current.rotation.x = t * 0.02 + pointer.y * 0.1;
+  useFrame((state, delta) => {
+    if (!pointsRef.current || !linesRef.current) return;
 
-    // Pulse individual nodes
-    for (let i = 0; i < nodesCount; i++) {
-      const isPrimary = i % 5 === 0;
-      dummy.position.set(...nodePositions[i]);
-      const pulse = Math.sin(t * 2 + i) * 0.2 + 1;
-      dummy.scale.setScalar((isPrimary ? 0.15 : 0.08) * pulse);
-      dummy.updateMatrix();
-      nodesRef.current.setMatrixAt(i, dummy.matrix);
-      nodesRef.current.setColorAt(i, new THREE.Color(isPrimary ? "#FF6B35" : "#FFB800"));
+    // Reactivity Logic - Speed up time and change color when hovering
+    timeMultiplier.current = THREE.MathUtils.lerp(
+      timeMultiplier.current,
+      isHoveringProject ? 2.5 : 0.5,
+      delta * 2
+    );
+
+    // Color interpolation (Cyan to Amber)
+    targetColor.current.set(isHoveringProject ? "#FFB800" : "#00F0FF");
+    currentColor.current.lerp(targetColor.current, delta * 3);
+
+    const time = state.clock.getElapsedTime() * timeMultiplier.current;
+    const posAttr = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute;
+
+    let vertexpos = 0;
+    let colorpos = 0;
+    let numConnected = 0;
+
+    // Breathing effect via sine wave
+    const breathScale = 1 + Math.sin(time * 0.5) * 0.05;
+
+    if (groupRef.current) {
+      // Spin faster when hovering
+      groupRef.current.rotation.y += (isHoveringProject ? 0.003 : 0.001);
+      groupRef.current.rotation.x += 0.0005;
+      groupRef.current.scale.set(breathScale, breathScale, breathScale);
     }
-    nodesRef.current.instanceMatrix.needsUpdate = true;
-    if (nodesRef.current.instanceColor) nodesRef.current.instanceColor.needsUpdate = true;
+
+    for (let i = 0; i < particleCount; i++) {
+      // Drift - accelerate velocities slightly on hover
+      const speedMod = isHoveringProject ? 2.0 : 1.0;
+      positions[i * 3] += velocities[i * 3] * speedMod;
+      positions[i * 3 + 1] += velocities[i * 3 + 1] * speedMod;
+      positions[i * 3 + 2] += velocities[i * 3 + 2] * speedMod;
+
+      // Squared distance check from origin
+      const distSqFromCenter =
+        positions[i * 3] ** 2 +
+        positions[i * 3 + 1] ** 2 +
+        positions[i * 3 + 2] ** 2;
+
+      // Bounce constraints (5^2 = 25, 25^2 = 625)
+      if (distSqFromCenter > 625 || distSqFromCenter < 25) {
+        velocities[i * 3] *= -1;
+        velocities[i * 3 + 1] *= -1;
+        velocities[i * 3 + 2] *= -1;
+      }
+    }
+    posAttr.needsUpdate = true;
+
+    // Squared distance connections for CPU perf
+    for (let i = 0; i < particleCount; i++) {
+      const x1 = positions[i * 3];
+      const y1 = positions[i * 3 + 1];
+      const z1 = positions[i * 3 + 2];
+
+      for (let j = i + 1; j < particleCount; j++) {
+        const dx = positions[j * 3] - x1;
+        const dy = positions[j * 3 + 1] - y1;
+        const dz = positions[j * 3 + 2] - z1;
+        const distSq = dx * dx + dy * dy + dz * dz;
+
+        if (distSq < maxDistanceSq) {
+          const alpha = 1.0 - (Math.sqrt(distSq) / maxDistance);
+
+          linePositions[vertexpos++] = x1;
+          linePositions[vertexpos++] = y1;
+          linePositions[vertexpos++] = z1;
+
+          linePositions[vertexpos++] = positions[j * 3];
+          linePositions[vertexpos++] = positions[j * 3 + 1];
+          linePositions[vertexpos++] = positions[j * 3 + 2];
+
+          // Dynamic coloring based on hover state
+          lineColors[colorpos++] = currentColor.current.r * alpha;
+          lineColors[colorpos++] = currentColor.current.g * alpha;
+          lineColors[colorpos++] = currentColor.current.b * alpha;
+
+          lineColors[colorpos++] = currentColor.current.r * alpha;
+          lineColors[colorpos++] = currentColor.current.g * alpha;
+          lineColors[colorpos++] = currentColor.current.b * alpha;
+
+          numConnected++;
+        }
+      }
+    }
+
+    linesRef.current.geometry.setDrawRange(0, numConnected * 2);
+    (linesRef.current.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    (linesRef.current.geometry.attributes.color as THREE.BufferAttribute).needsUpdate = true;
+
+    // Update Point Colors dynamically too
+    (pointsRef.current.material as THREE.PointsMaterial).color = currentColor.current;
   });
-
-  // Separate nodes into primary and secondary for easier color management
-  const [primaryIndices, secondaryIndices] = useMemo(() => {
-    const p: number[] = [];
-    const s: number[] = [];
-    for (let i = 0; i < nodesCount; i++) {
-      if (i % 5 === 0) p.push(i);
-      else s.push(i);
-    }
-    return [p, s];
-  }, [nodesCount]);
 
   return (
     <group ref={groupRef}>
-      {/* Central PointLight for glow */}
-      <pointLight position={[0, 0, 0]} color="#FF6B35" intensity={2} distance={20} />
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={particleCount} array={positions} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial color="#00F0FF" size={0.15} transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </points>
 
-      {/* Primary Nodes */}
-      <instancedMesh ref={nodesRef} args={[undefined, undefined, nodesCount]}>
-        <sphereGeometry args={[1, 12, 12]} />
-        <meshBasicMaterial color="white" toneMapped={false} />
-      </instancedMesh>
-
-      {/* We'll actually use vertex colors or two meshes if the user wants separate colors perfectly. 
-          The user said: Primary #FF6B35 (size 0.15), Secondary #FFB800 (size 0.08).
-          Let's just use one InstancedMesh and set colors per instance for performance. 
-      */}
-
-      <lineSegments geometry={edgeGeometry}>
-        <lineBasicMaterial
-          color="#FF6B35" // High visibility orange
-          transparent
-          opacity={0.8}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
+      <lineSegments ref={linesRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={linePositions.length / 3} array={linePositions} itemSize={3} />
+          <bufferAttribute attach="attributes-color" count={lineColors.length / 3} array={lineColors} itemSize={3} />
+        </bufferGeometry>
+        <lineBasicMaterial vertexColors transparent opacity={0.3} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>
-
-      <DataPackets edges={edges} nodePositions={nodePositions} />
     </group>
   );
 }

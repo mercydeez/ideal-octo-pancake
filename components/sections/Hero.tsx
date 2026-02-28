@@ -1,103 +1,109 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
-import { useScroll, useTransform } from "framer-motion";
-import { Float, MeshDistortMaterial, PerspectiveCamera } from "@react-three/drei";
+import { Terminal, Download, Rocket } from "lucide-react";
 import { PERSONAL } from "@/lib/constants";
-import MagneticButton from "@/components/ui/MagneticButton";
-
-function MorphingGeometry() {
-  const meshRef = useRef<any>();
-  const { scrollYProgress } = useScroll();
-
-  // Morph from TorusKnot (0) to Sphere (1)
-  const morph = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1.5, 0.8]);
-  const rotationY = useTransform(scrollYProgress, [0, 1], [0, Math.PI * 2]);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.3;
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={1.5}>
-      <mesh ref={meshRef} scale={1.5}>
-        {/* We use a sphere with distortion to simulate the morph and high-density geometry */}
-        <sphereGeometry args={[1, 128, 128]} />
-        <MeshDistortMaterial
-          color="#00f5ff"
-          speed={2}
-          distort={0.4}
-          radius={1}
-          emissive="#00f5ff"
-          emissiveIntensity={0.2}
-          wireframe
-        />
-      </mesh>
-    </Float>
-  );
-}
 
 export default function Hero() {
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
+  };
 
   return (
-    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
-      <div className="absolute inset-0 z-0">
-        <Canvas>
-          <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1.5} color="#00f5ff" />
-          <pointLight position={[-10, -10, -10]} intensity={1} color="#ff007a" />
-          <MorphingGeometry />
-        </Canvas>
-      </div>
+    <section id="hero" className="relative w-full h-screen flex items-center justify-center px-6 md:px-24 overflow-hidden pointer-events-none">
 
       <motion.div
-        style={{ opacity, y }}
-        className="relative z-10 text-center px-4"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <p className="text-cyan font-mono text-[10px] tracking-[0.5em] mb-4 uppercase opacity-50">
-            [ INITIALIZING_NEURAL_LINK ]
-          </p>
+        {/* Left: Profile with Glow-Ring */}
+        <motion.div variants={itemVariants} className="flex justify-center md:justify-end relative pointer-events-auto">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+            {/* HUD Rings using Framer Motion for mechanical complexity */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+              className="absolute inset-0 rounded-full border border-cyan/40"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
+              className="absolute inset-[-15px] rounded-full border-t border-b border-amber/50"
+            />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+              className="absolute inset-[10px] rounded-full blur-sm opacity-50"
+              style={{ background: 'conic-gradient(from 0deg, #00F0FF, #FF6B35, #00F0FF)' }}
+            />
+            {/* Image */}
+            <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-void z-10 shadow-[0_0_50px_rgba(0,240,255,0.3)] bg-military">
+              <img
+                src="/images/profile.png"
+                alt={PERSONAL.name}
+                className="w-full h-full object-cover mix-blend-screen opacity-90 transition-transform duration-700 hover:scale-110 grayscale hover:grayscale-0"
+              />
+            </div>
 
-          <h1 className="text-7xl md:text-9xl font-display font-black text-white mb-6 uppercase tracking-tighter leading-none">
-            <span className="block text-2xl md:text-3xl tracking-[0.2em] mb-4 font-mono text-white/40">THE ARCHITECT</span>
-            {PERSONAL.name.split(" ")[0]}<br />
-            <span className="text-pink text-glow-pink">{PERSONAL.name.split(" ")[1]}</span>
+            {/* Crosshairs */}
+            <svg className="absolute w-[130%] h-[130%] text-cyan/30 pointer-events-none animate-pulse" viewBox="0 0 100 100">
+              <path d="M50 0 L50 10 M50 90 L50 100 M0 50 L10 50 M90 50 L100 50" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.2" strokeDasharray="2 4" />
+            </svg>
+          </div>
+        </motion.div>
+
+        {/* Right: Typing & Tactical Buttons */}
+        <motion.div variants={itemVariants} className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10">
+
+          <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded mb-6 border-cyan/50">
+            <Terminal size={14} className="text-amber animate-pulse" />
+            <span className="text-cyan text-[10px] md:text-xs uppercase font-terminal tracking-[0.3em]">
+              SYS.STATUS: OPTIMAL
+            </span>
+          </div>
+
+          {/* Glitch-like typography */}
+          <h1 className="text-cyber text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 tracking-tighter drop-shadow-2xl flex flex-col">
+            <span>{PERSONAL.name.split(" ")[0]}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
+              {PERSONAL.name.split(" ").slice(1).join(" ")}
+            </span>
           </h1>
 
-          <div className="h-px w-24 bg-cyan/30 mx-auto mb-10" />
+          <p className="font-terminal text-white/70 text-xs sm:text-sm md:text-base max-w-md mt-4 leading-relaxed bg-void/50 backdrop-blur-md p-4 rounded-lg border-l-2 border-amber">
+            Transforming raw data into architectural intelligence. Specialized in deep neural networks and scalable cloud pipelines.
+          </p>
 
-          <div className="flex flex-wrap justify-center gap-6">
-            <MagneticButton color="cyan">
-              ACCESS_MANIFESTO
-            </MagneticButton>
-            <MagneticButton color="pink">
-              OPEN_TRANSCEIVER
-            </MagneticButton>
+          <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
+            <a
+              href={PERSONAL.resumeDirectDownload}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-cyan text-void font-bold font-terminal text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white transition-colors min-h-[44px]"
+            >
+              <Download size={16} /> EXTRACT_DATA
+            </a>
+
+            <button
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-6 py-3 border border-amber/50 text-amber hover:bg-amber/10 font-bold font-terminal text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-colors min-h-[44px]"
+            >
+              <Rocket size={16} /> DEPLOY_MODULES
+            </button>
           </div>
+
         </motion.div>
       </motion.div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-        <div className="animate-bounce">
-          <div className="w-px h-12 bg-gradient-to-b from-cyan to-transparent" />
-        </div>
-      </div>
     </section>
   );
 }
