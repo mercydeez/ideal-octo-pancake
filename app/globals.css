@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #030303;
+  --cyan: #00f5ff;
+  --pink: #ff007a;
+}
+
+body {
+  background: #030303;
+  color: #fff;
+  font-family: var(--font-space), sans-serif;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-orbitron), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00f5ff;
+  border-radius: 10px;
+}
+
+/* Scanline Effect */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 245, 255, 0.03) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.5;
+}
+
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 70%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  z-index: 51;
+}
+
+/* Text Glows */
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+}
+
+.text-glow-pink {
+  text-shadow: 0 0 10px rgba(255, 0, 122, 0.5);
+}
