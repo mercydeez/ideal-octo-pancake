@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { Github, ExternalLink, Activity, Terminal } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { useCursorHover } from "@/hooks/useCursorHover";
 import { useEffect, useState } from "react";
+import { PROJECTS } from "@/lib/constants";
 
 const DUMMY_LOGS = [
     "[SYS] Initializing XGBoost Pipeline...",
@@ -18,8 +20,10 @@ const DUMMY_LOGS = [
 
 export default function ProjectExpanded() {
     const setHoveringProject = useStore((state) => state.setHoveringProject);
-    const setCursorVariant = useStore((state) => state.setCursorVariant);
+    const cursorProps = useCursorHover();
     const [logIndex, setLogIndex] = useState(0);
+
+    const luluProject = PROJECTS.find(p => p.id === "lulu");
 
     // Scroll terminal logs
     useEffect(() => {
@@ -28,6 +32,8 @@ export default function ProjectExpanded() {
         }, 2500);
         return () => clearInterval(interval);
     }, []);
+
+    if (!luluProject) return null;
 
     return (
         <motion.div
@@ -38,11 +44,11 @@ export default function ProjectExpanded() {
             className="col-span-1 md:col-span-2 lg:col-span-3 glow-card overflow-hidden rounded-2xl mb-8"
             onMouseEnter={() => {
                 setHoveringProject(true);
-                setCursorVariant("target");
+                cursorProps.onMouseEnter();
             }}
             onMouseLeave={() => {
                 setHoveringProject(false);
-                setCursorVariant("default");
+                cursorProps.onMouseLeave();
             }}
         >
             <div className="tactical-panel relative h-full w-full p-6 md:p-12 border-amber/40 flex flex-col lg:flex-row gap-8 items-center bg-void/90">
@@ -56,20 +62,20 @@ export default function ProjectExpanded() {
                             <Activity size={20} className="text-amber" />
                         </div>
                         <span className="text-amber font-mono text-xs tracking-[0.2em] animate-pulse">
-                            ENTERPRISE DEPLOYMENT
+                            {luluProject.badge?.toUpperCase()}
                         </span>
                     </div>
 
-                    <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 uppercase leading-none text-cyber">
-                        Lulu Sales <br className="hidden md:block" /> Intelligence
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-black text-white mb-4 uppercase leading-none text-cyber">
+                        {luluProject.name.split(" ").slice(0, 2).join(" ")} <br className="hidden md:block" /> {luluProject.name.split(" ").slice(2).join(" ")}
                     </h3>
 
                     <p className="text-white/60 font-mono text-sm md:text-base mb-8 max-w-xl leading-relaxed">
-                        An AI-driven forecasting engine designed to analyze 913K+ retail records, predicting inventory turnover with 94.2% accuracy using a robust stream processing architecture.
+                        {luluProject.description}
                     </p>
 
                     <div className="flex flex-wrap gap-2 mb-8 font-mono text-xs tracking-widest uppercase">
-                        {["Next.js 14", "Python/FastAPI", "XGBoost", "BigQuery", "Tailwind"].map((tag, idx) => (
+                        {luluProject.tech.map((tag, idx) => (
                             <span key={idx} className="text-amber/80 border border-amber/30 px-3 py-1.5 rounded bg-amber/5">
                                 [{tag}]
                             </span>
@@ -80,7 +86,7 @@ export default function ProjectExpanded() {
                         <a href="#" className="flex flex-1 md:flex-none justify-center items-center gap-2 text-void bg-amber hover:bg-white px-6 py-3 font-mono text-xs font-bold transition-colors">
                             <ExternalLink size={16} /> LIVE_SYSTEM
                         </a>
-                        <a href="#" className="flex flex-1 md:flex-none justify-center items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors">
+                        <a href={luluProject.github} target="_blank" rel="noopener noreferrer" className="flex flex-1 md:flex-none justify-center items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors">
                             <Github size={16} /> SOURCE
                         </a>
                     </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PERSONAL } from "@/lib/constants";
+import { PERSONAL_INFO } from "@/lib/constants";
 
 export default function Loader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -118,7 +118,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              {PERSONAL.name}
+              {PERSONAL_INFO.name}
             </motion.h1>
           )}
         </AnimatePresence>

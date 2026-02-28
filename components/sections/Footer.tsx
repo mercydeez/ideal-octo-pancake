@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PERSONAL } from "@/lib/constants";
+import { PERSONAL_INFO } from "@/lib/constants";
 import { ArrowUp } from "lucide-react";
 
 const FOOTER_SOCIALS = [
@@ -34,7 +34,7 @@ export default function Footer() {
               AS
             </div>
             <div>
-              <p className="text-white font-display font-bold text-xs uppercase tracking-widest">{PERSONAL.name}</p>
+              <p className="text-white font-display font-bold text-xs uppercase tracking-widest">{PERSONAL_INFO.name}</p>
               <p className="text-white/30 font-mono text-[9px]">Architecting intelligence</p>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function Footer() {
             Actively seeking AI Engineering &amp; Data Science roles
           </p>
           <p className="text-white/20 font-mono text-[9px] uppercase tracking-[0.2em]">
-            © 2025 {PERSONAL.name}
+            © 2025 {PERSONAL_INFO.name}
           </p>
         </div>
       </div>

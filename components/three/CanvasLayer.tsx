@@ -18,7 +18,7 @@ export default function CanvasLayer() {
             <NeuralNetwork />
 
             {/* High-End Post Processing Stack */}
-            <EffectComposer disableNormalPass>
+            <EffectComposer>
                 <Bloom
                     luminanceThreshold={0.2}
                     mipmapBlur

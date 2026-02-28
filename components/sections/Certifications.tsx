@@ -22,7 +22,7 @@ export default function Certifications() {
           transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
           className="mb-12 text-center"
         >
-          <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-4 uppercase">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-black text-white mb-4 uppercase">
             CREDENTIALS <span className="text-amber">VAULT</span>
           </h2>
           <p className="text-white/50 font-mono text-sm max-w-2xl mx-auto">
@@ -54,7 +54,7 @@ export default function Certifications() {
                       <FileText size={24} className="text-amber animate-pulse" />
                     </div>
                     <span className="text-amber font-mono text-xs tracking-[0.2em]">
-                      [ MASTER DOC: PUBLICATION ]
+                      [ MASTER DOC: {(masterCard as any).badge} ]
                     </span>
                   </div>
 
@@ -76,16 +76,18 @@ export default function Certifications() {
                   </button>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText("Soundankar, A. (2025). AI Revolution in VR Industry. International Journal of Creative Research Thoughts (IJCRT), 10(1).");
-                      alert("Citation copied to clipboard!");
+                      if ("citation" in masterCard) {
+                        navigator.clipboard.writeText((masterCard as any).citation as string);
+                        alert("Citation copied to clipboard!");
+                      }
                     }}
                     className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-6 py-3 font-mono text-xs transition-colors bg-amber/5"
                   >
                     <FileText size={16} /> CITE_SOURCE
                   </button>
-                  {masterCard.certificateUrl && (
+                  {("certUrl" in masterCard) && (
                     <a
-                      href={masterCard.certificateUrl}
+                      href={(masterCard as any).certUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors"
@@ -114,26 +116,41 @@ export default function Certifications() {
             >
               <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)" }} />
 
-              <div className="relative z-10">
-                <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />
-                <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight">
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-4">
+                  {("logo" in cert) ? (
+                    <img src={(cert as any).logo} alt={cert.issuer} width={24} height={24} />
+                  ) : ("monogram" in cert) ? (
+                    <div
+                      className="w-8 h-8 rounded shrink-0 flex items-center justify-center font-bold text-sm"
+                      style={{ backgroundColor: `${(cert as any).color}20`, color: (cert as any).color, border: `1px solid ${(cert as any).color}40` }}
+                    >
+                      {(cert as any).monogram}
+                    </div>
+                  ) : <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />}
+                </div>
+
+                <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight mt-2">
                   {cert.title}
                 </h3>
                 <p className="text-white/40 text-xs font-mono line-clamp-3 mb-6 leading-relaxed">
                   {cert.description}
                 </p>
+
+                <div className="mt-auto">
+                  {cert.verifyUrl && (
+                    <a
+                      href={cert.verifyUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10 inline-flex"
+                    >
+                      DECRYPT_RECORD <ExternalLink size={12} />
+                    </a>
+                  )}
+                </div>
               </div>
 
-              {cert.verifyUrl && (
-                <a
-                  href={cert.verifyUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-auto self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10"
-                >
-                  DECRYPT_RECORD <ExternalLink size={12} />
-                </a>
-              )}
             </motion.div>
           ))}
         </div>

@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Github, Linkedin, Instagram, Code, Mail } from "lucide-react";
 import { useRef } from "react";
 import { PERSONAL, SOCIALS } from "@/lib/constants";
-import { useStore } from "@/lib/store";
+import { useCursorHover } from "@/hooks/useCursorHover";
 
 function getSocialUrl(name: string) {
     return SOCIALS.find(s => s.name.toLowerCase() === name.toLowerCase())?.url || "#";
@@ -12,7 +12,7 @@ function getSocialUrl(name: string) {
 
 function DockIcon({ children, mouseX, href }: { children: React.ReactNode, mouseX: any, href: string }) {
     const ref = useRef<HTMLAnchorElement>(null);
-    const setCursorVariant = useStore((state) => state.setCursorVariant);
+    const cursorProps = useCursorHover();
 
     // Calculate distance from cursor
     const distance = useTransform(mouseX, (val: number) => {
@@ -32,8 +32,7 @@ function DockIcon({ children, mouseX, href }: { children: React.ReactNode, mouse
             rel="noopener noreferrer"
             style={{ width }}
             className="aspect-square flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 hover:bg-cyan/20 hover:border-cyan/50 text-white/50 hover:text-cyan transition-colors z-10"
-            onMouseEnter={() => setCursorVariant("target")}
-            onMouseLeave={() => setCursorVariant("default")}
+            {...cursorProps}
         >
             {children}
         </motion.a>

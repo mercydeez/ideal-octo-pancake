@@ -13,3 +13,13 @@ export const useStore = create<AppState>((set) => ({
     cursorVariant: "default",
     setCursorVariant: (variant) => set({ cursorVariant: variant }),
 }));
+
+export interface CursorStore {
+    cursorVariant: 'default' | 'targeting'
+    setCursorVariant: (variant: 'default' | 'targeting') => void
+}
+
+export const useCursorStore = create<CursorStore>((set) => ({
+    cursorVariant: 'default',
+    setCursorVariant: (variant) => set({ cursorVariant: variant }),
+}));

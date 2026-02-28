@@ -1,256 +1,90 @@
-/* ─────────────────────────────────────────────
-   constants.ts — Single source of truth for all
-   personal data used across the portfolio.
-   ───────────────────────────────────────────── */
+export const PERSONAL = { email: "atharva3895@gmail.com" }; // Preserved for CommandBar
 
-export const PERSONAL = {
+export const SOCIALS = [
+  { name: "GitHub", url: "https://github.com/mercydeez" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/atharva-soundankar/" },
+  { name: "Kaggle", url: "https://www.kaggle.com/atharvasoundankar" },
+  { name: "Instagram", url: "https://www.instagram.com/atharva_soundankar/" },
+]; // Preserved for CommandBar
+
+export const PERSONAL_INFO = {
   name: "Atharva Soundankar",
-  monogram: "AS",
-  githubUsername: "mercydeez",
+  title: "AI & Big Data Engineer",
   roles: [
-    "AI Engineer",
+    "AI & Big Data Engineer",
     "Data Scientist",
-    "Big Data Engineer",
     "ML Practitioner",
     "Data Analyst",
   ],
-  tagline: "A Digital Detective, Solving Mysteries One Dataset at a Time.",
-  bio: `Data Analyst & AI Practitioner with expertise in Python, SQL, Power BI, and Machine Learning. I turn raw data into actionable insights and build scalable, end-to-end AI solutions that automate processes and solve real business challenges. Currently pursuing Master of AI in Business at SP Jain School of Global Management.`,
-  status: "Open for Opportunities",
-  location: "Dubai, United Arab Emirates",
+  subtitle: "Building scalable data pipelines and intelligent ML systems — from raw data to production-ready AI solutions.",
   email: "atharva3895@gmail.com",
-  phone: ["+971-542238813", "+91-7798884495"],
-  resumeDriveView:
-    "https://drive.google.com/file/d/1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2/view?usp=sharing",
-  resumeDirectDownload:
-    "https://drive.google.com/uc?export=download&id=1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2",
-} as const;
-
-/* ─── Social Links ─────────────────────────── */
-
-export interface SocialLink {
-  name: string;
-  url: string;
-  icon: string; // react-icons identifier resolved in component
-  brandColor: string;
+  phone: "+91-7798884495",
+  location: "India → Global",
+  status: "Open to AI/Data Engineering Roles",
+  github: "https://github.com/mercydeez",
+  linkedin: "https://www.linkedin.com/in/atharva-soundankar/",
+  twitter: "https://x.com/Atharva3895",
+  kaggle: "https://www.kaggle.com/atharvasoundankar",
+  medium: "https://medium.com/@atharva3895",
+  instagram: "https://www.instagram.com/atharva_soundankar/",
+  instagramBrand: "https://www.instagram.com/ai.with.atharva/",
+  resumeView: "https://drive.google.com/file/d/1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2/view",
+  resumeDownload: "https://drive.google.com/uc?export=download&id=1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2",
 }
 
-export const SOCIALS: SocialLink[] = [
-  {
-    name: "GitHub",
-    url: "https://github.com/mercydeez",
-    icon: "FaGithub",
-    brandColor: "#ffffff",
-  },
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/atharva-soundankar/",
-    icon: "FaLinkedin",
-    brandColor: "#0A66C2",
-  },
-  {
-    name: "Twitter",
-    url: "https://x.com/Atharva3895",
-    icon: "FaXTwitter",
-    brandColor: "#ffffff",
-  },
-  {
-    name: "Instagram",
-    url: "https://www.instagram.com/atharva_soundankar/",
-    icon: "FaInstagram",
-    brandColor: "#E4405F",
-  },
-  {
-    name: "Facebook",
-    url: "https://www.facebook.com/atharva.soundankar.7/",
-    icon: "FaFacebook",
-    brandColor: "#1877F2",
-  },
-  {
-    name: "Medium",
-    url: "https://medium.com/@atharva3895/",
-    icon: "FaMedium",
-    brandColor: "#ffffff",
-  },
-  {
-    name: "Kaggle",
-    url: "https://www.kaggle.com/atharvasoundankar",
-    icon: "FaKaggle",
-    brandColor: "#20BEFF",
-  },
-  {
-    name: "Gmail",
-    url: "mailto:atharva3895@gmail.com",
-    icon: "SiGmail",
-    brandColor: "#EA4335",
-  },
-];
+export const BIO = [
+  "I'm an AI & Data Engineer who transforms raw data into decisions that matter — and documents the journey to make AI accessible for everyone.",
+  "Proficient in Python, SQL, and Machine Learning, I build end-to-end systems from data ingestion to production deployment. Currently pursuing Master of AI in Business at SP Jain School of Global Management, Mumbai.",
+  "I also run @ai.with.atharva on Instagram & Threads — simplifying AI concepts for students and early-career professionals.",
+]
 
-/* ─── Stats ────────────────────────────────── */
+export const BIO_HIGHLIGHTED_WORDS = [
+  "Python", "SQL", "Machine Learning",
+  "SP Jain School of Global Management",
+  "@ai.with.atharva"
+]
 
 export const STATS = [
-  { label: "Projects", value: 10, suffix: "+" },
-  { label: "Certifications", value: 5, suffix: "+" },
-  { label: "Years Learning", value: 2, suffix: "+" },
-  { label: "Research Paper Published", value: 1, suffix: "" },
-];
+  { value: "10+", label: "Projects Built" },
+  { value: "913K+", label: "Records Analyzed" },
+  { value: "5+", label: "Certifications" },
+  { value: "1", label: "Research Paper" },
+]
 
-/* ─── Currently Learning Ticker ────────────── */
+export const CURRENTLY_LEARNING = [
+  "LLMs", "RAG Pipelines", "LangChain", "Vector Databases",
+  "AWS SageMaker", "MLOps", "LlamaIndex", "Prompt Engineering",
+  "Apache Kafka Streams", "Fine-tuning LLMs", "Apache Flink",
+]
 
-export const LEARNING_ITEMS = [
-  "LLMs",
-  "RAG Pipelines",
-  "Apache Kafka",
-  "MLOps",
-  "AWS SageMaker",
-  "LangChain",
-  "Vector Databases",
-];
-
-/* ─── Education ────────────────────────────── */
-
-export interface Education {
-  institution: string;
-  degree: string;
-  period: string;
-  grade: string;
-}
-
-export const EDUCATION: Education[] = [
+export const EDUCATION = [
   {
-    institution: "SP Jain School of Global Management",
+    school: "SP Jain School of Global Management",
     degree: "Master of AI in Business",
-    period: "Sept 2025 – Sept 2027",
-    grade: "Admitted",
+    duration: "Sept 2025 – Sept 2027",
+    grade: "Admitted ✓",
+    monogram: "SPJ",
+    color: "#FF6B35",
   },
   {
-    institution: "Savitribai Phule Pune University",
+    school: "Savitribai Phule Pune University",
     degree: "MSc Computer Application",
-    period: "Sept 2023 – July 2025",
+    duration: "Sept 2023 – July 2025",
     grade: "A+ Grade",
+    monogram: "SPPU",
+    color: "#0096FF",
   },
   {
-    institution: "Savitribai Phule Pune University",
+    school: "Savitribai Phule Pune University",
     degree: "BSc Computer Science",
-    period: "Sept 2020 – July 2023",
+    duration: "Sept 2020 – July 2023",
     grade: "A Grade",
+    monogram: "SPPU",
+    color: "#0096FF",
   },
-];
+]
 
-/* ─── Skills ───────────────────────────────── */
-
-export interface Skill {
-  name: string;
-  icon: string; // URL to logo
-  category: string;
-}
-
-const cdnIcon = (name: string, color?: string) =>
-  color
-    ? `https://cdn.simpleicons.org/${name}/${color}`
-    : `https://cdn.simpleicons.org/${name}`;
-
-export const SKILL_CATEGORIES = [
-  "Core Languages",
-  "Data & ML",
-  "Big Data",
-  "Visualization",
-  "Cloud & DevOps",
-  "Databases",
-];
-
-export const SKILLS: Skill[] = [
-  // Core Languages
-  { name: "Python", icon: cdnIcon("python", "3776AB"), category: "Core Languages" },
-  { name: "SQL", icon: cdnIcon("sqlite", "003B57"), category: "Core Languages" },
-  { name: "R", icon: cdnIcon("r", "276DC3"), category: "Core Languages" },
-  { name: "HTML5", icon: cdnIcon("html5", "E34F26"), category: "Core Languages" },
-  { name: "CSS3", icon: cdnIcon("css3", "1572B6"), category: "Core Languages" },
-
-  // Data & ML
-  { name: "Scikit-learn", icon: cdnIcon("scikitlearn", "F7931E"), category: "Data & ML" },
-  { name: "TensorFlow", icon: cdnIcon("tensorflow", "FF6F00"), category: "Data & ML" },
-  { name: "Keras", icon: cdnIcon("keras", "D00000"), category: "Data & ML" },
-  { name: "XGBoost", icon: cdnIcon("xgboost", "2C5BB4"), category: "Data & ML" },
-  { name: "Pandas", icon: cdnIcon("pandas", "150458"), category: "Data & ML" },
-  { name: "NumPy", icon: cdnIcon("numpy", "013243"), category: "Data & ML" },
-  { name: "Matplotlib", icon: cdnIcon("matplotlib", "ffffff"), category: "Data & ML" },
-  { name: "Seaborn", icon: cdnIcon("python", "3776AB"), category: "Data & ML" },
-
-  // Big Data
-  { name: "Apache Spark", icon: cdnIcon("apachespark", "E25A1C"), category: "Big Data" },
-  { name: "Hadoop", icon: cdnIcon("apachehadoop", "66CCFF"), category: "Big Data" },
-  { name: "Apache Kafka", icon: cdnIcon("apachekafka", "231F20"), category: "Big Data" },
-  {
-    name: "Apache Airflow",
-    icon: cdnIcon("apacheairflow", "017CEE"),
-    category: "Big Data",
-  },
-  { name: "Hive", icon: cdnIcon("apachehive", "FDEE21"), category: "Big Data" },
-  { name: "Snowflake", icon: cdnIcon("snowflake", "29B5E8"), category: "Big Data" },
-
-  // Visualization
-  { name: "Power BI", icon: cdnIcon("powerbi", "F2C811"), category: "Visualization" },
-  { name: "Tableau", icon: cdnIcon("tableau", "E97627"), category: "Visualization" },
-  { name: "Plotly", icon: cdnIcon("plotly", "3F4F75"), category: "Visualization" },
-
-  // Cloud & DevOps
-  {
-    name: "AWS",
-    icon: cdnIcon("amazonaws", "FF9900"),
-    category: "Cloud & DevOps",
-  },
-  { name: "Google Cloud", icon: cdnIcon("googlecloud", "4285F4"), category: "Cloud & DevOps" },
-  {
-    name: "Microsoft Azure",
-    icon: cdnIcon("microsoftazure", "0078D4"),
-    category: "Cloud & DevOps",
-  },
-  { name: "Docker", icon: cdnIcon("docker", "2496ED"), category: "Cloud & DevOps" },
-  { name: "Git", icon: cdnIcon("git", "F05032"), category: "Cloud & DevOps" },
-  { name: "GitHub", icon: cdnIcon("github", "ffffff"), category: "Cloud & DevOps" },
-
-  // Databases
-  { name: "MySQL", icon: cdnIcon("mysql", "4479A1"), category: "Databases" },
-  { name: "PostgreSQL", icon: cdnIcon("postgresql", "4169E1"), category: "Databases" },
-  { name: "MongoDB", icon: cdnIcon("mongodb", "47A248"), category: "Databases" },
-];
-
-export const PROFICIENCY_BARS = [
-  { label: "Programming & Scripting", value: 60 },
-  { label: "Data Analysis & Visualization", value: 65 },
-  { label: "Machine Learning & Statistics", value: 50 },
-  { label: "Leadership & Soft Skills", value: 70 },
-];
-
-/* ─── Projects ─────────────────────────────── */
-
-export type ProjectCategory =
-  | "All"
-  | "Machine Learning"
-  | "Data Analysis"
-  | "Big Data"
-  | "Full Stack"
-  | "AI/ML";
-
-export interface Project {
-  title: string;
-  description: string;
-  impactNumber: string;
-  fullDescription?: string;
-  techTags: string[];
-  metricBadge: string;
-  keyMetrics?: string[];
-  featureList?: string[];
-  architectureDiagram?: string;
-  liveDemo?: string;
-  readmeUrl?: string;
-  github: string;
-  category: ProjectCategory;
-  categories?: ProjectCategory[];
-  featured?: boolean;
-  flagship?: boolean;
-}
+export type ProjectCategory = "All" | "Machine Learning" | "Data Analysis" | "Big Data" | "Full Stack" | "AI/ML";
 
 export const PROJECT_FILTERS: ProjectCategory[] = [
   "All",
@@ -261,197 +95,220 @@ export const PROJECT_FILTERS: ProjectCategory[] = [
   "AI/ML",
 ];
 
-export const PROJECTS: Project[] = [
+export const PROJECTS = [
   {
-    title: "Lulu Sales Intelligence Dashboard",
-    description:
-      "Enterprise-grade real-time sales analytics platform for Lulu Hypermarket UAE.",
-    impactNumber: "15+", // Number of technologies
-    fullDescription:
-      "Production-grade, full-stack analytics platform featuring live streaming data via Server-Sent Events, AI-powered natural language assistant with OpenAI integration, role-based access control (RBAC) with JWT auth, predictive analytics, inventory management, employee performance tracking, and a promotions engine. Built for large-scale retail operations.",
-    techTags: [
-      "Next.js",
-      "FastAPI",
-      "Python",
-      "PostgreSQL",
-      "Redis",
-      "Docker",
-      "TypeScript",
-      "TailwindCSS",
-      "OpenAI",
-      "JWT",
-      "SSE",
-      "NGINX",
-      "GitHub Actions",
-      "REST API",
-      "RBAC",
-    ],
-    metricBadge: "Full-Stack Analytics Platform",
-    keyMetrics: [
-      "Real-time SSE Streaming",
-      "4-Tier RBAC System",
-      "AI Chat + Voice Interface",
-      "CI/CD via GitHub Actions",
-      "Full Docker Compose Deployment",
-    ],
-    featureList: [
-      "Real-time SSE streaming dashboard",
-      "AI assistant with voice interface",
-      "JWT auth + row-level security",
-      "Inventory, promotions, employee modules",
-      "pytest suite + GitHub Actions CI",
-    ],
-    architectureDiagram: `NGINX → Next.js Frontend + FastAPI Backend\n             ↓              ↓\n        PostgreSQL 15    Redis 7\n        (Sales/RBAC)  (PubSub/Cache)`,
-    readmeUrl:
-      "https://github.com/mercydeez/lulu-sales-intelligence-dashboard#readme",
-    github:
-      "https://github.com/mercydeez/lulu-sales-intelligence-dashboard",
-    category: "Big Data",
-    categories: ["Big Data", "Full Stack", "AI/ML"],
+    id: "lulu",
     featured: true,
-    flagship: true,
+    name: "Lulu Sales Intelligence Dashboard",
+    badge: "⭐ ENTERPRISE",
+    badgeColor: "#FFB800",
+    impact: "15+",
+    impactLabel: "Technologies",
+    description: "Enterprise real-time analytics platform for Lulu Hypermarket UAE. Event-driven architecture with SSE streaming, AI chat assistant with OpenAI integration, 4-tier RBAC, Docker Compose deployment, and CI/CD pipeline.",
+    problem: "Large retail operations lack real-time visibility across distributed stores.",
+    approach: "Built event-driven architecture with SSE streaming, Redis pub/sub, JWT RBAC, and AI-powered natural language querying.",
+    tech: ["Next.js", "FastAPI", "PostgreSQL", "Redis", "Docker", "OpenAI", "JWT", "SSE", "NGINX", "GitHub Actions"],
+    architecture: "NGINX → Next.js + FastAPI → PostgreSQL + Redis",
+    github: "https://github.com/mercydeez/lulu-sales-intelligence-dashboard",
+    category: ["Big Data", "Full Stack"],
   },
   {
-    title: "Forest Fire Risk Prediction",
-    description:
-      "ML project predicting forest fire risk from environmental factors. Built with Streamlit, provides real-time predictions and visualizations.",
-    impactNumber: "Real-time",
-    techTags: ["Python", "Scikit-learn", "Streamlit", "Machine Learning"],
-    metricBadge: "Risk Classification Model",
-    liveDemo:
-      "https://forest-fire-risk-prediction-d9vmff5zuuvjvgoyjqjvpr.streamlit.app/",
+    id: "forest-fire",
+    featured: false,
+    name: "Forest Fire Risk Prediction",
+    impact: "Real-time",
+    impactLabel: "Predictions",
+    description: "End-to-end ML pipeline predicting forest fire risk from environmental sensors. Deployed on Streamlit Cloud with real-time risk scoring.",
+    problem: "Environmental monitoring needs automated early warning systems.",
+    approach: "Data ingestion, feature engineering, Random Forest classification, deployed via Streamlit.",
+    tech: ["Python", "Scikit-learn", "Pandas", "Streamlit"],
+    live: "https://forest-fire-risk-prediction-d9vmff5zuuvjvgoyjqjvpr.streamlit.app/",
     github: "https://github.com/mercydeez/forest-fire-risk-prediction",
-    category: "Machine Learning",
+    category: ["Machine Learning"],
   },
   {
-    title: "Lung Cancer Risk Prediction App",
-    description:
-      "Streamlit ML web app predicting lung cancer risk from symptoms using Random Forest. Features real-time prediction, clean UI, visual insights.",
-    impactNumber: "RFC",
-    techTags: ["Python", "Random Forest", "Scikit-learn", "Streamlit"],
-    metricBadge: "Random Forest Classifier",
-    liveDemo:
-      "https://mercydeez-lung-cancer-predictor-app-cc7nc0.streamlit.app/",
+    id: "lung-cancer",
+    featured: false,
+    name: "Lung Cancer Risk Prediction",
+    impact: "RFC",
+    impactLabel: "Classifier",
+    description: "Clinical symptom classification using Random Forest. End-to-end ML pipeline with feature selection, model evaluation, deployed on Streamlit Cloud.",
+    problem: "Clinical symptom data needs fast ML-based risk screening.",
+    approach: "Supervised classification pipeline with feature selection and model evaluation.",
+    tech: ["Python", "Random Forest", "Scikit-learn", "Streamlit"],
+    live: "https://mercydeez-lung-cancer-predictor-app-cc7nc0.streamlit.app/",
     github: "https://github.com/mercydeez/lung_cancer_predictor",
-    category: "Machine Learning",
+    category: ["Machine Learning"],
   },
   {
-    title: "Insurance Analysis Dashboard (Murphy BI)",
-    description:
-      "Power BI dashboard with insights into policy sales, claims, customer demographics, and revenue trends for Murphy Insurance Pvt. Ltd.",
-    impactNumber: "BI 360°",
-    techTags: ["Power BI", "DAX", "Data Analysis", "Business Intelligence"],
-    metricBadge: "Business Intelligence Dashboard",
-    liveDemo:
-      "https://app.powerbi.com/groups/me/reports/2c40c8c8-4d2a-4568-8764-8c3940130c99/553669a642656e9f145a?ctid=d0d192ac-6b94-47ea-b38c-5bb83fd8c443&experience=power-bi",
+    id: "insurance",
+    featured: false,
+    name: "Insurance Analysis Dashboard",
+    impact: "BI",
+    impactLabel: "Dashboard",
+    description: "Multi-page Power BI dashboard covering policy sales, claims analysis, customer demographics, and revenue trends for Murphy Insurance.",
+    problem: "Insurance data siloed with no unified analytics view.",
+    approach: "Data modeling and DAX measures for full policy lifecycle analytics.",
+    tech: ["Power BI", "DAX", "Data Modeling"],
     github: "https://github.com/mercydeez/Murphy_Insurance",
-    category: "Data Analysis",
+    category: ["Data Analysis"],
   },
   {
-    title: "Google Play Store Analysis",
-    description:
-      "Analysis of Play Store data uncovering trends in app categories, ratings, and installations using Python, Pandas, Seaborn, Matplotlib.",
-    impactNumber: "913K+",
-    techTags: ["Python", "Pandas", "Seaborn", "Matplotlib", "EDA"],
-    metricBadge: "Exploratory Data Analysis",
+    id: "google-play",
+    featured: false,
+    name: "Google Play Store Analysis",
+    impact: "913K+",
+    impactLabel: "Records",
+    description: "Full EDA pipeline analyzing 913,000+ app records. Data cleaning, transformation, statistical analysis, and multi-variable visualization.",
+    problem: "App market trends hidden in unstructured store listing data.",
+    approach: "Complete EDA pipeline — cleaning, transformation, statistical analysis, visualization.",
+    tech: ["Python", "Pandas", "Seaborn", "Matplotlib"],
     github: "https://github.com/mercydeez/Google-Play-Analysis",
-    category: "Data Analysis",
+    category: ["Data Analysis"],
   },
-];
+]
 
-/* ─── Experience ───────────────────────────── */
-
-export interface Experience {
-  role: string;
-  company: string;
-  duration: string;
-  description: string;
-}
-
-export const EXPERIENCES: Experience[] = [
+export const EXPERIENCE = [
   {
     role: "Jr. Data Analyst",
     company: "Manasvi Tech Solutions Pvt. Ltd.",
+    monogram: "MT",
+    color: "#14B8A6",
     duration: "December 2024 – July 2025",
-    description:
-      "Collected, cleaned, and analyzed data to identify trends and patterns, created reports and dashboards, and provided actionable insights to support business decisions and improve operational efficiency.",
+    description: "Collected, cleaned, and analyzed data to identify trends and patterns. Created dashboards and reports providing actionable insights to improve operational efficiency.",
   },
   {
     role: "Founder & CEO",
     company: "CodeTriumph Technologies",
+    monogram: "CT",
+    color: "#FF6B35",
     duration: "February 2025 – June 2025",
-    description:
-      "Led the company's vision and strategy, overseeing all operations and ensuring delivery of high-quality tech solutions to clients.",
+    description: "Led company vision and strategy, overseeing all operations and delivery of high-quality tech solutions to clients.",
   },
-];
+]
 
-/* ─── Certifications ───────────────────────── */
-
-export interface Certification {
-  title: string;
-  description: string;
-  verifyUrl?: string;
-  paperUrl?: string;
-  certificateUrl?: string;
-}
-
-export const CERTIFICATIONS: Certification[] = [
+export const CERTIFICATIONS = [
   {
-    title: "Google Data Analytics Professional",
-    description:
-      "Comprehensive certification covering data cleaning, SQL, data visualization with Tableau and R programming for data-driven decisions.",
-    verifyUrl:
-      "https://www.coursera.org/account/accomplishments/specialization/certificate/google-data-analytics",
+    id: "research-paper",
+    featured: true,
+    title: "AI Revolution in the Virtual Reality Industry",
+    issuer: "IJCRT (International Journal)",
+    badge: "PUBLISHED",
+    badgeColor: "#FFB800",
+    description: "Published in IJCRT Vol-10, Issue-1, Jan-June 2025. Explores AI transforming VR through AI-driven avatars, enhanced realism, and healthcare simulations.",
+    citation: 'Soundankar, A. (2025). "AI Revolution in the Virtual Reality Industry." International Journal of Computer Research & Technology (IJCRT), Vol-10, Issue-1.',
+    paperUrl: "https://drive.google.com/file/d/1xk20KhieetT-3ELAabTpBuZrNOR6HiXj/view",
+    certUrl: "https://drive.google.com/file/d/1hVYyRinfadoW7OdbZ0QVBBMjI15oUE4x/view",
   },
   {
-    title: "DeepLearning.AI TensorFlow Developer",
-    description:
-      "Professional certificate focusing on building and training deep neural networks, CNNs, and NLP models using TensorFlow.",
-    verifyUrl:
-      "https://www.coursera.org/account/accomplishments/specialization/certificate/deeplearning-ai-tensorflow",
+    id: "google-cloud",
+    title: "Google Cloud Data Analytics Certificate",
+    issuer: "Google Cloud",
+    logo: "https://cdn.simpleicons.org/googlecloud/4285F4",
+    description: "Cloud-based data analytics including SQL, data cleaning, visualization, and business intelligence.",
+    verifyUrl: "https://www.credly.com/badges/1b182445-2b1c-4b40-8dc4-467fe4ba4433/public_url",
   },
   {
-    title: "AWS Certified Machine Learning – Specialty",
-    description:
-      "Validates expertise in building, training, tuning, and deploying machine learning models on AWS.",
-    verifyUrl:
-      "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
+    id: "hackerrank",
+    title: "HackerRank SQL Certified",
+    issuer: "HackerRank",
+    logo: "https://cdn.simpleicons.org/hackerrank/2EC866",
+    description: "SQL fundamentals — querying, filtering, joins, and aggregations.",
+    verifyUrl: "https://www.hackerrank.com/certificates/iframe/55fe6e819027",
   },
   {
-    title: "Research Paper Published — AI Revolution in VR Industry",
-    description:
-      "Published in IJCRT Vol-10, Issue-1, Jan-June 2025. Explores how AI is transforming VR through AI-driven avatars, enhanced realism, and healthcare simulations.",
-    paperUrl:
-      "https://drive.google.com/file/d/1xk20KhieetT-3ELAabTpBuZrNOR6HiXj/view?usp=drive_link",
+    id: "snowflake",
+    title: "Snowflake Hands-On Essentials — Data Warehouse",
+    issuer: "Snowflake",
+    logo: "https://cdn.simpleicons.org/snowflake/29B5E8",
+    description: "IAM, data containers, ETL processes, and semi-structured data in Snowflake.",
+    verifyUrl: "https://achieve.snowflake.com/4dce4d1a-5fc0-46a0-89f4-3d1d993d0185",
   },
-];
-
-/* ─── Blogs ────────────────────────────────── */
-
-export interface BlogPost {
-  title: string;
-  description: string;
-  url: string;
-}
-
-export const BLOGS: BlogPost[] = [
   {
-    title:
-      "Timeless Leadership Lessons from Chhatrapati Shivaji Maharaj for Data Science & AI",
-    description:
-      "Explore how the strategic brilliance of Chhatrapati Shivaji Maharaj aligns with key principles in Data Science and AI — from data-driven decision-making to cybersecurity, adaptability, and innovation.",
+    id: "goethe",
+    title: "Goethe Institute A2 Certification",
+    issuer: "Goethe Institut",
+    monogram: "G",
+    color: "#DC2626",
+    description: "German language proficiency — reading, writing, listening, and speaking.",
+    verifyUrl: "https://drive.google.com/file/d/19TwlmV_o3cNUJFYVjbYromEMSkZASjqE/view",
+  },
+]
+
+export const BLOGS = [
+  {
+    title: "Timeless Leadership Lessons from Chhatrapati Shivaji Maharaj for Data Science & AI",
+    tag: "AI Philosophy",
+    readTime: "5 min read",
+    excerpt: "How Shivaji Maharaj's strategic brilliance aligns with data-driven decision-making, cybersecurity, adaptability, and innovation in AI.",
     url: "https://medium.com/@atharva3895/chhatrapati-shivaji-maharaj-the-ultimate-strategist-a-lesson-for-data-science-5ddcc18d18de",
   },
   {
-    title:
-      "How Lanka Naresh Ravan's Mindset is Used in AI Today — And Its Vision for the Future",
-    description:
-      "As the world builds Artificial Intelligence, we are knowingly or unknowingly adopting the same mindset Ravan lived by — powerful, intelligent, and dangerously capable.",
+    title: "How Lanka Naresh Ravan's Mindset is Used in AI Today — And Its Vision for the Future",
+    tag: "AI Ethics",
+    readTime: "4 min read",
+    excerpt: "Building AI mirrors Ravan's mindset — powerful, intelligent, and dangerously capable.",
     url: "https://medium.com/@atharva3895/how-lanka-naresh-ravans-mindset-is-used-in-ai-today-and-its-vision-for-the-future-85fb6731f792",
   },
-];
+  {
+    title: "Next Article Coming Soon...",
+    tag: "In Progress",
+    readTime: "",
+    excerpt: "Follow on Medium to get notified when the next article drops.",
+    url: "https://medium.com/@atharva3895",
+    comingSoon: true,
+  },
+]
 
-/* ─── Navigation ───────────────────────────── */
+export const SKILLS = {
+  "ML / AI": [
+    { name: "TensorFlow", logo: "https://cdn.simpleicons.org/tensorflow/FF6F00" },
+    { name: "PyTorch", logo: "https://cdn.simpleicons.org/pytorch/EE4C2C" },
+    { name: "Scikit-learn", logo: "https://cdn.simpleicons.org/scikitlearn/F7931E" },
+    { name: "Pandas", logo: "https://cdn.simpleicons.org/pandas/150458" },
+    { name: "NumPy", logo: "https://cdn.simpleicons.org/numpy/013243" },
+    { name: "LangChain", logo: "https://cdn.simpleicons.org/langchain/00C4B4" },
+    { name: "OpenAI", logo: "https://cdn.simpleicons.org/openai/FFFFFF" },
+    { name: "HuggingFace", logo: "https://cdn.simpleicons.org/huggingface/FFD21E" },
+  ],
+  "Big Data": [
+    { name: "Apache Spark", logo: "https://cdn.simpleicons.org/apachespark/E25A1C" },
+    { name: "Kafka", logo: "https://cdn.simpleicons.org/apachekafka/FFFFFF" },
+    { name: "Airflow", logo: "https://cdn.simpleicons.org/apacheairflow/017CEE" },
+    { name: "Snowflake", logo: "https://cdn.simpleicons.org/snowflake/29B5E8" },
+    { name: "Databricks", logo: "https://cdn.simpleicons.org/databricks/FF3621" },
+  ],
+  "Languages & Core": [
+    { name: "Python", logo: "https://cdn.simpleicons.org/python/3776AB" },
+    { name: "SQL", logo: "https://cdn.simpleicons.org/mysql/4479A1" },
+    { name: "R", logo: "https://cdn.simpleicons.org/r/276DC3" },
+  ],
+  "Cloud & DevOps": [
+    { name: "AWS", logo: "https://cdn.simpleicons.org/amazonaws/FF9900" },
+    { name: "GCP", logo: "https://cdn.simpleicons.org/googlecloud/4285F4" },
+    { name: "Azure", logo: "https://cdn.simpleicons.org/microsoftazure/0078D4" },
+    { name: "Docker", logo: "https://cdn.simpleicons.org/docker/2496ED" },
+    { name: "Git", logo: "https://cdn.simpleicons.org/git/F05032" },
+    { name: "GitHub", logo: "https://cdn.simpleicons.org/github/FFFFFF" },
+  ],
+  "Databases": [
+    { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/4169E1" },
+    { name: "MongoDB", logo: "https://cdn.simpleicons.org/mongodb/47A248" },
+    { name: "Redis", logo: "https://cdn.simpleicons.org/redis/DC382D" },
+  ],
+  "Visualization": [
+    { name: "Power BI", logo: "https://cdn.simpleicons.org/powerbi/F2C811" },
+    { name: "Tableau", logo: "https://cdn.simpleicons.org/tableau/E97627" },
+    { name: "Plotly", logo: "https://cdn.simpleicons.org/plotly/3F4F75" },
+    { name: "Matplotlib", logo: "https://cdn.simpleicons.org/matplotlib/11557C" },
+  ],
+  "Web & Frameworks": [
+    { name: "Next.js", logo: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
+    { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
+    { name: "FastAPI", logo: "https://cdn.simpleicons.org/fastapi/009688" },
+    { name: "Streamlit", logo: "https://cdn.simpleicons.org/streamlit/FF4B4B" },
+  ],
+};
 
 export const NAV_LINKS = [
   { label: "About", href: "#about" },

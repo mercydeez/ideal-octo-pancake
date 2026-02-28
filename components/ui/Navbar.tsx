@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Terminal } from "lucide-react";
-import { NAV_LINKS, PERSONAL } from "@/lib/constants";
+import { NAV_LINKS, PERSONAL_INFO } from "@/lib/constants";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,7 +25,7 @@ export default function Navbar() {
   }, [lastScroll]);
 
   useEffect(() => {
-    const sections = NAV_LINKS.map((l) => l.href.slice(1));
+    const sections = NAV_LINKS.map((l: { href: string, label: string }) => l.href.slice(1));
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -37,7 +37,7 @@ export default function Navbar() {
       { rootMargin: "-40% 0px -55% 0px" }
     );
 
-    sections.forEach((id) => {
+    sections.forEach((id: string) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
@@ -67,7 +67,7 @@ export default function Navbar() {
             className="flex items-center gap-2 group"
           >
             <div className="w-10 h-10 rounded-lg border border-amber-500/40 flex items-center justify-center text-amber-500 font-bold text-lg group-hover:shadow-[0_0_15px_#FF6B3550] transition-all">
-              {PERSONAL.monogram}
+              {PERSONAL_INFO.name.split(" ").map(w => w[0]).join("")}
             </div>
             <div className="hidden sm:block text-left">
               <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest leading-none mb-1">STATION</p>
@@ -77,7 +77,7 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-1 bg-white/5 px-2 py-1 rounded-full border border-white/5">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link: { href: string, label: string }) => (
               <button
                 key={link.href}
                 onClick={() => scrollTo(link.href)}
@@ -137,7 +137,7 @@ export default function Navbar() {
             >
               <p className="font-mono text-[10px] text-white/20 uppercase tracking-[0.3em] mb-12">System Navigation</p>
               <div className="flex flex-col gap-6">
-                {NAV_LINKS.map((link, i) => (
+                {NAV_LINKS.map((link: { href: string, label: string }, i: number) => (
                   <motion.button
                     key={link.href}
                     onClick={() => scrollTo(link.href)}

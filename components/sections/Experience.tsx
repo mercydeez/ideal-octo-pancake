@@ -1,43 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { EXPERIENCES } from "@/lib/constants";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { EXPERIENCE } from "@/lib/constants";
+import { useRef } from "react";
 
 export default function Experience() {
-  const EXPERIENCE = [
-    {
-      company: "Manasvi Tech Solutions Pvt. Ltd.",
-      monogram: "MT",
-      role: "Jr. Data Analyst",
-      period: "December 2024 – July 2025",
-      desc: "Collected, cleaned, and analyzed data to identify trends and patterns. Created reports and dashboards providing actionable insights to improve operational efficiency.",
-      color: "#00F0FF",
-    },
-    {
-      company: "CodeTriumph Technologies",
-      monogram: "CT",
-      role: "Founder & CEO",
-      period: "February 2025 – June 2025",
-      desc: "Led company vision and strategy, overseeing all operations and ensuring delivery of high-quality tech solutions to clients.",
-      color: "#FF6B35",
-    },
-  ];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="experience" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
+    <section id="experience" className="py-12 md:py-16 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-16 border-l-4 border-amber-500 pl-8"
+        className="mb-12 border-l-4 border-amber-500 pl-8"
       >
-        <p className="text-amber-400 font-mono text-sm tracking-widest mb-2 uppercase">[ PROFESSIONAL_TIMELINE ]</p>
-        <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
+        <p className="text-amber-400 font-mono text-[10px] md:text-sm tracking-widest mb-2 uppercase">[ PROFESSIONAL_TIMELINE ]</p>
+        <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter">
           THE <span className="text-amber-400 text-glow-amber">JOURNEY</span>
         </h2>
       </motion.div>
 
-      <div className="relative border-l border-amber-500/20 ml-4 md:ml-12 pl-8 md:pl-16 flex flex-col gap-12">
+      <div ref={containerRef} className="relative ml-4 md:ml-12 pl-8 md:pl-16 flex flex-col gap-12">
+        {/* Animated Origin Line */}
+        <motion.div
+          className="absolute left-0 top-0 w-px bg-amber-500/50 origin-top"
+          style={{ height: "100%", scaleY: pathLength }}
+        />
+        {/* Faded background line for path */}
+        <div className="absolute left-0 top-0 w-px h-full bg-amber-500/10" />
         {EXPERIENCE.map((exp, i) => (
           <motion.div
             key={i}
@@ -60,10 +57,10 @@ export default function Experience() {
                 className="absolute top-0 right-0 w-24 h-full opacity-5 pointer-events-none transition-opacity group-hover:opacity-20"
                 style={{ background: `linear-gradient(to left, ${exp.color}, transparent)` }}
               />
-              <p className="text-[10px] font-mono text-white/40 mb-2 uppercase tracking-widest">{exp.period}</p>
+              <p className="text-[10px] font-mono text-white/40 mb-2 uppercase tracking-widest">{exp.duration}</p>
               <h3 className="text-2xl font-bold text-white mb-1">{exp.role}</h3>
               <p className="font-mono text-sm mb-4" style={{ color: exp.color }}>{exp.company}</p>
-              <p className="text-white/50 text-sm font-mono leading-relaxed max-w-2xl">{exp.desc}</p>
+              <p className="text-white/50 text-sm font-mono leading-relaxed max-w-2xl">{exp.description}</p>
             </div>
           </motion.div>
         ))}

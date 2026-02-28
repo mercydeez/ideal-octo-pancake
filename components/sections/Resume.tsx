@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PERSONAL } from "@/lib/constants";
+import { PERSONAL_INFO } from "@/lib/constants";
 import { Download, Eye, FileCode } from "lucide-react";
 
 export default function Resume() {
@@ -33,14 +33,14 @@ export default function Resume() {
 
           <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
             <a
-              href={PERSONAL.resumeDirectDownload}
+              href={PERSONAL_INFO.resumeDownload}
               className="px-10 py-5 bg-amber-500 text-black font-bold uppercase tracking-[0.2em] text-xs rounded-xl hover:shadow-[0_0_30px_#FF6B3580] transition-all flex items-center justify-center gap-3"
             >
               <Download size={18} />
               GET_PDF_MANIFEST
             </a>
             <a
-              href={PERSONAL.resumeDriveView}
+              href={PERSONAL_INFO.resumeView}
               target="_blank"
               className="px-10 py-5 bg-white/5 border border-white/10 hover:border-white/30 text-white font-bold uppercase tracking-[0.2em] text-xs rounded-xl transition-all flex items-center justify-center gap-3"
             >

@@ -1,47 +1,47 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { PERSONAL, SKILLS, SKILL_CATEGORIES } from "@/lib/constants";
-import { MapPin } from "lucide-react";
-
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { PERSONAL_INFO, CURRENTLY_LEARNING, EDUCATION, BIO, BIO_HIGHLIGHTED_WORDS } from "@/lib/constants";
 import { Instagram } from "lucide-react";
 
-const learningTokens = [
-  "LLMs", "RAG Pipelines", "LangChain", "Vector Databases",
-  "AWS SageMaker", "MLOps", "LlamaIndex", "Prompt Engineering",
-  "Apache Kafka Streams", "Fine-tuning LLMs"
-];
-
-const EDUCATION = [
-  {
-    monogram: "SPJ",
-    institution: "SP Jain School of Global Management",
-    degree: "Master of AI in Business",
-    period: "Sept 2025 – Sept 2027",
-    grade: "Admitted ✓",
-    color: "#FF6B35",
-  },
-  {
-    monogram: "SPPU",
-    institution: "Savitribai Phule Pune University",
-    degree: "MSc Computer Application",
-    period: "Sept 2023 – July 2025",
-    grade: "A+ Grade",
-    color: "#00F0FF",
-  },
-  {
-    monogram: "SPPU",
-    institution: "Savitribai Phule Pune University",
-    degree: "BSc Computer Science",
-    period: "Sept 2020 – July 2023",
-    grade: "A Grade",
-    color: "#00F0FF",
-  },
-];
-
 export default function About() {
+  const getHighlightedBio = (text: string) => {
+    let highlightedText = text;
+    // We sort by length descending so that longer phrases like "SP Jain School of Global Management"
+    // are replaced before their singular words if any overlaps exist.
+    const sortedWords = [...BIO_HIGHLIGHTED_WORDS].sort((a, b) => b.length - a.length);
+
+    // A better approach for React to highlight specific words in a string without setting dangerouslySetInnerHTML
+    const parts = text.split(new RegExp(`(${sortedWords.join('|')})`, 'gi'));
+
+    return parts.map((part, i) => {
+      const isHighlighted = sortedWords.some(w => w.toLowerCase() === part.toLowerCase());
+      if (isHighlighted) {
+        return <span key={i} style={{ color: '#FF6B35', fontWeight: 600 }}>{part}</span>;
+      }
+      return part;
+    });
+  };
+
+  // 3D Tilt Logic variables setup
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-100, 100], [10, -10]);
+  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set(event.clientX - rect.left - rect.width / 2);
+    y.set(event.clientY - rect.top - rect.height / 2);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
-    <section id="about" className="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto overflow-x-hidden">
+    <section id="about" className="py-12 md:py-16 px-4 md:px-6 max-w-7xl mx-auto overflow-x-hidden" style={{ perspective: 1000 }}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Bio Card - Takes up 2 columns now to leave room for Social Signal */}
@@ -50,24 +50,25 @@ export default function About() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-2 tactical-panel rounded-3xl p-6 md:p-8 flex flex-col justify-center"
+          style={{ x: 0, y: 0, rotateX, rotateY, z: 100 }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="lg:col-span-2 tactical-panel rounded-3xl p-6 md:p-8 flex flex-col justify-center will-change-transform transform-gpu"
         >
           <div className="flex items-center gap-4 mb-6 relative">
             <div className="h-px w-12 bg-amber-500/50" />
             <p className="text-amber-400 font-mono text-xs tracking-widest uppercase">[ THE_ARCHITECT ]</p>
           </div>
 
-          <p className="text-base md:text-xl leading-relaxed text-white/70 mb-6 font-mono">
-            I'm an <span className="text-amber-400 font-bold">AI & Data Engineer</span> transforming raw data into decision architectures. I specialize in <span className="text-cyan">Machine Learning</span> and production-scale pipelines.
-          </p>
-
-          <p className="text-sm md:text-base leading-relaxed text-white/50 font-mono mb-6">
-            Currently advancing my strategic capabilities through the <span className="text-amber-400 border-b border-amber-400/30">Master of AI in Business</span> program at <span className="text-white">SP Jain School of Global Management, Mumbai</span>. I believe in bridging the gap between brute-force models and elegant business intelligence.
-          </p>
+          {BIO.map((paragraph, index) => (
+            <p key={index} className="text-sm md:text-base leading-relaxed text-white/70 font-mono mb-6">
+              {getHighlightedBio(paragraph)}
+            </p>
+          ))}
 
           <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl inline-block w-fit">
             <p className="text-amber-400 font-mono text-[10px] md:text-xs">
-              &gt; SYS.AWAITING_COMMAND: Open for AI/Data Engineering Roles.
+              &gt; SYS.AWAITING_COMMAND: {PERSONAL_INFO.status}.
             </p>
           </div>
         </motion.div>
@@ -79,7 +80,7 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           className="lg:col-span-1 tactical-panel rounded-3xl p-6 md:p-8 border border-pink/30 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:border-pink transition-colors cursor-pointer"
-          onClick={() => window.open("https://www.instagram.com/ai.with.atharva/", "_blank")}
+          onClick={() => window.open((PERSONAL_INFO as any).instagramBrand || PERSONAL_INFO.instagram, "_blank")}
         >
           {/* Heartbeat Rings */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -111,9 +112,10 @@ export default function About() {
           className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4"
         >
           {EDUCATION.map((edu, i) => (
-            <div
+            <motion.div
               key={i}
-              className="glass-card rounded-2xl p-6 border border-white/5 flex items-start gap-4"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="glass-card rounded-2xl p-6 border border-white/5 flex items-start gap-4 transition-colors hover:border-white/20"
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
@@ -122,9 +124,9 @@ export default function About() {
                 {edu.monogram}
               </div>
               <div>
-                <p className="text-white/80 font-bold text-sm leading-tight mb-1">{edu.institution}</p>
+                <p className="text-white/80 font-bold text-sm leading-tight mb-1">{edu.school}</p>
                 <p className="text-white/40 font-mono text-xs mb-1">{edu.degree}</p>
-                <p className="text-white/30 font-mono text-[10px]">{edu.period}</p>
+                <p className="text-white/30 font-mono text-[10px]">{edu.duration}</p>
                 <span
                   className="text-[9px] font-mono px-2 py-0.5 rounded mt-2 inline-block"
                   style={{ background: `${edu.color}20`, color: edu.color }}
@@ -132,7 +134,7 @@ export default function About() {
                   {edu.grade}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 
@@ -146,7 +148,7 @@ export default function About() {
           <div className="animate-marquee gap-12 items-center text-amber-400 font-mono font-bold uppercase text-xs tracking-[0.2em] flex">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex gap-12 items-center">
-                {learningTokens.map((token, j) => (
+                {CURRENTLY_LEARNING.map((token, j) => (
                   <span key={j} className="flex items-center gap-4">
                     <span className="w-1.5 h-1.5 bg-amber-400 rounded-full shadow-[0_0_8px_#FF6B35]" />
                     {token}

@@ -12,11 +12,11 @@ export default function Projects() {
   const setHoveringProject = useStore((state) => state.setHoveringProject);
 
   const filtered = activeFilter === "All"
-    ? PROJECTS.filter(p => !p.title.includes("Lulu"))
-    : PROJECTS.filter(p => (p.category === activeFilter || p.categories?.includes(activeFilter)) && !p.title.includes("Lulu"));
+    ? PROJECTS.filter(p => !p.featured)
+    : PROJECTS.filter(p => p.category?.includes(activeFilter) && !p.featured);
 
   return (
-    <section id="projects" className="relative py-20 px-4 md:px-6">
+    <section id="projects" className="relative py-16 md:py-20 px-4 md:px-6">
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -25,7 +25,7 @@ export default function Projects() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12 text-center"
         >
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 uppercase">
+          <h2 className="text-3xl md:text-3xl lg:text-4xl font-display font-black text-white mb-4 uppercase">
             PROJECT <span className="text-cyan">MATRIX</span>
           </h2>
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
@@ -56,46 +56,45 @@ export default function Projects() {
               layout
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
               className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer"
               onMouseEnter={() => {
                 setHoveringProject(true);
-                useStore.getState().setCursorVariant("target");
               }}
               onMouseLeave={() => {
                 setHoveringProject(false);
-                useStore.getState().setCursorVariant("default");
               }}
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
-                  {project.category === "AI/ML" ? <Cpu size={24} /> :
-                    project.category === "Big Data" ? <Database size={24} /> :
+                  {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
+                    project.category?.includes("Big Data") ? <Database size={24} /> :
                       <Globe size={24} />}
                 </div>
                 <div className="flex gap-4">
                   <a href={project.github} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
                     <Github size={20} />
                   </a>
-                  {project.liveDemo && (
-                    <a href={project.liveDemo} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
+                  {project.live && (
+                    <a href={project.live} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
                       <ExternalLink size={20} />
                     </a>
                   )}
                 </div>
               </div>
 
-              <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
-                {project.title}
+              <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
+                {project.name}
               </h3>
-              <p className="text-white/50 text-sm font-mono line-clamp-3 mb-8 leading-relaxed">
+              <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed">
                 {project.description}
               </p>
 
               <div className="flex flex-wrap gap-2">
-                {project.techTags.map((tag, idx) => (
-                  <span key={idx} className="text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
+                {project.tech.map((tag, idx) => (
+                  <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
                     {tag}
                   </span>
                 ))}

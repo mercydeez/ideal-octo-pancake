@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Terminal, Download, Rocket } from "lucide-react";
-import { PERSONAL } from "@/lib/constants";
+import { PERSONAL_INFO } from "@/lib/constants";
+import { useState } from "react";
 
 export default function Hero() {
   const containerVariants = {
@@ -14,6 +15,8 @@ export default function Hero() {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
   };
+
+  const [imgError, setImgError] = useState(false);
 
   return (
     <section id="hero" className="relative w-full h-screen flex items-center justify-center px-6 md:px-24 overflow-hidden pointer-events-none">
@@ -44,13 +47,20 @@ export default function Hero() {
               className="absolute inset-[10px] rounded-full blur-sm opacity-50"
               style={{ background: 'conic-gradient(from 0deg, #00F0FF, #FF6B35, #00F0FF)' }}
             />
-            {/* Image */}
-            <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-void z-10 shadow-[0_0_50px_rgba(0,240,255,0.3)] bg-military">
-              <img
-                src="/images/profile.png"
-                alt={PERSONAL.name}
-                className="w-full h-full object-cover mix-blend-screen opacity-90 transition-transform duration-700 hover:scale-110 grayscale hover:grayscale-0"
-              />
+            {/* Image OR Fallback Monogram */}
+            <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-void z-10 shadow-[0_0_50px_rgba(0,240,255,0.3)] bg-military flex items-center justify-center">
+              {imgError ? (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan/20 to-amber/20">
+                  <span className="text-4xl md:text-5xl font-display font-black text-white mix-blend-screen opacity-50">AS</span>
+                </div>
+              ) : (
+                <img
+                  src="/images/profile.png"
+                  alt={PERSONAL_INFO.name}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  onError={() => setImgError(true)}
+                />
+              )}
             </div>
 
             {/* Crosshairs */}
@@ -67,25 +77,25 @@ export default function Hero() {
           <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded mb-6 border-cyan/50">
             <Terminal size={14} className="text-amber animate-pulse" />
             <span className="text-cyan text-[10px] md:text-xs uppercase font-terminal tracking-[0.3em]">
-              SYS.STATUS: OPTIMAL
+              SYS.STATUS: {PERSONAL_INFO.status.toUpperCase()}
             </span>
           </div>
 
           {/* Glitch-like typography */}
-          <h1 className="text-cyber text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 tracking-tighter drop-shadow-2xl flex flex-col">
-            <span>{PERSONAL.name.split(" ")[0]}</span>
+          <h1 className="text-cyber text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-white mb-2 tracking-tighter drop-shadow-2xl flex flex-col">
+            <span>{PERSONAL_INFO.name.split(" ")[0]}</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
-              {PERSONAL.name.split(" ").slice(1).join(" ")}
+              {PERSONAL_INFO.name.split(" ").slice(1).join(" ")}
             </span>
           </h1>
 
           <p className="font-terminal text-white/70 text-xs sm:text-sm md:text-base max-w-md mt-4 leading-relaxed bg-void/50 backdrop-blur-md p-4 rounded-lg border-l-2 border-amber">
-            Transforming raw data into architectural intelligence. Specialized in deep neural networks and scalable cloud pipelines.
+            {PERSONAL_INFO.subtitle}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
             <a
-              href={PERSONAL.resumeDirectDownload}
+              href={PERSONAL_INFO.resumeDownload}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-cyan text-void font-bold font-terminal text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white transition-colors min-h-[44px]"
@@ -99,6 +109,27 @@ export default function Hero() {
             >
               <Rocket size={16} /> DEPLOY_MODULES
             </button>
+          </div>
+
+          <div className="flex gap-4 mt-8">
+            <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub" width={24} height={24} />
+            </a>
+            <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="LinkedIn" width={24} height={24} />
+            </a>
+            <a href={PERSONAL_INFO.twitter} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="Twitter" width={24} height={24} />
+            </a>
+            <a href={PERSONAL_INFO.kaggle} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/kaggle/20BEFF" alt="Kaggle" width={24} height={24} />
+            </a>
+            <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="Medium" width={24} height={24} />
+            </a>
+            <a href={PERSONAL_INFO.instagram} target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" width={24} height={24} />
+            </a>
           </div>
 
         </motion.div>
