@@ -10,8 +10,24 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space
 const syncopate = Syncopate({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-syncopate" });
 
 export const metadata = {
-  title: "Neural Architect V2 | Galactic Edition",
-  description: "Shielded 3D Architecture",
+  title: "Atharva Soundankar | AI & Big Data Engineer Portfolio",
+  description: "AI & Big Data Engineer building scalable data pipelines and intelligent ML systems. Portfolio showcasing projects in Machine Learning, Data Analysis, and Big Data.",
+  keywords: ["AI Engineer", "Big Data", "Machine Learning", "Data Scientist", "Portfolio", "Atharva Soundankar"],
+  authors: [{ name: "Atharva Soundankar" }],
+  openGraph: {
+    title: "Atharva Soundankar | AI & Big Data Engineer",
+    description: "Building scalable data pipelines and intelligent ML systems — from raw data to production-ready AI solutions.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Atharva Soundankar | AI & Big Data Engineer",
+    description: "Building scalable data pipelines and intelligent ML systems.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
