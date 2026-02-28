@@ -20,17 +20,17 @@ export default function Hero() {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <section id="hero" className="relative w-full h-screen flex items-center justify-center px-6 md:px-24 overflow-hidden pointer-events-none">
+    <section id="hero" className="relative w-full h-screen flex items-center justify-center px-4 md:px-12 overflow-hidden pointer-events-none">
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+        className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center"
       >
         {/* Left: Profile with Glow-Ring */}
-        <motion.div variants={itemVariants} className="flex justify-center md:justify-end relative pointer-events-auto">
-          <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+        <motion.div variants={itemVariants} className="flex justify-center md:justify-center relative pointer-events-auto order-2 md:order-1">
+          <div className="relative w-52 h-52 md:w-64 md:h-64 flex items-center justify-center">
             {/* HUD Rings using Framer Motion for mechanical complexity */}
             <motion.div
               animate={{ rotate: 360 }}
@@ -73,7 +73,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Right: Typing & Tactical Buttons */}
-        <motion.div variants={itemVariants} className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10">
+        <motion.div variants={itemVariants} className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10 order-1 md:order-2 min-w-0">
 
           <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded mb-6 border-cyan/50">
             <Terminal size={14} className="text-amber animate-pulse" />
@@ -82,15 +82,18 @@ export default function Hero() {
             </span>
           </div>
 
-          {/* Glitch-like typography */}
-          <h1 className="text-cyber text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-white mb-2 tracking-tighter drop-shadow-2xl flex flex-col">
+          {/* Glitch-like typography — fluid clamp so it never overflows */}
+          <h1
+            className="text-cyber font-bold text-white mb-2 drop-shadow-2xl flex flex-col leading-none w-full overflow-hidden"
+            style={{ fontSize: 'clamp(1.5rem, 3.8vw, 2.75rem)', letterSpacing: '0.03em' }}
+          >
             <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
               <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
             </span>
           </h1>
 
-          <p className="font-terminal text-white/70 text-xs sm:text-sm md:text-base max-w-md mt-4 leading-relaxed bg-void/50 backdrop-blur-md p-4 rounded-lg border-l-2 border-amber">
+          <p className="font-terminal text-white/70 text-xs md:text-sm max-w-sm mt-3 leading-relaxed bg-void/50 backdrop-blur-md p-3 rounded-lg border-l-2 border-amber">
             {PERSONAL_INFO.subtitle}
           </p>
 

@@ -2,31 +2,34 @@
 
 import { Canvas } from "@react-three/fiber";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
-import NeuralNetwork from "@/components/three/NeuralNetwork";
+import GalaxyBackground from "@/components/three/GalaxyBackground";
 
 export default function CanvasLayer() {
     return (
-        <Canvas camera={{ position: [0, 0, 15], fov: 60 }} dpr={[1, 2]} gl={{ antialias: false }}>
+        <Canvas
+            camera={{ position: [0, 8, 22], fov: 55 }}
+            dpr={[1, 1.5]}
+            gl={{ antialias: false, powerPreference: "high-performance" }}
+        >
             <color attach="background" args={["#030303"]} />
 
-            {/* Lighting */}
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 5]} intensity={1.5} color="#00F0FF" />
-            <directionalLight position={[-10, -10, -5]} intensity={1.5} color="#FF6B35" />
+            {/* Minimal ambient light — galaxy is self-lit via additive blending */}
+            <ambientLight intensity={0.1} />
 
-            {/* 3D Neural Network */}
-            <NeuralNetwork />
+            {/* GPU Galaxy Spiral */}
+            <GalaxyBackground />
 
-            {/* High-End Post Processing Stack */}
+            {/* Post Processing */}
             <EffectComposer>
                 <Bloom
-                    luminanceThreshold={0.2}
+                    luminanceThreshold={0.15}
+                    luminanceSmoothing={0.9}
                     mipmapBlur
-                    intensity={1.5}
+                    intensity={0.8}
                 />
                 <Vignette
-                    offset={0.5}
-                    darkness={0.9} // Deep vignette for pure black edges
+                    offset={0.3}
+                    darkness={0.98}
                 />
             </EffectComposer>
         </Canvas>
