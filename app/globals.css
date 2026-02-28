@@ -4,78 +4,46 @@
 
 :root {
   --void: #030303;
-  --cyan: #00f5ff;
-  --pink: #ff007a;
+  --cyan: #00F0FF;
+  --amber: #FF6B35;
 }
 
 body {
-  background: #030303;
+  background: var(--void);
   color: #fff;
-  font-family: var(--font-space), sans-serif;
   overflow-x: hidden;
 }
 
-.font-display {
-  font-family: var(--font-orbitron), sans-serif;
+::selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
 }
 
-.font-mono {
-  font-family: var(--font-mono), monospace;
-}
-
-/* Glassmorphism Panel */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #030303;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #00f5ff;
-  border-radius: 10px;
-}
-
-/* Scanline Effect */
-.scanline {
+.cyber-grid {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 245, 255, 0.03) 50%);
-  background-size: 100% 4px;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.5;
 }
 
 .crt-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, transparent 70%, rgba(0, 0, 0, 0.4) 100%);
+  inset: 0;
+  background: radial-gradient(circle, transparent 50%, rgba(3, 3, 3, 0.8) 100%);
   pointer-events: none;
   z-index: 51;
 }
 
-/* Text Glows */
-.text-glow-cyan {
-  text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
-}
-
-.text-glow-pink {
-  text-shadow: 0 0 10px rgba(255, 0, 122, 0.5);
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 52;
 }

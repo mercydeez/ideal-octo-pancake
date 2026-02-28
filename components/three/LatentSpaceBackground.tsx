@@ -1,52 +1,52 @@
 "use client";
 
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
-import * as random from "maath/random/dist/maath-random.esm";
-import { useState, useRef } from "react";
+import * as THREE from "three";
+import { random } from "maath";
 
 function Particles() {
-    const ref = useRef<any>();
-    const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }));
+    const pointsRef = useRef<THREE.Points>(null!);
+
+    // Generate 5000 points in a sphere with radius 15
+    const sphere = useMemo(() => {
+        return random.inSphere(new Float32Array(5000 * 3), { radius: 15 }) as Float32Array;
+    }, []);
 
     useFrame((state, delta) => {
-        if (ref.current) {
-            ref.current.rotation.x -= delta / 10;
-            ref.current.rotation.y -= delta / 15;
+        if (pointsRef.current) {
+            pointsRef.current.rotation.x -= delta / 10;
+            pointsRef.current.rotation.y -= delta / 15;
         }
     });
 
     return (
-        <group rotation={[0, 0, Math.PI / 4]}>
-            <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
-                <PointMaterial
-                    transparent
-                    color="#00f5ff"
-                    size={0.002}
-                    sizeAttenuation={true}
-                    depthWrite={false}
-                    opacity={0.4}
+        <points ref={pointsRef}>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={sphere.length / 3}
+                    array={sphere}
+                    itemSize={3}
                 />
-            </Points>
-        </group>
+            </bufferGeometry>
+            <pointsMaterial
+                transparent
+                color="#00F0FF"
+                size={0.03}
+                sizeAttenuation={true}
+                depthWrite={false}
+                blending={THREE.AdditiveBlending}
+            />
+        </points>
     );
 }
 
 export default function LatentSpaceBackground() {
     return (
-        <div className="fixed inset-0 -z-10 bg-[#030303]">
-            {/* Cyber-Grid Overlay */}
-            <div
-                className="absolute inset-0 opacity-[0.05]"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(0, 245, 255, 0.4) 1px, transparent 1px), 
-                           linear-gradient(90deg, rgba(0, 245, 255, 0.4) 1px, transparent 1px)`,
-                    backgroundSize: '100px 100px'
-                }}
-            />
-            <Canvas camera={{ position: [0, 0, 1] }}>
-                <Particles />
-            </Canvas>
-        </div>
+        <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
+            <ambientLight intensity={0.5} />
+            <Particles />
+        </Canvas>
     );
 }

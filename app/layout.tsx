@@ -1,17 +1,9 @@
 import "./globals.css";
-import { Space_Grotesk, JetBrains_Mono, Orbitron } from "next/font/google";
-import SystemCommandBar from "@/components/ui/SystemCommandBar";
-import CustomCursor from "@/components/ui/CustomCursor";
-import DraggableTerminal from "@/components/ui/DraggableTerminal";
 import LatentSpaceBackground from "@/components/three/LatentSpaceBackground";
 
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
-const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
-
 export const metadata = {
-  title: "Atharva Soundankar | Neural Architect",
-  description: "Elite AI & Data Architecture Portfolio",
+  title: "Neural Architect V2 | Galactic Edition",
+  description: "AI & Data Architecture Portfolio",
 };
 
 export default function RootLayout({
@@ -20,20 +12,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`dark ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${orbitron.variable}`}
-    >
-      <body className="antialiased selection:bg-[#00f5ff20] selection:text-[#00f5ff]">
-        <div className="crt-overlay" />
-        <div className="scanline" />
-        <CustomCursor />
-        <LatentSpaceBackground />
-        <main className="relative z-10">
+    <html lang="en" className="dark scroll-smooth">
+      <body className="antialiased">
+        {/* Layer 0: Background Layer (z-0) */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <LatentSpaceBackground />
+        </div>
+
+        {/* Layer 1: Content Layer (z-10) */}
+        <main className="relative z-10 min-h-screen">
           {children}
         </main>
-        <SystemCommandBar />
-        <DraggableTerminal />
+
+        {/* Layer 2: Overlay Layer (z-50) */}
+        <div className="cyber-grid" />
+        <div className="scanlines animate-crt-scanline" />
+        <div className="crt-overlay" />
       </body>
     </html>
   );
