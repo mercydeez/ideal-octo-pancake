@@ -49,7 +49,7 @@ export default function Blog() {
               </h3>
 
               <p className="text-white/40 font-mono text-xs leading-relaxed mb-8 line-clamp-3">
-                {"excerpt" in blog ? (blog as any).excerpt : (blog as any).description}
+                {blog.excerpt}
               </p>
             </div>
 

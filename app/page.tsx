@@ -3,6 +3,7 @@
 import { useState, useCallback, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Splash from "@/components/Splash";
+import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
@@ -36,6 +37,7 @@ export default function Home() {
             className="relative"
           >
             {/* Navigation & Progress */}
+            <Navbar />
             <ScrollProgress />
 
             {/* Main Content */}
