@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Terminal, Download, Rocket } from "lucide-react";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { useState } from "react";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Hero() {
   const containerVariants = {
@@ -83,9 +84,9 @@ export default function Hero() {
 
           {/* Glitch-like typography */}
           <h1 className="text-cyber text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-white mb-2 tracking-tighter drop-shadow-2xl flex flex-col">
-            <span>{PERSONAL_INFO.name.split(" ")[0]}</span>
+            <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
-              {PERSONAL_INFO.name.split(" ").slice(1).join(" ")}
+              <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
             </span>
           </h1>
 

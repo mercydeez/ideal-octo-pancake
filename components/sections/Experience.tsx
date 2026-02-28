@@ -3,8 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EXPERIENCE } from "@/lib/constants";
 import { useRef } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Experience() {
+  const sectionRef = useScrollReveal();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -14,7 +17,7 @@ export default function Experience() {
   const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="experience" className="py-12 md:py-16 px-6 max-w-7xl mx-auto overflow-x-hidden">
+    <section ref={sectionRef} id="experience" className="py-12 md:py-16 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +26,7 @@ export default function Experience() {
       >
         <p className="text-amber-400 font-mono text-[10px] md:text-sm tracking-widest mb-2 uppercase">[ PROFESSIONAL_TIMELINE ]</p>
         <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter">
-          THE <span className="text-amber-400 text-glow-amber">JOURNEY</span>
+          <ScrambleText text="THE " /><span className="text-amber-400 text-glow-amber"><ScrambleText text="JOURNEY" /></span>
         </h2>
       </motion.div>
 

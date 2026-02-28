@@ -4,9 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CERTIFICATIONS } from "@/lib/constants";
 import { Award, ExternalLink, FileText, X } from "lucide-react";
 import { useState } from "react";
+import { useStaggerReveal } from "@/hooks/useStaggerReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Certifications() {
   const [selectedPaper, setSelectedPaper] = useState<string | null>(null);
+  const gridRef = useStaggerReveal<HTMLDivElement>();
 
   // Separate the master card (Research Paper) from the rest
   const masterCard = CERTIFICATIONS.find(c => Boolean(c.paperUrl));
@@ -23,7 +26,7 @@ export default function Certifications() {
           className="mb-12 text-center"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-black text-white mb-4 uppercase">
-            CREDENTIALS <span className="text-amber">VAULT</span>
+            <ScrambleText text="CREDENTIALS " /><span className="text-amber"><ScrambleText text="VAULT" /></span>
           </h2>
           <p className="text-white/50 font-mono text-sm max-w-2xl mx-auto">
             [ SECURE_ACCESS: Authorized credentials, publications, and professional benchmarks. ]
@@ -31,7 +34,7 @@ export default function Certifications() {
         </motion.div>
 
         {/* Masonry / Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
 
           {/* MASTER CARD: Research Paper */}
           {masterCard && (

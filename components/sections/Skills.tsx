@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import { SKILLS } from "@/lib/constants";
+import { useStaggerReveal } from "@/hooks/useStaggerReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Skills() {
+  const sectionRef = useStaggerReveal<HTMLDivElement>(':scope > div');
   return (
     <section id="skills" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
@@ -14,11 +17,11 @@ export default function Skills() {
       >
         <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">[ TECHNICAL_TOOLKIT ]</p>
         <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
-          CORE <span className="text-cyan text-glow-cyan">POWERS</span>
+          <ScrambleText text="CORE " /><span className="text-cyan text-glow-cyan"><ScrambleText text="POWERS" /></span>
         </h2>
       </motion.div>
 
-      <div className="flex flex-col gap-12">
+      <div ref={sectionRef} className="flex flex-col gap-12">
         {Object.entries(SKILLS).map(([groupTitle, skillsList], groupIdx) => (
           <div key={groupTitle}>
             <h3 className="text-white/40 font-mono text-xs uppercase tracking-[0.4em] mb-6 flex items-center gap-4">

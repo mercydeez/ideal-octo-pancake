@@ -3,11 +3,14 @@
 import { motion } from "framer-motion";
 import { BLOGS } from "@/lib/constants";
 import { BookOpen, ArrowUpRight } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 // Medium icon via CDN
 
 export default function Blog() {
+  const sectionRef = useScrollReveal();
   return (
-    <section id="blog" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
+    <section ref={sectionRef} id="blog" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -18,7 +21,7 @@ export default function Blog() {
           [ KNOWLEDGE_BASE ]
         </p>
         <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter">
-          INSIGHT <span className="text-pink text-glow-pink">STREAMS</span>
+          <ScrambleText text="INSIGHT " /><span className="text-pink text-glow-pink"><ScrambleText text="STREAMS" /></span>
         </h2>
       </motion.div>
 

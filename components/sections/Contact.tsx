@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Terminal, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 const SOCIALS = [
   { name: "Email", value: "atharva3895@gmail.com", href: "mailto:atharva3895@gmail.com", color: "#FF6B35" },
@@ -23,6 +25,7 @@ const SOCIALS = [
 ];
 
 export default function Contact() {
+  const sectionRef = useScrollReveal();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [loading, setLoading] = useState(false);
 
@@ -49,7 +52,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
+    <section ref={sectionRef} id="contact" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         {/* Contact Info */}
@@ -61,7 +64,7 @@ export default function Contact() {
           <div className="mb-8 border-l-4 border-amber-500 pl-8">
             <p className="text-amber-400 font-mono text-sm tracking-widest mb-2 uppercase">[ TRANSMISSION_LINK ]</p>
             <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
-              OPEN <span className="text-amber-400 text-glow-amber">CHANNEL</span>
+              <ScrambleText text="OPEN " /><span className="text-amber-400 text-glow-amber"><ScrambleText text="CHANNEL" /></span>
             </h2>
           </div>
 
