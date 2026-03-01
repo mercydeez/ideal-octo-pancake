@@ -7,22 +7,7 @@ import { toast } from "sonner";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-const SOCIALS = [
-  { name: "Email", value: "atharva3895@gmail.com", href: "mailto:atharva3895@gmail.com", color: "#FF6B35" },
-  { name: "Phone", value: "+91-7798884495", href: "tel:+917798884495", color: "#00F0FF" },
-  {
-    name: "LinkedIn",
-    value: "atharva-soundankar",
-    href: "https://www.linkedin.com/in/atharva-soundankar/",
-    color: "#0A66C2",
-  },
-  {
-    name: "GitHub",
-    value: "mercydeez",
-    href: "https://github.com/mercydeez",
-    color: "#ffffff",
-  },
-];
+
 
 export default function Contact() {
   const sectionRef = useScrollReveal();
@@ -71,29 +56,6 @@ export default function Contact() {
           <p className="text-white/50 font-mono text-lg mb-12 max-w-md">
             Interested in collaborating on AI/ML projects or hiring a data specialist? Initialise a connection below.
           </p>
-
-          <div className="flex flex-col gap-4">
-            {SOCIALS.map((link, i) => (
-              <a
-                key={i}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 group cursor-pointer min-h-[44px]"
-              >
-                <div
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-sm font-bold font-mono transition-all group-hover:scale-110"
-                  style={{ color: link.color, borderColor: `${link.color}40` }}
-                >
-                  {link.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-white/30 font-mono text-[10px] uppercase tracking-widest">{link.name}</p>
-                  <p className="text-white font-mono text-sm group-hover:opacity-80 transition-opacity">{link.value}</p>
-                </div>
-              </a>
-            ))}
-          </div>
         </motion.div>
 
         {/* Terminal Form - FIX 4 */}

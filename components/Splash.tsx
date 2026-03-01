@@ -62,7 +62,7 @@ export default function Splash({ onComplete }: { onComplete: () => void }) {
                             animate={{ opacity: 1, x: 0 }}
                             className="text-xs md:text-sm text-cyan/70"
                         >
-                            <span className="text-pink mr-2"> {">"} </span>
+                            <span className="text-amber mr-2"> {">"} </span>
                             {line}
                         </motion.p>
                     ))}
@@ -81,36 +81,67 @@ export default function Splash({ onComplete }: { onComplete: () => void }) {
                         animate={{ opacity: 1 }}
                         className="mt-12 text-center"
                     >
-                        <p className="text-[10px] text-pink uppercase tracking-[0.5em] animate-pulse">
+                        <p className="text-[10px] text-amber uppercase tracking-[0.5em] animate-pulse">
                             [ ACCESS GRANTED ]
                         </p>
                     </motion.div>
                 )}
             </motion.div>
 
-            {/* Shatter Effect Background Elements */}
+            {/* Singularity / Neural Core Animation */}
             <AnimatePresence>
-                {index === BOOT_SEQUENCE.length && (
+                {index < BOOT_SEQUENCE.length + 1 && (
                     <motion.div
+                        className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute inset-0 pointer-events-none"
+                        exit={{ opacity: 0, scale: 3, transition: { duration: 1.2, ease: "easeInOut" } }}
                     >
-                        {[...Array(6)].map((_, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0 }}
-                                animate={{
-                                    opacity: [0, 1, 0],
-                                    scale: [0.8, 1.2],
-                                    rotate: i * 60
-                                }}
-                                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                                className="absolute inset-0 border border-cyan/10 rounded-full scale-110"
-                                style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)", scale: 0.5 + i * 0.2 }}
-                            />
-                        ))}
+                        {/* Core Glowing Orb */}
+                        <motion.div
+                            className="absolute rounded-full"
+                            style={{
+                                width: "200px",
+                                height: "200px",
+                                background: "radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(0,0,0,0) 70%)",
+                                border: "1px solid rgba(0,240,255,0.1)"
+                            }}
+                            animate={{
+                                scale: [1, 1.2, 1],
+                                rotate: [0, 90, 180]
+                            }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                        />
+
+                        {/* Outer Geometric Ring */}
+                        <motion.div
+                            className="absolute rounded-full"
+                            style={{
+                                width: "350px",
+                                height: "350px",
+                                border: "1px dashed rgba(255,107,53,0.15)"
+                            }}
+                            animate={{
+                                scale: [1, 0.95, 1],
+                                rotate: [180, 0, -180]
+                            }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                        />
+
+                        {/* Inner High-Energy Pulse */}
+                        <motion.div
+                            className="absolute rounded-full bg-cyan"
+                            style={{
+                                width: "4px",
+                                height: "4px",
+                                boxShadow: "0 0 20px 4px rgba(0,240,255,0.6)"
+                            }}
+                            animate={{
+                                opacity: [0.3, 1, 0.3],
+                                scale: [1, 1.5, 1]
+                            }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>

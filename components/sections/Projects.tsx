@@ -53,12 +53,12 @@ export default function Projects() {
           )}
 
           {filtered.map((project, i) => (
-            <FadeInUp key={project.name}>
+            <FadeInUp key={project.name} className="h-full">
               <motion.div
                 layout
                 whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
                 transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer"
+                className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer h-full flex flex-col justify-between"
                 onMouseEnter={() => {
                   setHoveringProject(true);
                 }}
@@ -87,11 +87,11 @@ export default function Projects() {
                 <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
                   {project.name}
                 </h3>
-                <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed">
+                <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed flex-grow">
                   {project.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tech.map((tag, idx) => (
                     <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
                       {tag}

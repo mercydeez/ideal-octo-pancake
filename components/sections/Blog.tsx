@@ -15,13 +15,13 @@ export default function Blog() {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="mb-16 border-r-4 border-pink pr-8 text-right"
+        className="mb-16 border-r-4 border-cyan pr-8 text-right"
       >
-        <p className="text-pink font-mono text-sm tracking-widest mb-2 uppercase">
+        <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">
           [ KNOWLEDGE_BASE ]
         </p>
         <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter">
-          <ScrambleText text="INSIGHT " /><span className="text-pink text-glow-pink"><ScrambleText text="STREAMS" /></span>
+          <ScrambleText text="INSIGHT " /><span className="text-cyan text-glow-cyan"><ScrambleText text="STREAMS" /></span>
         </h2>
       </motion.div>
 
@@ -33,21 +33,21 @@ export default function Blog() {
             target="_blank"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={!("comingSoon" in blog) ? { y: -10, boxShadow: "0 20px 40px -20px rgba(255,107,255,0.2)" } : {}}
+            whileHover={!("comingSoon" in blog) ? { y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.2)" } : {}}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className={`glass-card rounded-2xl p-8 border border-white/5 group hover:border-pink/30 transition-all flex flex-col justify-between ${!("comingSoon" in blog) ? "cursor-pointer" : "cursor-default opacity-50 pointer-events-none"}`}
+            className={`glass-card rounded-2xl p-8 border border-white/5 group hover:border-cyan/30 transition-all flex flex-col justify-between ${!("comingSoon" in blog) ? "cursor-pointer" : "cursor-default opacity-50 pointer-events-none"}`}
           >
             <div>
               <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2 text-pink font-mono text-[10px] uppercase tracking-widest">
+                <div className="flex items-center gap-2 text-cyan font-mono text-[10px] uppercase tracking-widest">
                   <BookOpen size={14} />
                   <span>{("tag" in blog) ? (blog as any).tag : `Research_Note_#${(i + 1).toString().padStart(2, '0')}`}</span>
                 </div>
                 {!("comingSoon" in blog) && <ArrowUpRight size={18} className="text-white/20 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-pink transition-colors leading-tight">
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan transition-colors leading-tight">
                 {blog.title}
               </h3>
 

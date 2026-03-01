@@ -108,7 +108,7 @@ export default function Certifications() {
           {standardCerts.map((cert, i) => (
             <FadeInUp key={i}>
               <motion.div
-                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group h-full"
+                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group"
                 style={{
                   background: "rgba(0,0,0,0.7)",
                   backdropFilter: "blur(20px)"
@@ -119,10 +119,12 @@ export default function Certifications() {
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="mb-4">
                     {("logo" in cert) ? (
-                      <img src={(cert as any).logo} alt={cert.issuer} width={24} height={24} />
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/10 p-1 flex items-center justify-center">
+                        <img src={(cert as any).logo} alt={cert.issuer} className="w-full h-full object-contain" />
+                      </div>
                     ) : ("monogram" in cert) ? (
                       <div
-                        className="w-8 h-8 rounded shrink-0 flex items-center justify-center font-bold text-sm"
+                        className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center font-bold text-sm"
                         style={{ backgroundColor: `${(cert as any).color}20`, color: (cert as any).color, border: `1px solid ${(cert as any).color}40` }}
                       >
                         {(cert as any).monogram}

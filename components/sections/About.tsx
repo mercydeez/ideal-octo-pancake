@@ -120,10 +120,14 @@ export default function About() {
               className="glass-card rounded-2xl p-6 border border-white/5 flex items-start gap-4 transition-colors hover:border-white/20"
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
-                style={{ background: `${edu.color}20`, color: edu.color, border: `1px solid ${edu.color}40` }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0 overflow-hidden"
+                style={{ background: `${edu.color}20`, border: `1px solid ${edu.color}40` }}
               >
-                {edu.monogram}
+                {edu.logo ? (
+                  <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain p-1" />
+                ) : (
+                  <span style={{ color: edu.color }}>{edu.monogram}</span>
+                )}
               </div>
               <div>
                 <p className="text-white/80 font-bold text-sm leading-tight mb-1">{edu.school}</p>
@@ -138,27 +142,6 @@ export default function About() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Learning Marquee */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="lg:col-span-3 bg-amber-500/5 border-y border-amber-500/10 py-6 overflow-hidden whitespace-nowrap"
-        >
-          <div className="animate-marquee gap-12 items-center text-amber-400 font-mono font-bold uppercase text-xs tracking-[0.2em] flex">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="flex gap-12 items-center">
-                {CURRENTLY_LEARNING.map((token, j) => (
-                  <span key={j} className="flex items-center gap-4">
-                    <span className="w-1.5 h-1.5 bg-amber-400 rounded-full shadow-[0_0_8px_#FF6B35]" />
-                    {token}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
         </motion.div>
 
       </div>

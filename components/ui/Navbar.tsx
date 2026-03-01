@@ -66,7 +66,7 @@ export default function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-2 group"
           >
-            <div className="w-10 h-10 rounded-lg border border-amber-500/40 flex items-center justify-center text-amber-500 font-bold text-lg group-hover:shadow-[0_0_15px_#FF6B3550] transition-all bg-[#030303]/90 backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+            <div className="w-10 h-10 rounded-lg border-2 border-amber flex items-center justify-center text-amber font-black text-lg shadow-[0_0_20px_#FF6B3580] bg-void group-hover:shadow-[0_0_30px_#FF6B35] group-hover:bg-amber group-hover:text-void transition-all duration-300">
               {PERSONAL_INFO.name.split(" ").map(w => w[0]).join("")}
             </div>
             <div className="hidden sm:block text-left">

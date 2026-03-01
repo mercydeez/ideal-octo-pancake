@@ -49,10 +49,14 @@ export default function Experience() {
           >
             {/* Timeline Dot */}
             <div
-              className="absolute -left-[41px] md:-left-[73px] top-0 w-10 h-10 rounded-full border-2 border-void z-10 flex items-center justify-center text-xs font-bold"
+              className="absolute -left-[41px] md:-left-[73px] top-0 w-10 h-10 rounded-full border-2 border-void z-10 flex items-center justify-center text-xs font-bold overflow-hidden"
               style={{ backgroundColor: exp.color, color: '#030303', boxShadow: `0 0 15px ${exp.color}80` }}
             >
-              {exp.monogram}
+              {(exp as any).logo ? (
+                <img src={(exp as any).logo} alt={exp.company} className="w-full h-full object-cover" />
+              ) : (
+                exp.monogram
+              )}
             </div>
 
             <div className="glass-card rounded-2xl p-8 border border-white/5 relative overflow-hidden group">

@@ -2,25 +2,25 @@
 
 import { motion } from "framer-motion";
 import { PERSONAL_INFO } from "@/lib/constants";
-import { ArrowUp } from "lucide-react";
+import { Github, Linkedin, Twitter, Database, BookOpen, Instagram, ArrowUp } from "lucide-react";
 
 const FOOTER_SOCIALS = [
-  { name: "GitHub", logo: "https://cdn.simpleicons.org/github/FFFFFF", href: "https://github.com/mercydeez" },
-  { name: "LinkedIn", logo: "https://cdn.simpleicons.org/linkedin/0A66C2", href: "https://www.linkedin.com/in/atharva-soundankar/" },
-  { name: "Twitter", logo: "https://cdn.simpleicons.org/x/FFFFFF", href: "https://x.com/Atharva3895" },
-  { name: "Kaggle", logo: "https://cdn.simpleicons.org/kaggle/20BEFF", href: "https://www.kaggle.com/atharvasoundankar" },
-  { name: "Medium", logo: "https://cdn.simpleicons.org/medium/FFFFFF", href: "https://medium.com/@atharva3895" },
-  { name: "Instagram", logo: "https://cdn.simpleicons.org/instagram/E4405F", href: "https://www.instagram.com/ai.with.atharva/" },
+  { name: "GitHub", icon: Github, href: "https://github.com/mercydeez" },
+  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/atharva-soundankar/" },
+  { name: "Twitter", icon: Twitter, href: "https://x.com/Atharva3895" },
+  { name: "Kaggle", icon: Database, href: "https://www.kaggle.com/atharvasoundankar" },
+  { name: "Medium", icon: BookOpen, href: "https://medium.com/@atharva3895" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/ai.with.atharva/" },
 ];
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative py-12 px-6 border-t border-white/5 bg-[#030303]">
+    <footer className="relative py-6 px-6 border-t border-white/5 bg-[#030303]">
       <div className="max-w-7xl mx-auto">
         {/* Main Row */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
           {/* Left: Branding */}
           <div className="flex items-center gap-4">
             <div
@@ -50,15 +50,7 @@ export default function Footer() {
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-amber-500/30 transition-all group min-h-[44px]"
                 title={s.name}
               >
-                <img
-                  src={s.logo}
-                  alt={s.name}
-                  width={20}
-                  height={20}
-                  className="object-contain opacity-60 group-hover:opacity-100 transition-opacity"
-                  loading="lazy"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
+                <s.icon size={20} className="text-white/60 group-hover:text-amber-500 transition-colors" />
               </a>
             ))}
           </div>
