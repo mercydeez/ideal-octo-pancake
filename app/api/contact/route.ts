@@ -1,11 +1,12 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  // Instantiate inside the handler so build phase never touches the API key
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   try {
     const { name, email, subject, message } = await req.json();
 
