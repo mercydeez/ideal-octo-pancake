@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { PERSONAL_INFO, CURRENTLY_LEARNING, EDUCATION, BIO, BIO_HIGHLIGHTED_WORDS } from "@/lib/constants";
+import { PERSONAL_INFO, BIO, BIO_HIGHLIGHTED_WORDS } from "@/lib/constants";
 import { Instagram } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
@@ -103,45 +103,6 @@ export default function About() {
           <p className="font-mono text-[10px] text-pink/80 mt-4 leading-relaxed relative z-10 px-4">
             Distilling complex Machine Learning architectures into accessible intelligence for the digital grid.
           </p>
-        </motion.div>
-
-        {/* Education Cards */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, delay: 0.2, type: "spring", bounce: 0.4 }}
-          className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4"
-        >
-          {EDUCATION.map((edu, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -5, scale: 1.02 }}
-              className="glass-card rounded-2xl p-6 border border-white/5 flex items-start gap-4 transition-colors hover:border-white/20"
-            >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0 overflow-hidden"
-                style={{ background: `${edu.color}20`, border: `1px solid ${edu.color}40` }}
-              >
-                {edu.logo ? (
-                  <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain p-1" />
-                ) : (
-                  <span style={{ color: edu.color }}>{edu.monogram}</span>
-                )}
-              </div>
-              <div>
-                <p className="text-white/80 font-bold text-sm leading-tight mb-1">{edu.school}</p>
-                <p className="text-white/40 font-mono text-xs mb-1">{edu.degree}</p>
-                <p className="text-white/30 font-mono text-[10px]">{edu.duration}</p>
-                <span
-                  className="text-[9px] font-mono px-2 py-0.5 rounded mt-2 inline-block"
-                  style={{ background: `${edu.color}20`, color: edu.color }}
-                >
-                  {edu.grade}
-                </span>
-              </div>
-            </motion.div>
-          ))}
         </motion.div>
 
       </div>

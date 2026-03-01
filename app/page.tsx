@@ -7,6 +7,7 @@ import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
+import Education from "@/components/sections/Education";
 import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
@@ -53,6 +54,8 @@ export default function Home() {
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
                 <About />
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-pink/30 to-transparent" />
+                <Education />
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
                 <Skills />
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
                 <Projects />

@@ -317,6 +317,7 @@ export const SKILLS = {
 
 export const NAV_LINKS = [
   { label: "About", href: "#about" },
+  { label: "Education", href: "#education" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },

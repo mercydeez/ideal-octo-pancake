@@ -29,18 +29,20 @@ export default function Skills() {
         className="w-full bg-amber-500/5 border-y border-amber-500/10 py-3 overflow-hidden whitespace-nowrap mb-8"
       >
         <div className="flex items-center">
-          <span className="text-amber-400 font-mono text-[10px] font-bold uppercase tracking-widest px-4 border-r border-amber-500/30 shrink-0">CURRENTLY MASTERING</span>
-          <div className="animate-marquee gap-10 items-center text-amber-400 font-mono font-bold uppercase text-[10px] tracking-[0.15em] flex ml-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="flex gap-10 items-center">
-                {CURRENTLY_LEARNING.map((token, j) => (
-                  <span key={j} className="flex items-center gap-3">
-                    <span className="w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_6px_#FF6B35]" />
-                    {token}
-                  </span>
-                ))}
-              </div>
-            ))}
+          <span className="text-amber-400 font-mono text-[10px] font-bold uppercase tracking-widest px-4 border-r border-amber-500/30 shrink-0 z-10 bg-[#030303] relative">CURRENTLY MASTERING</span>
+          <div className="overflow-hidden flex-1">
+            <div className="animate-marquee gap-10 items-center text-amber-400 font-mono font-bold uppercase text-[10px] tracking-[0.15em] flex ml-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex gap-10 items-center">
+                  {CURRENTLY_LEARNING.map((token, j) => (
+                    <span key={j} className="flex items-center gap-3">
+                      <span className="w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_6px_#FF6B35]" />
+                      {token}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </motion.div>
