@@ -43,6 +43,7 @@ const vertexShader = /* glsl */ `
 
 // ─── GLSL Fragment Shader ──────────────────────────────────────────────────
 const fragmentShader = /* glsl */ `
+  uniform float uCameraZ;
   varying vec3 vColor;
   varying float vAlpha;
 
@@ -56,7 +57,10 @@ const fragmentShader = /* glsl */ `
     float strength = 1.0 - (dist * 2.0);
     strength = pow(strength, 4.0); // sharper falloff = less halo bleed
 
-    gl_FragColor = vec4(vColor, strength * vAlpha * 0.55); // global opacity clamp
+    // Distance fade (fades out rapidly as camera flies past Z=-20 down to -100)
+    float fade = smoothstep(-100.0, -20.0, uCameraZ);
+
+    gl_FragColor = vec4(vColor, strength * vAlpha * 0.55 * fade); // global opacity clamp
   }
 `;
 
@@ -116,15 +120,17 @@ function buildGalaxy(count: number, arms: number, spin: number, randomness: numb
 }
 
 // ─── Component ────────────────────────────────────────────────────────────
-export default function GalaxyBackground() {
+export default function GalaxyBackground({ isMobile = false }) {
     const isHoveringProject = useStore((state) => state.isHoveringProject);
     const groupRef = useRef<THREE.Group>(null!);
     const shaderRef = useRef<THREE.ShaderMaterial>(null!);
 
-    // Build galaxy once
+    // Build galaxy once — scale down massively on mobile
+    const particleCount = isMobile ? 12_000 : 80_000;
+
     const { positions, colors, sizes } = useMemo(
-        () => buildGalaxy(80_000, 3, 0.55, 0.5),
-        []
+        () => buildGalaxy(particleCount, 3, 0.55, 0.5),
+        [particleCount]
     );
 
     // Smooth refs for interpolation
@@ -148,6 +154,7 @@ export default function GalaxyBackground() {
         if (shaderRef.current) {
             shaderRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
             shaderRef.current.uniforms.uScrollY.value = scrollY.current;
+            shaderRef.current.uniforms.uCameraZ.value = state.camera.position.z;
         }
     });
 
@@ -170,6 +177,7 @@ export default function GalaxyBackground() {
                         uTime: { value: 0 },
                         uSpin: { value: 0.55 },
                         uScrollY: { value: 0 },
+                        uCameraZ: { value: 35 },
                     }}
                     transparent
                     depthWrite={false}

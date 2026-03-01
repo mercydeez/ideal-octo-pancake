@@ -6,13 +6,12 @@ import { useState } from "react";
 import { Github, ExternalLink, Cpu, Database, Globe } from "lucide-react";
 import ProjectExpanded from "@/components/ui/ProjectExpanded";
 import { useStore } from "@/lib/store";
-import { useStaggerReveal } from "@/hooks/useStaggerReveal";
+import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("All");
   const setHoveringProject = useStore((state) => state.setHoveringProject);
-  const gridRef = useStaggerReveal<HTMLDivElement>();
 
   const filtered = activeFilter === "All"
     ? PROJECTS.filter(p => !p.featured)
@@ -47,65 +46,63 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {(activeFilter === "All" || activeFilter === "Big Data" || activeFilter === "AI/ML") && (
             <ProjectExpanded />
           )}
 
           {filtered.map((project, i) => (
-            <motion.div
-              key={i}
-              layout
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-              className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer"
-              onMouseEnter={() => {
-                setHoveringProject(true);
-              }}
-              onMouseLeave={() => {
-                setHoveringProject(false);
-              }}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
-                  {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
-                    project.category?.includes("Big Data") ? <Database size={24} /> :
-                      <Globe size={24} />}
-                </div>
-                <div className="flex gap-4">
-                  <a href={project.github} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
-                    <Github size={20} />
-                  </a>
-                  {project.live && (
-                    <a href={project.live} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
-                      <ExternalLink size={20} />
+            <FadeInUp key={project.name}>
+              <motion.div
+                layout
+                whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
+                transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
+                className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer"
+                onMouseEnter={() => {
+                  setHoveringProject(true);
+                }}
+                onMouseLeave={() => {
+                  setHoveringProject(false);
+                }}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
+                    {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
+                      project.category?.includes("Big Data") ? <Database size={24} /> :
+                        <Globe size={24} />}
+                  </div>
+                  <div className="flex gap-4">
+                    <a href={project.github} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
+                      <Github size={20} />
                     </a>
-                  )}
+                    {project.live && (
+                      <a href={project.live} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
+                        <ExternalLink size={20} />
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
-                {project.name}
-              </h3>
-              <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed">
-                {project.description}
-              </p>
+                <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
+                  {project.name}
+                </h3>
+                <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed">
+                  {project.description}
+                </p>
 
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((tag, idx) => (
-                  <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tag, idx) => (
+                    <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </FadeInUp>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
-    </section>
+    </section >
   );
 }

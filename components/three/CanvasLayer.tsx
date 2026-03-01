@@ -1,16 +1,19 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import GalaxyBackground from "@/components/three/GalaxyBackground";
 import Starfield from "@/components/three/Starfield";
 import Nebula from "@/components/three/Nebula";
 import BlackHole from "@/components/three/BlackHole";
 import * as THREE from "three";
+import { useEffect, useState } from "react";
 
-// ─── Scroll-Driven Camera Controller ───────────────────────────────────────
+// ─── Scroll & Mouse Driven Camera Controller ───────────────────────────────
 function UniverseCamera() {
-    useFrame((state) => {
+    const { pointer } = useThree(); // Gets normalized device coordinates (-1 to +1)
+
+    useFrame((state, delta) => {
         const scrollY = window.scrollY;
         const maxScroll = Math.max(
             document.documentElement.scrollHeight - window.innerHeight,
@@ -18,86 +21,100 @@ function UniverseCamera() {
         );
         const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
 
-        // Define the journey path through Z-space:
-        // Hero (0)     : Z = 35 (Looking at Galaxy)
-        // About (0.2)  : Z = 0  (Inside Galaxy core)
-        // Skills (0.5) : Z = -120 (Approaching Nebula)
-        // Proj (0.75)  : Z = -320 (Approaching Black Hole)
-        // Footer (1.0) : Z = -450 (Deep space beyond)
-
+        // Z-Depth Journey
         let targetZ = 35;
         if (progress < 0.2) {
-            // 0 -> 0.2: Fly to Galaxy
-            const p = progress / 0.2;
-            targetZ = THREE.MathUtils.lerp(35, -20, p);
+            targetZ = THREE.MathUtils.lerp(35, -20, progress / 0.2);
         } else if (progress < 0.5) {
-            // 0.2 -> 0.5: Galaxy to Nebula
-            const p = (progress - 0.2) / 0.3;
-            targetZ = THREE.MathUtils.lerp(-20, -120, p);
+            targetZ = THREE.MathUtils.lerp(-20, -120, (progress - 0.2) / 0.3);
         } else if (progress < 0.75) {
-            // 0.5 -> 0.75: Nebula to Black Hole
-            const p = (progress - 0.5) / 0.25;
-            targetZ = THREE.MathUtils.lerp(-120, -320, p);
+            targetZ = THREE.MathUtils.lerp(-120, -320, (progress - 0.5) / 0.25);
         } else {
-            // 0.75 -> 1.0: Black Hole to Deep Space Footer
-            const p = (progress - 0.75) / 0.25;
-            targetZ = THREE.MathUtils.lerp(-320, -450, p);
+            targetZ = THREE.MathUtils.lerp(-320, -450, (progress - 0.75) / 0.25);
         }
 
-        // Tilt down slightly as we dive deeper
-        const targetRotX = THREE.MathUtils.lerp(0.0, 0.25, progress);
+        // Base Rotation (Tilt down as we dive)
+        const baseRotX = THREE.MathUtils.lerp(0.0, 0.25, progress);
 
-        state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, 0.05);
-        state.camera.rotation.x = THREE.MathUtils.lerp(state.camera.rotation.x, targetRotX, 0.05);
-
-        // Organic drift
+        // Organic Time Drift
         const time = state.clock.getElapsedTime();
-        state.camera.position.x = Math.sin(time * 0.2) * 2;
-        state.camera.position.y = Math.cos(time * 0.3) * 1 + 8;
+        const driftX = Math.sin(time * 0.2) * 2;
+        const driftY = Math.cos(time * 0.3) * 1 + 8; // Base height of 8
+
+        // Mouse Parallax Offsets
+        // Pointer is -1 to 1. We multiply by a factor to get world space travel.
+        // It's inverted so the camera moves *away* from the mouse, creating 3D depth
+        const parallaxX = pointer.x * -3;
+        const parallaxY = pointer.y * -3;
+
+        // Also twist the camera array slightly based on mouse X for a banking effect
+        const parallaxRotY = pointer.x * -0.05;
+
+        // Apply with smooth lerping (using delta for framerate independence)
+        const lerpFactor = 2.5 * delta;
+        state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, lerpFactor * 2);
+        state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, driftX + parallaxX, lerpFactor);
+        state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, driftY + parallaxY, lerpFactor);
+
+        state.camera.rotation.x = THREE.MathUtils.lerp(state.camera.rotation.x, baseRotX, lerpFactor * 2);
+        state.camera.rotation.y = THREE.MathUtils.lerp(state.camera.rotation.y, parallaxRotY, lerpFactor);
     });
     return null;
 }
 
 // ─── Main Scene ────────────────────────────────────────────────────────────
 export default function CanvasLayer() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Simple client-side check for low-end/mobile devices
+        const checkMobile = () => setIsMobile(window.innerWidth < 768 || navigator.hardwareConcurrency <= 4);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // If mobile, we slash the particle counts and disable heavy shaders
+    const starCount = isMobile ? 4000 : 15000;
+    const showHeavyShaders = !isMobile;
+
     return (
         <Canvas
             camera={{ position: [0, 8, 35], fov: 55 }}
-            dpr={[1, 1.5]}
+            dpr={[1, 1.5]} // Cap DPR to 1.5 to save fill rate
             gl={{ antialias: false, powerPreference: "high-performance" }}
         >
             <color attach="background" args={["#030303"]} />
 
-            {/* Scroll-driven observer */}
+            {/* Scroll & Mouse observer */}
             <UniverseCamera />
 
             <ambientLight intensity={0.1} />
 
-            {/* Zone 1: The Warp Tunnel (Deep Space) */}
-            <Starfield count={15000} depth={500} />
+            {/* Zone 1: The Warp Tunnel */}
+            <Starfield count={starCount} depth={500} />
 
             {/* Zone 2: The Galaxy (Z=0) */}
-            <GalaxyBackground />
+            <GalaxyBackground isMobile={isMobile} />
 
-            {/* Zone 3: The Nebula (Z=-150) */}
-            <Nebula position={[0, 0, -150]} />
+            {/* Zone 3 & 4: Heavy Volumetrics (Disabled on Mobile) */}
+            {showHeavyShaders && (
+                <>
+                    <Nebula position={[0, 0, -150]} />
+                    <BlackHole position={[0, -5, -350]} />
 
-            {/* Zone 4: The Black Hole (Z=-350) */}
-            <BlackHole position={[0, -5, -350]} />
-
-            {/* Post Processing */}
-            <EffectComposer>
-                <Bloom
-                    luminanceThreshold={0.15}
-                    luminanceSmoothing={0.9}
-                    mipmapBlur
-                    intensity={0.8}
-                />
-                <Vignette
-                    offset={0.3}
-                    darkness={0.98}
-                />
-            </EffectComposer>
+                    {/* Post Processing only needed when glowing heavy elements exist */}
+                    <EffectComposer>
+                        <Bloom
+                            luminanceThreshold={0.15}
+                            luminanceSmoothing={0.9}
+                            mipmapBlur
+                            intensity={0.8}
+                        />
+                        <Vignette offset={0.3} darkness={0.98} />
+                    </EffectComposer>
+                </>
+            )}
         </Canvas>
     );
 }

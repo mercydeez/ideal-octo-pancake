@@ -4,12 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CERTIFICATIONS } from "@/lib/constants";
 import { Award, ExternalLink, FileText, X } from "lucide-react";
 import { useState } from "react";
-import { useStaggerReveal } from "@/hooks/useStaggerReveal";
+import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Certifications() {
   const [selectedPaper, setSelectedPaper] = useState<string | null>(null);
-  const gridRef = useStaggerReveal<HTMLDivElement>();
 
   // Separate the master card (Research Paper) from the rest
   const masterCard = CERTIFICATIONS.find(c => Boolean(c.paperUrl));
@@ -34,129 +33,128 @@ export default function Certifications() {
         </motion.div>
 
         {/* Masonry / Grid Layout */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
 
           {/* MASTER CARD: Research Paper */}
           {masterCard && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-              className="md:col-span-2 md:row-span-2 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
-              style={{ background: "rgba(0,0,0,0.85)" }}
-            >
-              {/* Special Glass Texture & Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber/10 to-transparent opacity-50 pointer-events-none" />
-              <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber/20 blur-[100px] pointer-events-none" />
+            <FadeInUp>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
+                className="md:col-span-2 md:row-span-2 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
+                style={{ background: "rgba(0,0,0,0.85)" }}
+              >
+                {/* Special Glass Texture & Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber/10 to-transparent opacity-50 pointer-events-none" />
+                <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber/20 blur-[100px] pointer-events-none" />
 
-              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 bg-amber/10 border border-amber/30 rounded-xl">
-                      <FileText size={24} className="text-amber animate-pulse" />
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-3 bg-amber/10 border border-amber/30 rounded-xl">
+                        <FileText size={24} className="text-amber animate-pulse" />
+                      </div>
+                      <span className="text-amber font-mono text-xs tracking-[0.2em]">
+                        [ MASTER DOC: {(masterCard as any).badge} ]
+                      </span>
                     </div>
-                    <span className="text-amber font-mono text-xs tracking-[0.2em]">
-                      [ MASTER DOC: {(masterCard as any).badge} ]
-                    </span>
+
+                    <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 uppercase tracking-tighter leading-tight">
+                      {masterCard.title}
+                    </h3>
+
+                    <p className="text-white/60 font-mono text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+                      {masterCard.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 uppercase tracking-tighter leading-tight">
-                    {masterCard.title}
-                  </h3>
-
-                  <p className="text-white/60 font-mono text-sm md:text-base leading-relaxed mb-8 max-w-xl">
-                    {masterCard.description}
-                  </p>
-                </div>
-
-                <div className="flex gap-4 mt-auto">
-                  <button
-                    onClick={() => setSelectedPaper(masterCard.paperUrl || null)}
-                    className="flex items-center gap-2 text-void bg-amber hover:bg-white px-6 py-3 font-mono text-xs font-bold transition-colors"
-                  >
-                    <ExternalLink size={16} /> VIEW_PUBLICATION
-                  </button>
-                  <button
-                    onClick={() => {
-                      if ("citation" in masterCard) {
-                        navigator.clipboard.writeText((masterCard as any).citation as string);
-                        alert("Citation copied to clipboard!");
-                      }
-                    }}
-                    className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-6 py-3 font-mono text-xs transition-colors bg-amber/5"
-                  >
-                    <FileText size={16} /> CITE_SOURCE
-                  </button>
-                  {("certUrl" in masterCard) && (
-                    <a
-                      href={(masterCard as any).certUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors"
+                  <div className="flex gap-4 mt-auto">
+                    <button
+                      onClick={() => setSelectedPaper(masterCard.paperUrl || null)}
+                      className="flex items-center gap-2 text-void bg-amber hover:bg-white px-6 py-3 font-mono text-xs font-bold transition-colors"
                     >
-                      <Award size={16} /> VERIFY_CERT
-                    </a>
-                  )}
+                      <ExternalLink size={16} /> VIEW_PUBLICATION
+                    </button>
+                    <button
+                      onClick={() => {
+                        if ("citation" in masterCard) {
+                          navigator.clipboard.writeText((masterCard as any).citation as string);
+                          alert("Citation copied to clipboard!");
+                        }
+                      }}
+                      className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-6 py-3 font-mono text-xs transition-colors bg-amber/5"
+                    >
+                      <FileText size={16} /> CITE_SOURCE
+                    </button>
+                    {("certUrl" in masterCard) && (
+                      <a
+                        href={(masterCard as any).certUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors"
+                      >
+                        <Award size={16} /> VERIFY_CERT
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </FadeInUp>
           )}
 
           {/* STANDARD CARDS */}
           {standardCerts.map((cert, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group"
-              style={{
-                background: "rgba(0,0,0,0.7)",
-                backdropFilter: "blur(20px)"
-              }}
-            >
-              <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)" }} />
+            <FadeInUp key={i}>
+              <motion.div
+                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group h-full"
+                style={{
+                  background: "rgba(0,0,0,0.7)",
+                  backdropFilter: "blur(20px)"
+                }}
+              >
+                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)" }} />
 
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="mb-4">
-                  {("logo" in cert) ? (
-                    <img src={(cert as any).logo} alt={cert.issuer} width={24} height={24} />
-                  ) : ("monogram" in cert) ? (
-                    <div
-                      className="w-8 h-8 rounded shrink-0 flex items-center justify-center font-bold text-sm"
-                      style={{ backgroundColor: `${(cert as any).color}20`, color: (cert as any).color, border: `1px solid ${(cert as any).color}40` }}
-                    >
-                      {(cert as any).monogram}
-                    </div>
-                  ) : <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />}
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="mb-4">
+                    {("logo" in cert) ? (
+                      <img src={(cert as any).logo} alt={cert.issuer} width={24} height={24} />
+                    ) : ("monogram" in cert) ? (
+                      <div
+                        className="w-8 h-8 rounded shrink-0 flex items-center justify-center font-bold text-sm"
+                        style={{ backgroundColor: `${(cert as any).color}20`, color: (cert as any).color, border: `1px solid ${(cert as any).color}40` }}
+                      >
+                        {(cert as any).monogram}
+                      </div>
+                    ) : <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />}
+                  </div>
+
+                  <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight mt-2">
+                    {cert.title}
+                  </h3>
+                  <p className="text-white/40 text-xs font-mono line-clamp-3 mb-6 leading-relaxed">
+                    {cert.description}
+                  </p>
+
+                  <div className="mt-auto">
+                    {cert.verifyUrl && (
+                      <a
+                        href={cert.verifyUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10 inline-flex"
+                      >
+                        DECRYPT_RECORD <ExternalLink size={12} />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight mt-2">
-                  {cert.title}
-                </h3>
-                <p className="text-white/40 text-xs font-mono line-clamp-3 mb-6 leading-relaxed">
-                  {cert.description}
-                </p>
-
-                <div className="mt-auto">
-                  {cert.verifyUrl && (
-                    <a
-                      href={cert.verifyUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10 inline-flex"
-                    >
-                      DECRYPT_RECORD <ExternalLink size={12} />
-                    </a>
-                  )}
-                </div>
-              </div>
-
-            </motion.div>
+              </motion.div>
+            </FadeInUp>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
 
       {/* TACTICAL MODAL FOR PUBLICATION */}

@@ -20,6 +20,7 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uColorBase;
   uniform vec3 uColorAccent;
   uniform float uHoverIntensity;
+  uniform float uCameraZ;
   
   varying vec2 vUv;
 
@@ -91,8 +92,14 @@ const fragmentShader = /* glsl */ `
     float alphaMask = smoothstep(0.5, 0.2, dist); // Fade out from center to edge
 
     // Final color and alpha output
-    float alpha = f * alphaMask * 0.6; // Scale down overall opacity
-    gl_FragColor = vec4(color, alpha);
+    float fadeStart = 1.0 - smoothstep(-100.0, -20.0, uCameraZ); // Fades in as camera descends to -100
+    float fadeEnd = smoothstep(-280.0, -200.0, uCameraZ); // Fades out as camera passes -200 down to -280
+    
+    // Tone adjustments for realism: deeper space purples and cyan mix
+    vec3 realColor = mix(color, vec3(0.3, 0.0, 0.6), 0.3);
+
+    float alpha = f * alphaMask * 0.8 * fadeStart * fadeEnd; // Scale overall opacity
+    gl_FragColor = vec4(realColor, alpha);
   }
 `;
 
@@ -101,13 +108,13 @@ export default function Nebula({ position = [0, 0, 0] }: { position?: [number, n
   const shaderRef = useRef<THREE.ShaderMaterial>(null!);
   const hoverValue = useRef(0);
 
-  // Memoize geometry and uniform colors
-  const planeGeo = useMemo(() => new THREE.PlaneGeometry(80, 80), []);
+  // Memoize uniform colors
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uColorBase: { value: new THREE.Color("#05081c") }, // Deep violet void
     uColorAccent: { value: new THREE.Color("#00F0FF") }, // Cyan gas
     uHoverIntensity: { value: 0 },
+    uCameraZ: { value: 35 },
   }), []);
 
   useFrame((state, delta) => {
@@ -120,11 +127,12 @@ export default function Nebula({ position = [0, 0, 0] }: { position?: [number, n
     const targetHover = isHoveringProject ? 1.0 : 0.0;
     hoverValue.current = THREE.MathUtils.lerp(hoverValue.current, targetHover, delta * 3);
     shaderRef.current.uniforms.uHoverIntensity.value = hoverValue.current;
+    shaderRef.current.uniforms.uCameraZ.value = state.camera.position.z;
   });
 
   return (
-    <mesh position={new THREE.Vector3(...position)} >
-      <primitive object={planeGeo} attach="geometry" />
+    <mesh position={position} >
+      <planeGeometry args={[80, 80]} />
       <shaderMaterial
         ref={shaderRef}
         vertexShader={vertexShader}

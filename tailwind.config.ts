@@ -10,7 +10,11 @@ module.exports = {
       colors: {
         void: "#030303",
         cyan: "#00F0FF",
-        amber: "#FF6B35",
+        amber: {
+          DEFAULT: "#FF6B35",
+          400: "#FF6B35",
+          500: "#FF6B35",
+        },
         military: "#1a1c1a",
       },
       fontFamily: {

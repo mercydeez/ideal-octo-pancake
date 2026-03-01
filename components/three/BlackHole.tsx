@@ -18,6 +18,7 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   uniform float uTime;
   uniform float uHoverIntensity;
+  uniform float uCameraZ;
   varying vec2 vUv;
 
   // 2D Rotation Helper
@@ -35,10 +36,11 @@ const fragmentShader = /* glsl */ `
 
     // Event Horizon (perfectly black)
     float horizonSize = 0.25;
+    float fadeStart = 1.0 - smoothstep(-280.0, -200.0, uCameraZ);
     
     // If inside event horizon, absolute black void
     if (d < horizonSize) {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); // pure black hole
+        gl_FragColor = vec4(0.0, 0.0, 0.0, fadeStart); // purely black hole
         return;
     }
 
@@ -55,20 +57,21 @@ const fragmentShader = /* glsl */ `
     float noise = sin(angle * 6.0 + d * 20.0 - uTime * 4.0) * 0.5 + 0.5;
     
     // Plasma colors (Amber to Cyan on edges)
-    vec3 colorCore = vec3(1.0, 0.4, 0.0); // Bright orange/amber
-    vec3 colorEdge = vec3(0.0, 0.9, 1.0); // Cyan glow
+    float lensedD = pow(d, 0.7); // Gravitational lensing distortion
+    vec3 colorCore = vec3(1.0, 0.5, 0.0); // Bright golden/orange core (realistic accretion)
+    vec3 colorEdge = vec3(0.0, 0.8, 1.0); // Cyan glow
     
-    vec3 plasmaColor = mix(colorCore, colorEdge, pow(d * 1.5, 2.0));
+    vec3 plasmaColor = mix(colorCore, colorEdge, pow(lensedD * 1.5, 2.0));
     
     // Intensify when project is hovered
     float glow = (uHoverIntensity * 0.5 + 1.0) * discIntensity * (noise * 0.6 + 0.4);
 
-    vec3 finalColor = plasmaColor * glow * 2.0;
+    vec3 finalColor = plasmaColor * glow * 2.5; // Boosted brightness
     
     // Additive alpha falloff
-    float alpha = discIntensity * 1.5;
+    float alpha = discIntensity * 1.5 * fadeStart;
 
-    gl_FragColor = vec4(finalColor, min(alpha, 1.0));
+    gl_FragColor = vec4(finalColor * fadeStart, min(alpha, 1.0));
   }
 `;
 
@@ -82,6 +85,7 @@ export default function BlackHole({ position = [0, 0, 0] }: { position?: [number
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uHoverIntensity: { value: 0 },
+    uCameraZ: { value: 35 },
   }), []);
 
   useFrame((state, delta) => {
@@ -94,6 +98,7 @@ export default function BlackHole({ position = [0, 0, 0] }: { position?: [number
     const targetHover = isHoveringProject ? 1.0 : 0.0;
     hoverValue.current = THREE.MathUtils.lerp(hoverValue.current, targetHover, delta * 3);
     shaderRef.current.uniforms.uHoverIntensity.value = hoverValue.current;
+    shaderRef.current.uniforms.uCameraZ.value = state.camera.position.z;
   });
 
   return (

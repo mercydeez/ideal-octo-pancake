@@ -32,41 +32,42 @@ export const metadata = {
   },
 };
 
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable} scroll-smooth`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable}`}>
       <body className="antialiased bg-void selection:bg-cyan/30 text-white">
 
-        <SmoothScroll />
+        <SmoothScrollProvider>
 
-        {/* =======================================================
+          {/* =======================================================
             PHYSICAL LAYER (z-0): Persistent WebGL Context
             ======================================================= */}
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <CanvasLayer />
-        </div>
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <CanvasLayer />
+          </div>
 
-        {/* =======================================================
+          {/* =======================================================
             SPOTLIGHT LAYER (z-1): Mouse-Following Gradient
             ======================================================= */}
-        <MouseSpotlight />
+          <MouseSpotlight />
 
-        {/* =======================================================
+          {/* =======================================================
             TERMINAL LAYER (z-10): React UI & Content
             ======================================================= */}
-        <main className="relative z-10 w-full min-h-screen">
-          {children}
-        </main>
+          <main className="relative z-10 w-full min-h-screen">
+            {children}
+          </main>
 
-        {/* =======================================================
+          {/* =======================================================
             HUD LAYER (z-50): Diagnostics & Overlays
             ======================================================= */}
-        <CustomCursor />
-        <CommandBar />
-        <SystemLog />
-        <div className="crt-overlay" />
-        <div className="scanlines" />
-
+          <CustomCursor />
+          <CommandBar />
+          <SystemLog />
+          <div className="crt-overlay" />
+        </SmoothScrollProvider>
       </body>
     </html>
   );
