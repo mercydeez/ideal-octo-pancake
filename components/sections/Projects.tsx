@@ -1,17 +1,18 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { PROJECTS, PROJECT_FILTERS, type ProjectCategory } from "@/lib/constants";
 import { useState } from "react";
 import { Github, ExternalLink, Cpu, Database, Globe } from "lucide-react";
 import ProjectExpanded from "@/components/ui/ProjectExpanded";
-import { useStore } from "@/lib/store";
+import { useStore, useCursorStore } from "@/lib/store";
 import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-export default function Projects() {
+const Projects = React.memo(function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("All");
   const setHoveringProject = useStore((state) => state.setHoveringProject);
+  const setCursorVariant = useCursorStore((state) => state.setCursorVariant);
 
   const filtered = activeFilter === "All"
     ? PROJECTS.filter(p => !p.featured)
@@ -61,9 +62,11 @@ export default function Projects() {
                 className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer h-full flex flex-col justify-between"
                 onMouseEnter={() => {
                   setHoveringProject(true);
+                  setCursorVariant('targeting');
                 }}
                 onMouseLeave={() => {
                   setHoveringProject(false);
+                  setCursorVariant('default');
                 }}
               >
                 <div className="flex items-center justify-between mb-6">
@@ -103,6 +106,8 @@ export default function Projects() {
           ))}
         </StaggerContainer>
       </div>
-    </section >
+    </section>
   );
-}
+});
+
+export default Projects;

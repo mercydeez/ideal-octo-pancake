@@ -1,14 +1,16 @@
 "use client";
-
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CERTIFICATIONS } from "@/lib/constants";
 import { Award, ExternalLink, FileText, X } from "lucide-react";
 import { useState } from "react";
 import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
+import { useCursorHover } from "@/hooks/useCursorHover";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-export default function Certifications() {
+const Certifications = React.memo(function Certifications() {
   const [selectedPaper, setSelectedPaper] = useState<string | null>(null);
+  const cursorProps = useCursorHover();
 
   // Separate the master card (Research Paper) from the rest
   const masterCard = CERTIFICATIONS.find(c => Boolean(c.paperUrl));
@@ -45,6 +47,7 @@ export default function Certifications() {
                 transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
                 className="md:col-span-2 md:row-span-2 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
                 style={{ background: "rgba(0,0,0,0.85)" }}
+                {...cursorProps}
               >
                 {/* Special Glass Texture & Glow */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber/10 to-transparent opacity-50 pointer-events-none" />
@@ -108,6 +111,7 @@ export default function Certifications() {
           {standardCerts.map((cert, i) => (
             <FadeInUp key={i}>
               <motion.div
+                {...cursorProps}
                 className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group"
                 style={{
                   background: "rgba(0,0,0,0.7)",
@@ -209,4 +213,6 @@ export default function Certifications() {
       </AnimatePresence>
     </section>
   );
-}
+});
+
+export default Certifications;

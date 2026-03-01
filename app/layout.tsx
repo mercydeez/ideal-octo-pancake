@@ -4,7 +4,6 @@ import CanvasLayer from "@/components/three/CanvasLayer";
 import SystemLog from "@/components/ui/SystemLog";
 import CommandBar from "@/components/ui/CommandBar";
 import CustomCursor from "@/components/ui/CustomCursor";
-import SmoothScroll from "@/components/ui/SmoothScroll";
 import MouseSpotlight from "@/components/ui/MouseSpotlight";
 
 // Cyber Typography

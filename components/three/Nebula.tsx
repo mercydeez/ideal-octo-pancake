@@ -19,37 +19,28 @@ const fragmentShader = /* glsl */ `
   uniform float uTime;
   uniform vec3 uColorBase;
   uniform vec3 uColorAccent;
+  uniform vec3 uColorPurple;
   uniform float uHoverIntensity;
   uniform float uCameraZ;
   
   varying vec2 vUv;
 
-  // 2D Random
+  // ... noise functions same ...
   float random (in vec2 st) {
       return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
   }
 
-  // 2D Noise based on Morgan McGuire @morgan3d
   float noise (in vec2 st) {
       vec2 i = floor(st);
       vec2 f = fract(st);
-
-      // Four corners in 2D of a tile
       float a = random(i);
       float b = random(i + vec2(1.0, 0.0));
       float c = random(i + vec2(0.0, 1.0));
       float d = random(i + vec2(1.0, 1.0));
-
-      // Smooth Interpolation
       vec2 u = f*f*(3.0-2.0*f);
-
-      // Mix 4 corners percentages
-      return mix(a, b, u.x) +
-              (c - a)* u.y * (1.0 - u.x) +
-              (d - b) * u.x * u.y;
+      return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
   }
 
-  // Fractional Brownian Motion
   float fbm (in vec2 st) {
       float value = 0.0;
       float amplitude = .5;
@@ -64,42 +55,34 @@ const fragmentShader = /* glsl */ `
   }
 
   void main() {
-    vec2 st = vUv * 3.0; // Scale the UV space
-    
-    // Animate the noise coordinates slowly
+    vec2 st = vUv * 3.0;
     vec2 q = vec2(0.);
     q.x = fbm(st + 0.00 * uTime);
     q.y = fbm(st + vec2(1.0));
-
     vec2 r = vec2(0.);
     r.x = fbm(st + 1.0 * q + vec2(1.7, 9.2) + 0.15 * uTime);
     r.y = fbm(st + 1.0 * q + vec2(8.3, 2.8) + 0.126 * uTime);
-
-    float f = fbm(st + r);
+    float fBmValue = fbm(st + r);
 
     // Mix colors based on the noise field
-    vec3 color = mix(
-        uColorBase,
-        uColorAccent,
-        clamp((f * f) * 4.0, 0.0, 1.0)
-    );
+    vec3 baseCol = uColorBase;
+    vec3 accentCol = uColorAccent;
+    vec3 purpleCol = uColorPurple;
+
+    // Singularity Purple Integration: Mix purple into clouds
+    vec3 cloudColor = mix(baseCol, purpleCol, smoothstep(0.3, 0.7, vUv.y) * fBmValue);
+    vec3 finalColor = mix(cloudColor, accentCol, clamp((fBmValue * fBmValue) * 4.0, 0.0, 1.0));
 
     // Add a glowing core linked to uHoverIntensity
-    color += uHoverIntensity * 0.3 * f * f * f * uColorAccent;
+    finalColor += uHoverIntensity * 0.3 * fBmValue * fBmValue * fBmValue * uColorAccent;
 
-    // Create a soft circular mask so the plane edges fade out completely
     float dist = distance(vUv, vec2(0.5));
-    float alphaMask = smoothstep(0.5, 0.2, dist); // Fade out from center to edge
-
-    // Final color and alpha output
-    float fadeStart = 1.0 - smoothstep(-100.0, -20.0, uCameraZ); // Fades in as camera descends to -100
-    float fadeEnd = smoothstep(-280.0, -200.0, uCameraZ); // Fades out as camera passes -200 down to -280
+    float alphaMask = smoothstep(0.5, 0.2, dist);
+    float fadeStart = 1.0 - smoothstep(-100.0, -20.0, uCameraZ);
+    float fadeEnd = smoothstep(-280.0, -200.0, uCameraZ);
     
-    // Tone adjustments for realism: deeper space purples and cyan mix
-    vec3 realColor = mix(color, vec3(0.3, 0.0, 0.6), 0.3);
-
-    float alpha = f * alphaMask * 0.8 * fadeStart * fadeEnd; // Scale overall opacity
-    gl_FragColor = vec4(realColor, alpha);
+    float alpha = fBmValue * alphaMask * 0.8 * fadeStart * fadeEnd;
+    gl_FragColor = vec4(finalColor, alpha);
   }
 `;
 
@@ -113,6 +96,7 @@ export default function Nebula({ position = [0, 0, 0] }: { position?: [number, n
     uTime: { value: 0 },
     uColorBase: { value: new THREE.Color("#05081c") }, // Deep violet void
     uColorAccent: { value: new THREE.Color("#00F0FF") }, // Cyan gas
+    uColorPurple: { value: new THREE.Color(0.48, 0.18, 0.75) }, // #7B2FBE
     uHoverIntensity: { value: 0 },
     uCameraZ: { value: 35 },
   }), []);

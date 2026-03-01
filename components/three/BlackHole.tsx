@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useStore } from "@/lib/store";
@@ -87,6 +87,12 @@ export default function BlackHole({ position = [0, 0, 0] }: { position?: [number
     uHoverIntensity: { value: 0 },
     uCameraZ: { value: 35 },
   }), []);
+
+  useEffect(() => {
+    return () => {
+      planeGeo.dispose();
+    };
+  }, [planeGeo]);
 
   useFrame((state, delta) => {
     if (!shaderRef.current) return;

@@ -1,12 +1,12 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { SKILLS } from "@/lib/constants";
 import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 import { CURRENTLY_LEARNING } from "@/lib/constants";
 
-export default function Skills() {
+const Skills = React.memo(function Skills() {
   return (
     <section id="skills" className="py-10 md:py-16 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
@@ -50,9 +50,9 @@ export default function Skills() {
       <div className="flex flex-col gap-4">
         {Object.entries(SKILLS).map(([groupTitle, skillsList], groupIdx) => (
           <StaggerContainer key={groupTitle}>
-            <h3 className="text-white/40 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3">
+            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "ML / AI" ? "text-singularity-400" : "text-white/40"}`}>
               {groupIdx + 1}. {groupTitle}
-              <div className="h-px flex-1 bg-white/5" />
+              <div className={`h-px flex-1 ${groupTitle === "ML / AI" ? "bg-singularity/50" : "bg-white/5"}`} />
             </h3>
 
             <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1.5 md:gap-2">
@@ -93,4 +93,6 @@ export default function Skills() {
       </div>
     </section>
   );
-}
+});
+
+export default Skills;

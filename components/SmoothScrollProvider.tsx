@@ -1,7 +1,7 @@
 "use client";
 
 // @ts-ignore - lenis doesn't have official types
-import { ReactLenis } from "@studio-freight/react-lenis";
+import { ReactLenis } from "lenis/react";
 
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
     return (

@@ -1,150 +1,283 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const BOOT_SEQUENCE = [
-    "[SYSTEM] INITIALIZING NEURAL PATHWAYS...",
-    "[SYSTEM] CALIBRATING BIOMETRIC ARRAYS...",
-    "[SYSTEM] LOADING QUANTUM KERNEL...",
-    "[SYSTEM] ESTABLISHING SECURE PROTOCOLS...",
-    "[SYSTEM] NEURAL LINK: 100% SYNCHRONIZED.",
+// ─── Loading messages for Phase 4 ───────────────────────────────────────────
+const LOADING_MESSAGES = [
+    "CALIBRATING NEURAL SYSTEMS...",
+    "MAPPING STAR COORDINATES...",
+    "SYNCHRONIZING DATA STREAMS...",
+    "ESTABLISHING DEEP SPACE LINK...",
 ];
 
-export default function Splash({ onComplete }: { onComplete: () => void }) {
-    const [index, setIndex] = useState(0);
-    const [loading, setLoading] = useState(0);
+// ─── Particle data generated once ────────────────────────────────────────────
+const PARTICLE_COUNT = 80;
+const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+    const angle = (i / PARTICLE_COUNT) * 2 * Math.PI + (Math.random() - 0.5) * 0.4;
+    const dist = 0.35 + Math.random() * 0.25; // 35–60 vw/vh
+    const colorRand = Math.random();
+    const color =
+        colorRand < 0.33 ? "#ffffff" : colorRand < 0.66 ? "#00F0FF" : "#7B2FBE";
+    const size = 2 + Math.random() * 2;
+    return {
+        id: i,
+        x: `${Math.cos(angle) * dist * 100}vw`,
+        y: `${Math.sin(angle) * dist * 100}vh`,
+        color,
+        size,
+        duration: 0.55 + Math.random() * 0.3,
+        delay: Math.random() * 0.15,
+    };
+});
 
+// ─── Name letters ─────────────────────────────────────────────────────────────
+const NAME = "ATHARVA SOUNDANKAR";
+const NAME_LETTERS = NAME.split("");
+
+// ─── Splash Component ─────────────────────────────────────────────────────────
+export default function Splash({ onComplete }: { onComplete: () => void }) {
+    const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4 | 5>(0);
+    const [msgIdx, setMsgIdx] = useState(0);
+    const [barWidth, setBarWidth] = useState(0);
+    const [exiting, setExiting] = useState(false);
+    const skipRef = useRef(false);
+
+    // ─── SSR-safe localStorage check ───────────────────────────────────────────
     useEffect(() => {
-        if (index < BOOT_SEQUENCE.length) {
-            const timeout = setTimeout(() => {
-                setIndex((prev) => prev + 1);
-                setLoading((prev) => Math.min(100, prev + 25));
-            }, 400);
-            return () => clearTimeout(timeout);
+        const hasVisited =
+            typeof window !== "undefined" &&
+            localStorage.getItem("space_visited") === "true";
+        skipRef.current = hasVisited;
+        // Start: if visited skip to Phase 3
+        setPhase(hasVisited ? 3 : 0);
+    }, []);
+
+    // ─── Phase timer sequence ───────────────────────────────────────────────────
+    useEffect(() => {
+        const skip = skipRef.current;
+
+        const timers: ReturnType<typeof setTimeout>[] = [];
+
+        if (!skip) {
+            // Full sequence
+            timers.push(setTimeout(() => setPhase(1), 200));
+            timers.push(setTimeout(() => setPhase(2), 800));
+            timers.push(setTimeout(() => setPhase(3), 1500));
+            timers.push(setTimeout(() => setPhase(4), 2200));
+            timers.push(
+                setTimeout(() => {
+                    localStorage.setItem("space_visited", "true");
+                    setExiting(true);
+                    setTimeout(onComplete, 400);
+                }, 2800)
+            );
         } else {
-            const timeout = setTimeout(() => {
-                onComplete();
-            }, 800);
-            return () => clearTimeout(timeout);
+            // Short sequence from Phase 3
+            timers.push(setTimeout(() => setPhase(4), 500));
+            timers.push(
+                setTimeout(() => {
+                    localStorage.setItem("space_visited", "true");
+                    setExiting(true);
+                    setTimeout(onComplete, 400);
+                }, 1200)
+            );
         }
-    }, [index, onComplete]);
+
+        return () => timers.forEach(clearTimeout);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // ─── Loading bar animation (Phase 4) ──────────────────────────────────────
+    useEffect(() => {
+        if (phase !== 4) return;
+        const interval = setInterval(() => {
+            setBarWidth((prev) => {
+                if (prev >= 100) { clearInterval(interval); return 100; }
+                return prev + 3.5;
+            });
+        }, 20);
+        return () => clearInterval(interval);
+    }, [phase]);
+
+    // ─── Cycling messages (Phase 4) ───────────────────────────────────────────
+    useEffect(() => {
+        if (phase !== 4) return;
+        const interval = setInterval(() => {
+            setMsgIdx((prev) => (prev + 1) % LOADING_MESSAGES.length);
+        }, 400);
+        return () => clearInterval(interval);
+    }, [phase]);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-void flex flex-col items-center justify-center font-mono">
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, scale: 2, filter: "blur(20px)" }}
-                transition={{ duration: 0.8, ease: "circOut" }}
-                className="w-full max-w-lg px-6"
-            >
-                <div className="mb-8">
-                    <div className="flex justify-between text-[10px] text-cyan mb-2 uppercase tracking-widest">
-                        <span>Booting Identity Module</span>
-                        <span>{loading}%</span>
-                    </div>
-                    <div className="h-[1px] w-full bg-cyan/20 relative overflow-hidden">
-                        <motion.div
-                            className="absolute top-0 left-0 h-full bg-cyan"
-                            initial={{ width: "0%" }}
-                            animate={{ width: `${loading}%` }}
-                            transition={{ duration: 0.4 }}
-                        />
-                    </div>
-                </div>
+        <AnimatePresence>
+            {!exiting && (
+                <motion.div
+                    key="splash"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0, filter: "blur(12px)" }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden"
+                    style={{ background: "#030303" }}
+                >
+                    {/* ── PHASE 1: Single point of light ─────────────────────────────── */}
+                    <AnimatePresence>
+                        {phase === 1 && (
+                            <motion.div
+                                key="singularity-point"
+                                initial={{ opacity: 0, scale: 0, backgroundColor: "#ffffff" }}
+                                animate={{
+                                    opacity: [0, 1, 1, 1],
+                                    scale: [1, 4, 2],
+                                    backgroundColor: ["#ffffff", "#7B2FBE", "#7B2FBE"],
+                                    boxShadow: [
+                                        "0 0 0px 0px rgba(255,255,255,0)",
+                                        "0 0 30px 10px rgba(123,47,190,0.8)",
+                                        "0 0 15px 5px rgba(123,47,190,0.6)",
+                                    ],
+                                }}
+                                exit={{ opacity: 0, scale: 8, filter: "blur(10px)" }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                style={{
+                                    position: "absolute",
+                                    width: "2px",
+                                    height: "2px",
+                                    borderRadius: "50%",
+                                }}
+                            />
+                        )}
+                    </AnimatePresence>
 
-                <div className="space-y-2 h-40 overflow-hidden">
-                    {BOOT_SEQUENCE.slice(0, index).map((line, i) => (
-                        <motion.p
-                            key={i}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="text-xs md:text-sm text-cyan/70"
-                        >
-                            <span className="text-amber mr-2"> {">"} </span>
-                            {line}
-                        </motion.p>
-                    ))}
-                    {index < BOOT_SEQUENCE.length && (
-                        <motion.span
-                            animate={{ opacity: [1, 0] }}
-                            transition={{ duration: 0.5, repeat: Infinity }}
-                            className="inline-block w-2 h-4 bg-cyan/50"
-                        />
-                    )}
-                </div>
+                    {/* ── PHASE 2: Particle explosion ─────────────────────────────────── */}
+                    <AnimatePresence>
+                        {phase === 2 && (
+                            <div
+                                key="particle-field"
+                                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                            >
+                                {particles.map((p) => (
+                                    <motion.div
+                                        key={p.id}
+                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                                        animate={{
+                                            x: p.x,
+                                            y: p.y,
+                                            opacity: [1, 0.8, 0],
+                                            scale: [1, 0.6],
+                                        }}
+                                        transition={{
+                                            duration: p.duration,
+                                            delay: p.delay,
+                                            ease: "easeOut",
+                                        }}
+                                        style={{
+                                            position: "absolute",
+                                            width: p.size,
+                                            height: p.size,
+                                            borderRadius: "50%",
+                                            backgroundColor: p.color,
+                                            boxShadow: `0 0 6px 2px ${p.color}88`,
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </AnimatePresence>
 
-                {index === BOOT_SEQUENCE.length && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="mt-12 text-center"
-                    >
-                        <p className="text-[10px] text-amber uppercase tracking-[0.5em] animate-pulse">
-                            [ ACCESS GRANTED ]
-                        </p>
-                    </motion.div>
-                )}
-            </motion.div>
+                    {/* ── PHASES 3+: Name, subtitle, bar ──────────────────────────────── */}
+                    <AnimatePresence>
+                        {phase >= 3 && (
+                            <motion.div
+                                key="name-block"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex flex-col items-center gap-4 px-6 text-center"
+                            >
+                                {/* Name letter-by-letter */}
+                                <h1 className="flex flex-wrap justify-center" style={{ fontFamily: "var(--font-syncopate), sans-serif" }}>
+                                    {NAME_LETTERS.map((char, i) => (
+                                        <motion.span
+                                            key={i}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.06, duration: 0.3, ease: "easeOut" }}
+                                            className={`text-white font-black uppercase tracking-widest ${char === " " ? "w-4" : ""}`}
+                                            style={{
+                                                fontSize: "clamp(1.4rem, 4vw, 3rem)",
+                                                textShadow: phase >= 3 ? "0 0 20px rgba(0,240,255,0.6), 0 0 40px rgba(0,240,255,0.2)" : "none",
+                                            }}
+                                        >
+                                            {char === " " ? "\u00A0" : char}
+                                        </motion.span>
+                                    ))}
+                                </h1>
 
-            {/* Singularity / Neural Core Animation */}
-            <AnimatePresence>
-                {index < BOOT_SEQUENCE.length + 1 && (
-                    <motion.div
-                        className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0, scale: 3, transition: { duration: 1.2, ease: "easeInOut" } }}
-                    >
-                        {/* Core Glowing Orb */}
-                        <motion.div
-                            className="absolute rounded-full"
-                            style={{
-                                width: "200px",
-                                height: "200px",
-                                background: "radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(0,0,0,0) 70%)",
-                                border: "1px solid rgba(0,240,255,0.1)"
-                            }}
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                rotate: [0, 90, 180]
-                            }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                        />
+                                {/* Subtitle */}
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: NAME_LETTERS.length * 0.06 + 0.2, duration: 0.4 }}
+                                    className="font-bold uppercase tracking-[0.4em]"
+                                    style={{
+                                        fontFamily: "var(--font-space), monospace",
+                                        fontSize: "clamp(0.65rem, 1.5vw, 0.9rem)",
+                                        color: "#FF6B35",
+                                    }}
+                                >
+                                    AI &amp; BIG DATA ENGINEER
+                                </motion.p>
 
-                        {/* Outer Geometric Ring */}
-                        <motion.div
-                            className="absolute rounded-full"
-                            style={{
-                                width: "350px",
-                                height: "350px",
-                                border: "1px dashed rgba(255,107,53,0.15)"
-                            }}
-                            animate={{
-                                scale: [1, 0.95, 1],
-                                rotate: [180, 0, -180]
-                            }}
-                            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                        />
+                                {/* ── PHASE 4: Loading bar + messages ──────────────────────── */}
+                                <AnimatePresence>
+                                    {phase >= 4 && (
+                                        <motion.div
+                                            key="loading-block"
+                                            initial={{ opacity: 0, y: 8 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="w-full max-w-sm flex flex-col items-center gap-3 mt-4"
+                                        >
+                                            {/* Loading bar */}
+                                            <div
+                                                className="w-full h-[2px] rounded-full overflow-hidden"
+                                                style={{ background: "rgba(255,255,255,0.08)" }}
+                                            >
+                                                <motion.div
+                                                    style={{
+                                                        height: "100%",
+                                                        width: `${barWidth}%`,
+                                                        background: "linear-gradient(90deg, #00F0FF, #FF6B35, #7B2FBE)",
+                                                        borderRadius: "9999px",
+                                                    }}
+                                                    transition={{ duration: 0.02 }}
+                                                />
+                                            </div>
 
-                        {/* Inner High-Energy Pulse */}
-                        <motion.div
-                            className="absolute rounded-full bg-cyan"
-                            style={{
-                                width: "4px",
-                                height: "4px",
-                                boxShadow: "0 0 20px 4px rgba(0,240,255,0.6)"
-                            }}
-                            animate={{
-                                opacity: [0.3, 1, 0.3],
-                                scale: [1, 1.5, 1]
-                            }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+                                            {/* Cycling messages */}
+                                            <AnimatePresence mode="wait">
+                                                <motion.p
+                                                    key={msgIdx}
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    transition={{ duration: 0.15 }}
+                                                    className="font-mono text-[10px] tracking-widest uppercase"
+                                                    style={{ color: "rgba(255,255,255,0.3)" }}
+                                                >
+                                                    {LOADING_MESSAGES[msgIdx]}
+                                                </motion.p>
+                                            </AnimatePresence>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }

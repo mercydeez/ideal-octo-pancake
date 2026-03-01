@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EXPERIENCE } from "@/lib/constants";
@@ -6,7 +7,7 @@ import { useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-export default function Experience() {
+const Experience = React.memo(function Experience() {
   const sectionRef = useScrollReveal();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -74,4 +75,6 @@ export default function Experience() {
       </div>
     </section>
   );
-}
+});
+
+export default Experience;

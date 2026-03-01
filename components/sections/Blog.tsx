@@ -1,14 +1,16 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { BLOGS } from "@/lib/constants";
 import { BookOpen, ArrowUpRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useCursorHover } from "@/hooks/useCursorHover";
 import ScrambleText from "@/components/ui/ScrambleText";
 // Medium icon via CDN
 
-export default function Blog() {
+const Blog = React.memo(function Blog() {
   const sectionRef = useScrollReveal();
+  const cursorProps = useCursorHover();
   return (
     <section ref={sectionRef} id="blog" className="py-16 md:py-24 px-6 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
@@ -30,6 +32,7 @@ export default function Blog() {
           <motion.a
             key={i}
             href={blog.url}
+            {...cursorProps}
             target="_blank"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +47,7 @@ export default function Blog() {
                   <BookOpen size={14} />
                   <span>{("tag" in blog) ? (blog as any).tag : `Research_Note_#${(i + 1).toString().padStart(2, '0')}`}</span>
                 </div>
-                {!("comingSoon" in blog) && <ArrowUpRight size={18} className="text-white/20 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                {!("comingSoon" in blog) && <ArrowUpRight size={18} className="text-white/20 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />}
               </div>
 
               <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan transition-colors leading-tight">
@@ -68,4 +71,6 @@ export default function Blog() {
       </div>
     </section>
   );
-}
+});
+
+export default Blog;

@@ -29,9 +29,17 @@ export default function Starfield({ count = 10000, depth = 1200 }) {
             // Colors - 75% White, 10% Cyan, 5% Amber, 10% Violet
             const rand = Math.random();
             let color = baseColor;
-            if (rand > 0.90) color = purpleColor;
-            else if (rand > 0.80) color = cyanColor;
-            else if (rand > 0.75) color = amberColor;
+
+            // Singularity Purple Integration: 5% stars (every 20th) are soft lavender
+            if (i % 20 === 0) {
+                color = new THREE.Color('#C4A5E8');
+            } else if (rand > 0.90) {
+                color = purpleColor;
+            } else if (rand > 0.80) {
+                color = cyanColor;
+            } else if (rand > 0.75) {
+                color = amberColor;
+            }
 
             // Darken stars further away from center
             const mix = new THREE.Color(color).lerp(new THREE.Color("#000000"), Math.random() * 0.5);

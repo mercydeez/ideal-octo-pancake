@@ -1,13 +1,15 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { Download, Eye, FileCode } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useCursorHover } from "@/hooks/useCursorHover";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-export default function Resume() {
+const Resume = React.memo(function Resume() {
   const sectionRef = useScrollReveal();
+  const cursorProps = useCursorHover();
   return (
     <section ref={sectionRef} id="resume" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
       <motion.div
@@ -37,6 +39,9 @@ export default function Resume() {
           <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
             <a
               href={PERSONAL_INFO.resumeDownload}
+              target="_blank"
+              rel="noopener noreferrer"
+              {...cursorProps}
               className="px-10 py-5 bg-amber-500 text-black font-bold uppercase tracking-[0.2em] text-xs rounded-xl hover:shadow-[0_0_30px_#FF6B3580] transition-all flex items-center justify-center gap-3"
             >
               <Download size={18} />
@@ -45,6 +50,7 @@ export default function Resume() {
             <a
               href={PERSONAL_INFO.resumeView}
               target="_blank"
+              {...cursorProps}
               className="px-10 py-5 bg-white/5 border border-white/10 hover:border-white/30 text-white font-bold uppercase tracking-[0.2em] text-xs rounded-xl transition-all flex items-center justify-center gap-3"
             >
               <Eye size={18} />
@@ -55,4 +61,6 @@ export default function Resume() {
       </motion.div>
     </section>
   );
-}
+});
+
+export default Resume;

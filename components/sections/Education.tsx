@@ -1,11 +1,11 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { EDUCATION } from "@/lib/constants";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-export default function Education() {
+const Education = React.memo(function Education() {
     const sectionRef = useScrollReveal();
 
     return (
@@ -16,9 +16,9 @@ export default function Education() {
                 viewport={{ once: true }}
                 className="mb-10 border-l-4 border-cyan pl-8"
             >
-                <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">[ ACADEMIC_RECORDS ]</p>
+                <p className="text-singularity-400 font-mono text-sm tracking-widest mb-2 uppercase">[ ACADEMIC_RECORDS ]</p>
                 <h2 className="text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter">
-                    <ScrambleText text="EDUCATION " /><span className="text-cyan text-glow-cyan"><ScrambleText text="MATRIX" /></span>
+                    <ScrambleText text="EDUCATION " /><span className="text-singularity-400 text-glow-white"><ScrambleText text="MATRIX" /></span>
                 </h2>
             </motion.div>
 
@@ -70,4 +70,6 @@ export default function Education() {
             </div>
         </section>
     );
-}
+});
+
+export default Education;

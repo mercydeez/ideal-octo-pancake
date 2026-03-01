@@ -15,6 +15,11 @@ module.exports = {
           400: "#FF6B35",
           500: "#FF6B35",
         },
+        singularity: {
+          DEFAULT: '#7B2FBE',
+          400: '#A855F7',
+          500: '#E879F9',
+        },
         military: "#1a1c1a",
       },
       fontFamily: {

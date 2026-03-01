@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useStore } from "@/lib/store";
@@ -126,7 +126,7 @@ export default function GalaxyBackground({ isMobile = false }) {
     const shaderRef = useRef<THREE.ShaderMaterial>(null!);
 
     // Build galaxy once — scale down massively on mobile
-    const particleCount = isMobile ? 12_000 : 80_000;
+    const particleCount = isMobile ? 8000 : 40000;
 
     const { positions, colors, sizes } = useMemo(
         () => buildGalaxy(particleCount, 3, 0.55, 0.5),
@@ -136,6 +136,14 @@ export default function GalaxyBackground({ isMobile = false }) {
     // Smooth refs for interpolation
     const spinSpeed = useRef(0.04);
     const scrollY = useRef(0);
+    useEffect(() => {
+        const handler = () => {
+            scrollY.current = window.scrollY;
+        };
+        window.addEventListener("scroll", handler, { passive: true });
+        handler(); // Initialize
+        return () => window.removeEventListener("scroll", handler);
+    }, []);
 
     useFrame((state, delta) => {
         // Target spin — faster on project hover
@@ -147,8 +155,8 @@ export default function GalaxyBackground({ isMobile = false }) {
             groupRef.current.rotation.y += spinSpeed.current * delta;
         }
 
-        // Track page scroll for tilt
-        scrollY.current = window.scrollY;
+        // Use the ref updated by the effect
+        const currentScrollY = scrollY.current;
 
         // Push scroll into the shader uniform
         if (shaderRef.current) {

@@ -1,11 +1,10 @@
-"use client";
-
+import React from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { PERSONAL_INFO, BIO, BIO_HIGHLIGHTED_WORDS } from "@/lib/constants";
 import { Instagram } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-export default function About() {
+const About = React.memo(function About() {
   const sectionRef = useScrollReveal();
   const getHighlightedBio = (text: string) => {
     let highlightedText = text;
@@ -108,4 +107,6 @@ export default function About() {
       </div>
     </section>
   );
-}
+});
+
+export default About;

@@ -1,15 +1,12 @@
 "use client";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Terminal, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
 
-
-
-export default function Contact() {
+const Contact = React.memo(function Contact() {
   const sectionRef = useScrollReveal();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [loading, setLoading] = useState(false);
@@ -148,4 +145,6 @@ export default function Contact() {
       </div>
     </section>
   );
-}
+});
+
+export default Contact;

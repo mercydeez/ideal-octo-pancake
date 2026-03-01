@@ -1,7 +1,8 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { PERSONAL_INFO } from "@/lib/constants";
+import { useCursorHover } from "@/hooks/useCursorHover";
 import { Github, Linkedin, Twitter, Database, BookOpen, Instagram, ArrowUp } from "lucide-react";
 
 const FOOTER_SOCIALS = [
@@ -13,8 +14,9 @@ const FOOTER_SOCIALS = [
   { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/ai.with.atharva/" },
 ];
 
-export default function Footer() {
+const Footer = React.memo(function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const cursorProps = useCursorHover();
 
   return (
     <footer className="relative py-6 px-6 border-t border-white/5 bg-[#030303]">
@@ -47,6 +49,7 @@ export default function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                {...cursorProps}
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-amber-500/30 transition-all group min-h-[44px]"
                 title={s.name}
               >
@@ -73,6 +76,7 @@ export default function Footer() {
       {/* Back to top */}
       <motion.button
         onClick={scrollToTop}
+        {...cursorProps}
         className="fixed bottom-24 right-6 w-12 h-12 rounded-full flex items-center justify-center transition-all z-40 min-h-[44px]"
         style={{
           background: 'rgba(255,107,53,0.15)',
@@ -86,4 +90,6 @@ export default function Footer() {
       </motion.button>
     </footer>
   );
-}
+});
+
+export default Footer;
