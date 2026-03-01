@@ -53,6 +53,21 @@ export default function CosmicDust() {
         return { positions, driftVectors, sizes, colors };
     }, []);
 
+    // Circular soft-glow texture so particles are round, not square
+    const circleTexture = useMemo(() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext("2d")!;
+        const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        gradient.addColorStop(0, "rgba(255,255,255,1)");
+        gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
+        gradient.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 32, 32);
+        return new THREE.CanvasTexture(canvas);
+    }, []);
+
     useFrame(() => {
         if (!pointsRef.current) return;
 
@@ -62,18 +77,15 @@ export default function CosmicDust() {
         for (let i = 0; i < COUNT; i++) {
             const i3 = i * 3;
 
-            // Update position
             array[i3] += driftVectors[i3];
             array[i3 + 1] += driftVectors[i3 + 1];
             array[i3 + 2] += driftVectors[i3 + 2];
 
-            // Wrap around radius 60
             const dist = Math.sqrt(
                 array[i3] ** 2 + array[i3 + 1] ** 2 + array[i3 + 2] ** 2
             );
 
             if (dist > RADIUS) {
-                // Re-spawn on exactly opposite side
                 array[i3] *= -0.98;
                 array[i3 + 1] *= -0.98;
                 array[i3 + 2] *= -0.98;
@@ -98,12 +110,6 @@ export default function CosmicDust() {
                     array={colors}
                     itemSize={3}
                 />
-                <bufferAttribute
-                    attach="attributes-size"
-                    count={COUNT}
-                    array={sizes}
-                    itemSize={1}
-                />
             </bufferGeometry>
             <pointsMaterial
                 vertexColors
@@ -111,8 +117,10 @@ export default function CosmicDust() {
                 opacity={0.12}
                 blending={THREE.AdditiveBlending}
                 depthWrite={false}
-                size={0.6} // Fallback size
+                size={0.6}
                 sizeAttenuation
+                map={circleTexture}
+                alphaTest={0.01}
             />
         </points>
     );
