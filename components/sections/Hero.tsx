@@ -121,18 +121,44 @@ export default function Hero() {
             </span>
           </h1>
 
-          {/* Typing role pill */}
+          {/* Terminal typing block */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-3 mb-2 inline-flex items-center gap-2 rounded-md border border-cyan/20 bg-black/50 px-4 py-2 backdrop-blur-sm"
+            className="mt-4 mb-3 w-full max-w-sm rounded-lg overflow-hidden border border-white/10"
+            style={{ background: 'rgba(5,5,5,0.85)', boxShadow: '0 0 30px rgba(0,240,255,0.07)' }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan animate-pulse flex-shrink-0" />
-            <span className="font-terminal text-cyan text-xs md:text-sm tracking-widest whitespace-nowrap">
-              {displayed}
-              <span className="animate-[blink_1s_step-end_infinite] ml-0.5 text-cyan">|</span>
-            </span>
+            {/* Terminal header bar */}
+            <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/5" style={{ background: 'rgba(255,255,255,0.04)' }}>
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+              <span className="ml-2 text-[9px] font-mono text-white/20 tracking-widest">role.sh</span>
+            </div>
+
+            {/* Terminal body with scanline */}
+            <div className="relative px-4 py-3 overflow-hidden">
+              {/* Scanline overlay */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-[0.04]"
+                style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.8) 2px, rgba(255,255,255,0.8) 3px)' }}
+              />
+              <p className="relative font-mono text-xs text-white/30 mb-1">$ identify --role</p>
+              <div className="relative flex items-center gap-1">
+                <span className="text-[#00FF41] font-mono text-sm mr-1">›</span>
+                <span
+                  className="font-mono text-sm tracking-wide"
+                  style={{ color: '#00F0FF', textShadow: '0 0 8px rgba(0,240,255,0.6)' }}
+                >
+                  {displayed}
+                </span>
+                <span
+                  className="font-mono text-sm text-[#00F0FF] animate-[blink_1s_step-end_infinite]"
+                  style={{ textShadow: '0 0 8px rgba(0,240,255,0.8)' }}
+                >█</span>
+              </div>
+            </div>
           </motion.div>
 
           <p className="font-terminal text-white/70 text-xs md:text-sm max-w-sm mt-3 leading-relaxed bg-void/50 backdrop-blur-md p-3 rounded-lg border-l-2 border-amber">
