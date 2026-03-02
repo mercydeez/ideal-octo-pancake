@@ -43,10 +43,19 @@ const Blog = React.memo(function Blog() {
           >
             <div>
               <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2 text-cyan font-mono text-[10px] uppercase tracking-widest">
-                  <BookOpen size={14} />
-                  <span>{("tag" in blog) ? (blog as any).tag : `Research_Note_#${(i + 1).toString().padStart(2, '0')}`}</span>
-                </div>
+                {(() => {
+                  const tag = ("tag" in blog) ? (blog as any).tag : `Research_Note_#${(i + 1).toString().padStart(2, '0')}`;
+                  const isAiTag = /ai|ethics|philosophy|neural|machine learning|ml/i.test(tag);
+                  return (
+                    <div className={`flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded-md ${isAiTag
+                        ? 'text-purple-300 bg-purple-900/40 border border-purple-500/30'
+                        : 'text-cyan'
+                      }`}>
+                      <BookOpen size={14} />
+                      <span>{tag}</span>
+                    </div>
+                  );
+                })()}
                 {!("comingSoon" in blog) && <ArrowUpRight size={18} className="text-white/20 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />}
               </div>
 

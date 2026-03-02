@@ -55,9 +55,9 @@ export default function Home() {
                 <About />
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-pink/30 to-transparent" />
                 <Education />
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
                 <Skills />
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
                 <Projects />
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-pink/30 to-transparent" />
                 <Experience />

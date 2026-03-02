@@ -86,11 +86,18 @@ export default function Navbar() {
               >
                 {link.label}
                 {activeSection === link.href.slice(1) && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="absolute inset-0 bg-amber-500/10 rounded-full border border-amber-500/20"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
+                  <>
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute inset-0 bg-amber-500/10 rounded-full border border-amber-500/20"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                    <motion.div
+                      layoutId="activeNavPurple"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-purple-500"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  </>
                 )}
               </button>
             ))}

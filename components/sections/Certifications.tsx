@@ -112,7 +112,7 @@ const Certifications = React.memo(function Certifications() {
             <FadeInUp key={i}>
               <motion.div
                 {...cursorProps}
-                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-cyan/50 transition-colors flex flex-col justify-between relative overflow-hidden group"
+                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(123,47,190,0.2)] transition-all flex flex-col justify-between relative overflow-hidden group"
                 style={{
                   background: "rgba(0,0,0,0.7)",
                   backdropFilter: "blur(20px)"

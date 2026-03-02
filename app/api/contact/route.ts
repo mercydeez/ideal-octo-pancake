@@ -4,6 +4,14 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  // Guard: explicit 503 if env var is missing (e.g. Vercel misconfiguration)
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json(
+      { error: 'Email service not configured' },
+      { status: 503 }
+    );
+  }
+
   // Instantiate inside the handler so build phase never touches the API key
   const resend = new Resend(process.env.RESEND_API_KEY);
 
