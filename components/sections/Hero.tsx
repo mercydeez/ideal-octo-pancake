@@ -66,11 +66,11 @@ export default function Hero() {
 
           {/* Name — big, bold, unmissable */}
           <h1
-            className="text-cyber font-black text-white mb-3 drop-shadow-2xl flex flex-col leading-none w-full overflow-hidden"
-            style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.2rem)', letterSpacing: '0.02em' }}
+            className="text-cyber font-black text-white mb-3 drop-shadow-2xl flex flex-col leading-none w-full"
+            style={{ fontSize: 'clamp(2rem, 4.2vw, 3.2rem)', letterSpacing: '0.02em' }}
           >
             <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-1">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
               <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
             </span>
           </h1>
