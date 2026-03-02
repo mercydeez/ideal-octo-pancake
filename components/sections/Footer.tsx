@@ -25,7 +25,9 @@ const FOOTER_SOCIALS = [
   {
     name: "Kaggle",
     href: "https://www.kaggle.com/atharvasoundankar",
-    imgSrc: "https://cdn.simpleicons.org/kaggle/20BEFF",
+    imgSrc: null,
+    monogram: "K",
+    monogramColor: "#20BEFF",
   },
   {
     name: "Medium",
@@ -78,13 +80,22 @@ const Footer = React.memo(function Footer() {
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-amber-500/30 transition-all group min-h-[44px]"
                 title={s.name}
               >
-                <img
-                  src={s.imgSrc}
-                  alt={s.name}
-                  width={20}
-                  height={20}
-                  className="object-contain group-hover:scale-110 transition-transform"
-                />
+                {(s as any).monogram ? (
+                  <span
+                    className="font-display font-black text-base leading-none group-hover:scale-110 transition-transform inline-block"
+                    style={{ color: (s as any).monogramColor }}
+                  >
+                    {(s as any).monogram}
+                  </span>
+                ) : (
+                  <img
+                    src={s.imgSrc!}
+                    alt={s.name}
+                    width={20}
+                    height={20}
+                    className="object-contain group-hover:scale-110 transition-transform"
+                  />
+                )}
               </a>
             ))}
           </div>
