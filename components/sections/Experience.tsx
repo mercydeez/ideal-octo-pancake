@@ -50,7 +50,7 @@ const Experience = React.memo(function Experience() {
           >
             {/* Timeline Dot */}
             <div
-              className="absolute -left-[41px] md:-left-[73px] top-0 w-10 h-10 rounded-full border-2 border-void z-10 flex items-center justify-center text-xs font-bold overflow-hidden"
+              className="absolute -left-[45px] md:-left-[81px] top-0 w-16 h-16 rounded-full border-2 border-void z-10 flex items-center justify-center text-xs font-bold overflow-hidden"
               style={{ backgroundColor: exp.color, color: '#030303', boxShadow: `0 0 15px ${exp.color}80` }}
             >
               {(exp as any).logo ? (

@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Space_Grotesk, Syncopate } from "next/font/google";
 import CanvasLayer from "@/components/three/CanvasLayer";
-import SystemLog from "@/components/ui/SystemLog";
 import CommandBar from "@/components/ui/CommandBar";
 import CustomCursor from "@/components/ui/CustomCursor";
 import MouseSpotlight from "@/components/ui/MouseSpotlight";
@@ -64,7 +63,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ======================================================= */}
           <CustomCursor />
           <CommandBar />
-          <SystemLog />
           <div className="crt-overlay" />
         </SmoothScrollProvider>
       </body>

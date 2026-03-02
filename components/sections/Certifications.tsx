@@ -35,7 +35,7 @@ const Certifications = React.memo(function Certifications() {
         </motion.div>
 
         {/* Masonry / Grid Layout */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-min">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
           {/* MASTER CARD: Research Paper */}
           {masterCard && (
@@ -45,7 +45,7 @@ const Certifications = React.memo(function Certifications() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                className="md:col-span-2 md:row-span-2 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
+                className="md:col-span-3 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
                 style={{ background: "rgba(0,0,0,0.85)" }}
                 {...cursorProps}
               >
