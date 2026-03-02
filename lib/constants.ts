@@ -28,8 +28,8 @@ export const PERSONAL_INFO = {
   medium: "https://medium.com/@atharva3895",
   instagram: "https://www.instagram.com/atharva_soundankar/",
   instagramBrand: "https://www.instagram.com/ai.with.atharva/",
-  resumeView: "https://drive.google.com/file/d/1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2/view",
-  resumeDownload: "https://drive.google.com/uc?export=download&id=1BpRqrxAIG7yWJ7Av0qY5q5kFB3fYgty2",
+  resumeView: "https://drive.google.com/file/d/1jGQImDZQIKfrKM98UwaSmX_P00gK6R-5/view",
+  resumeDownload: "https://drive.usercontent.google.com/download?id=1jGQImDZQIKfrKM98UwaSmX_P00gK6R-5&export=download&authuser=0",
 }
 
 export const BIO = [
