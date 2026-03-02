@@ -195,23 +195,53 @@ export default function Splash({ onComplete }: { onComplete: () => void }) {
                                 transition={{ duration: 0.3 }}
                                 className="flex flex-col items-center gap-4 px-6 text-center"
                             >
-                                {/* Name letter-by-letter */}
-                                <h1 className="flex flex-wrap justify-center" style={{ fontFamily: "var(--font-syncopate), sans-serif" }}>
-                                    {NAME_LETTERS.map((char, i) => (
-                                        <motion.span
-                                            key={i}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: i * 0.06, duration: 0.3, ease: "easeOut" }}
-                                            className={`text-white font-black uppercase tracking-widest ${char === " " ? "w-4" : ""}`}
-                                            style={{
-                                                fontSize: "clamp(1.4rem, 4vw, 3rem)",
-                                                textShadow: phase >= 3 ? "0 0 20px rgba(0,240,255,0.6), 0 0 40px rgba(0,240,255,0.2)" : "none",
-                                            }}
-                                        >
-                                            {char === " " ? "\u00A0" : char}
-                                        </motion.span>
-                                    ))}
+                                {/* Name — two guaranteed rows, never mid-word wrap */}
+                                <h1
+                                    className="flex flex-col items-center gap-0 leading-none"
+                                    style={{ fontFamily: "var(--font-syncopate), sans-serif" }}
+                                >
+                                    {/* First name */}
+                                    <div className="flex justify-center overflow-hidden">
+                                        {"ATHARVA".split("").map((char, i) => (
+                                            <motion.span
+                                                key={`first-${i}`}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: i * 0.06, duration: 0.3, ease: "easeOut" }}
+                                                className="text-white font-black uppercase"
+                                                style={{
+                                                    fontSize: "clamp(1.6rem, 8vw, 3rem)",
+                                                    letterSpacing: "0.12em",
+                                                    textShadow: phase >= 3 ? "0 0 20px rgba(0,240,255,0.6), 0 0 40px rgba(0,240,255,0.2)" : "none",
+                                                }}
+                                            >
+                                                {char}
+                                            </motion.span>
+                                        ))}
+                                    </div>
+                                    {/* Last name */}
+                                    <div className="flex justify-center overflow-hidden">
+                                        {"SOUNDANKAR".split("").map((char, i) => (
+                                            <motion.span
+                                                key={`last-${i}`}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: (7 + 1 + i) * 0.06, duration: 0.3, ease: "easeOut" }}
+                                                className="font-black uppercase"
+                                                style={{
+                                                    fontSize: "clamp(1.6rem, 8vw, 3rem)",
+                                                    letterSpacing: "0.12em",
+                                                    color: "transparent",
+                                                    backgroundImage: "linear-gradient(90deg, #00F0FF, #FF6B35)",
+                                                    WebkitBackgroundClip: "text",
+                                                    backgroundClip: "text",
+                                                    textShadow: "none",
+                                                }}
+                                            >
+                                                {char}
+                                            </motion.span>
+                                        ))}
+                                    </div>
                                 </h1>
 
                                 {/* Subtitle */}

@@ -16,6 +16,7 @@ import { useEffect, useState, useRef } from "react";
 function UniverseCamera() {
     const { pointer } = useThree();
     const scrollYRef = useRef(0);
+    const prevScrollYRef = useRef(0);
 
     useEffect(() => {
         const handler = () => {
@@ -34,20 +35,46 @@ function UniverseCamera() {
         );
         const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
 
-        // Z-Depth Journey
-        let targetZ = 35;
-        if (progress < 0.2) {
-            targetZ = THREE.MathUtils.lerp(35, -20, progress / 0.2);
-        } else if (progress < 0.5) {
-            targetZ = THREE.MathUtils.lerp(-20, -120, (progress - 0.2) / 0.3);
-        } else if (progress < 0.75) {
-            targetZ = THREE.MathUtils.lerp(-120, -320, (progress - 0.5) / 0.25);
-        } else {
-            targetZ = THREE.MathUtils.lerp(-320, -450, (progress - 0.75) / 0.25);
-        }
+        // Calculate velocity for FOV Warp
+        prevScrollYRef.current = THREE.MathUtils.lerp(prevScrollYRef.current, scrollY, 8 * delta);
+        const velocity = Math.abs(scrollY - prevScrollYRef.current);
+        const warpFactor = Math.min(velocity / 30, 1.0); // 0 to 1 based on velocity intensity
 
-        // Base Rotation (Tilt down as we dive)
-        const baseRotX = THREE.MathUtils.lerp(0.0, 0.25, progress);
+        // Cinematic Section-Aware Camera Keyframes
+        let targetZ = 35;
+        let baseRotX = 0;
+        let baseRotY = 0;
+        let baseRotZ = 0;
+
+        if (progress < 0.2) {
+            // 0-20%: Hero -> About (Galaxy fly-in)
+            const p = progress / 0.2;
+            targetZ = THREE.MathUtils.lerp(35, -20, p);
+            baseRotX = THREE.MathUtils.lerp(0.0, 0.1, p);
+            baseRotY = THREE.MathUtils.lerp(0.0, 0.05, p);
+            baseRotZ = THREE.MathUtils.lerp(0.0, 0.02, p);
+        } else if (progress < 0.5) {
+            // 20-50%: About -> Skills (Nebula pass-through)
+            const p = (progress - 0.2) / 0.3;
+            targetZ = THREE.MathUtils.lerp(-20, -150, p);
+            baseRotX = THREE.MathUtils.lerp(0.1, 0.2, p);
+            baseRotY = THREE.MathUtils.lerp(0.05, -0.1, p);
+            baseRotZ = THREE.MathUtils.lerp(0.02, -0.05, p);
+        } else if (progress < 0.75) {
+            // 50-75%: Skills -> Projects (Dust storm / deep dive)
+            const p = (progress - 0.5) / 0.25;
+            targetZ = THREE.MathUtils.lerp(-150, -320, p);
+            baseRotX = THREE.MathUtils.lerp(0.2, 0.35, p);
+            baseRotY = THREE.MathUtils.lerp(-0.1, 0.15, p);
+            baseRotZ = THREE.MathUtils.lerp(-0.05, 0.05, p);
+        } else {
+            // 75-100%: Projects -> Contact (Black hole approach)
+            const p = (progress - 0.75) / 0.25;
+            targetZ = THREE.MathUtils.lerp(-320, -450, p);
+            baseRotX = THREE.MathUtils.lerp(0.35, 0.5, p);
+            baseRotY = THREE.MathUtils.lerp(0.15, 0.0, p);
+            baseRotZ = THREE.MathUtils.lerp(0.05, 0.0, p);
+        }
 
         // Organic Time Drift
         const time = state.clock.getElapsedTime();
@@ -86,9 +113,20 @@ function UniverseCamera() {
         );
         state.camera.rotation.y = THREE.MathUtils.lerp(
             state.camera.rotation.y,
-            parallaxRotY,
+            baseRotY + parallaxRotY,
             lerpFactor
         );
+        state.camera.rotation.z = THREE.MathUtils.lerp(
+            state.camera.rotation.z,
+            baseRotZ,
+            lerpFactor * 2
+        );
+
+        // FOV Warp effect for velocity
+        const targetFov = 55 + (warpFactor * 20); // stretch up to +20 FOV
+        const camera = state.camera as THREE.PerspectiveCamera;
+        camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, delta * 5);
+        camera.updateProjectionMatrix();
     });
     return null;
 }

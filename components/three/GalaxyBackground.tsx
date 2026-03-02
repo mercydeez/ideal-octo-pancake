@@ -10,6 +10,7 @@ const vertexShader = /* glsl */ `
   uniform float uTime;
   uniform float uSpin;
   uniform float uScrollY;
+  uniform float uWarp;
   attribute float aSize;
   attribute vec3 aColor;
   varying vec3 vColor;
@@ -28,16 +29,31 @@ const vertexShader = /* glsl */ `
 
     vec3 pos = tiltMatrix * position;
 
-    // Perspective size — bigger particles closer to camera
+    float dist = length(position.xz);
+    
+    // Add subtle, cheap turbulence using sine waves
+    float wave = sin(dist * 0.5 - uTime * 2.0) * cos(pos.x * 0.2 + uTime) * 0.6;
+    pos.y += wave * (1.0 - min(dist/22.0, 1.0)); // Apply more wave near the core
+    
+    // Warp streaking effect based on uWarp (velocity)
+    pos.z -= uWarp * 15.0 * (1.0 - min(dist/22.0, 1.0));
+
+    // Perspective size
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-    gl_PointSize = aSize * (350.0 / -mvPosition.z);
-    gl_PointSize = clamp(gl_PointSize, 0.5, 8.0);
+    
+    // Particle stretching based on warp
+    float sizeMultiplier = 1.0 + (uWarp * 2.0);
+    gl_PointSize = (aSize * sizeMultiplier) * (350.0 / -mvPosition.z);
+    gl_PointSize = clamp(gl_PointSize, 0.5, 8.0 * sizeMultiplier);
 
     gl_Position = projectionMatrix * mvPosition;
 
-    // Fade outer particles slightly
-    float dist = length(position.xz);
-    vAlpha = 1.0 - smoothstep(8.0, 22.0, dist);
+    // Fade outer particles slightly, add pulsing to brightness
+    float pulse = 0.8 + 0.2 * sin(uTime * 3.0 + dist);
+    vAlpha = (1.0 - smoothstep(8.0, 22.0, dist)) * pulse;
+    
+    // Less opacity on fast warp
+    vAlpha *= (1.0 - min(uWarp * 0.5, 0.5));
   }
 `;
 
@@ -136,6 +152,9 @@ export default function GalaxyBackground({ isMobile = false }) {
     // Smooth refs for interpolation
     const spinSpeed = useRef(0.04);
     const scrollY = useRef(0);
+    const prevScrollY = useRef(0);
+    const warpFactor = useRef(0);
+
     useEffect(() => {
         const handler = () => {
             scrollY.current = window.scrollY;
@@ -158,10 +177,17 @@ export default function GalaxyBackground({ isMobile = false }) {
         // Use the ref updated by the effect
         const currentScrollY = scrollY.current;
 
+        // Calculate velocity for warp speed stars (safe from divide-by-zero)
+        const velocity = Math.abs(currentScrollY - prevScrollY.current);
+        prevScrollY.current = currentScrollY;
+        const targetWarp = Math.min(velocity * 0.02, 1.0);
+        warpFactor.current = THREE.MathUtils.lerp(warpFactor.current, targetWarp || 0, delta * 5);
+
         // Push scroll into the shader uniform
         if (shaderRef.current) {
             shaderRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
-            shaderRef.current.uniforms.uScrollY.value = scrollY.current;
+            shaderRef.current.uniforms.uScrollY.value = currentScrollY;
+            shaderRef.current.uniforms.uWarp.value = warpFactor.current;
             shaderRef.current.uniforms.uCameraZ.value = state.camera.position.z;
         }
     });
@@ -185,6 +211,7 @@ export default function GalaxyBackground({ isMobile = false }) {
                         uTime: { value: 0 },
                         uSpin: { value: 0.55 },
                         uScrollY: { value: 0 },
+                        uWarp: { value: 0 },
                         uCameraZ: { value: 35 },
                     }}
                     transparent

@@ -1,12 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Terminal, Download, Rocket } from "lucide-react";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  const textY = useTransform(scrollY, [0, 800], [0, 150]);
+  const textOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const photoScale = useTransform(scrollY, [0, 800], [1, 0.8]);
+  const photoY = useTransform(scrollY, [0, 800], [0, 100]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
@@ -54,6 +60,7 @@ export default function Hero() {
         {/* ── LEFT: Text content ── */}
         <motion.div
           variants={itemVariants}
+          style={{ y: textY, opacity: textOpacity }}
           className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10 order-2 md:order-1"
         >
           {/* Status badge */}
@@ -164,9 +171,10 @@ export default function Hero() {
         {/* ── RIGHT: Profile Photo ── */}
         <motion.div
           variants={itemVariants}
+          style={{ y: photoY, scale: photoScale }}
           className="flex justify-center md:justify-center relative pointer-events-auto order-1 md:order-2"
         >
-          <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+          <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
             {/* HUD Rings */}
             <motion.div
               animate={{ rotate: 360 }}
@@ -176,7 +184,7 @@ export default function Hero() {
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-              className="absolute inset-[-16px] rounded-full border-t border-b border-amber/50"
+              className="absolute inset-0 sm:inset-[-16px] rounded-full border-t border-b border-amber/50"
             />
             <motion.div
               animate={{ rotate: 360 }}
