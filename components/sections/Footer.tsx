@@ -39,6 +39,21 @@ const FOOTER_SOCIALS = [
     href: "https://www.instagram.com/ai.with.atharva/",
     imgSrc: "https://cdn.simpleicons.org/instagram/E4405F",
   },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/atharva.soundankar.7/",
+    imgSrc: "https://cdn.simpleicons.org/facebook/1877F2",
+  },
+  {
+    name: "Threads",
+    href: "https://www.threads.com/@ai.with.atharva",
+    imgSrc: "https://cdn.simpleicons.org/threads/FFFFFF",
+  },
+  {
+    name: "Gmail",
+    href: "mailto:atharva3895@gmail.com",
+    imgSrc: "https://cdn.simpleicons.org/gmail/EA4335",
+  },
 ];
 
 const Footer = React.memo(function Footer() {

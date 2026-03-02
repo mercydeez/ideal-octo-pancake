@@ -115,24 +115,46 @@ export default function Hero() {
             </button>
           </div>
 
-          <div className="flex gap-4 mt-8">
-            <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+          <div className="flex gap-3 mt-8 flex-wrap">
+            {/* GitHub */}
+            <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="GitHub">
               <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub" width={24} height={24} />
             </a>
-            <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230A66C2'%3E%3Cpath d='M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z'/%3E%3C/svg%3E" alt="LinkedIn" width={24} height={24} />
+            {/* LinkedIn */}
+            <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="LinkedIn">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
             </a>
-            <a href={PERSONAL_INFO.twitter} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            {/* Twitter/X */}
+            <a href={PERSONAL_INFO.twitter} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Twitter/X">
               <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="Twitter" width={24} height={24} />
             </a>
-            <a href={PERSONAL_INFO.kaggle} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <img src="https://cdn.simpleicons.org/kaggle/20BEFF" alt="Kaggle" width={24} height={24} />
+            {/* Kaggle — official K logo */}
+            <a href={PERSONAL_INFO.kaggle} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Kaggle">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#20BEFF" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v12.562l6.44-6.235c.15-.161.297-.241.449-.241h3.275c.149 0 .223.053.207.159-.015.101-.086.181-.196.247l-6.568 6.172 6.788 8.634c.149.186.186.365.117.494z" />
+              </svg>
             </a>
-            <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            {/* Medium */}
+            <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Medium">
               <img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="Medium" width={24} height={24} />
             </a>
-            <a href={PERSONAL_INFO.instagram} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            {/* Instagram */}
+            <a href={PERSONAL_INFO.instagram} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Instagram">
               <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" width={24} height={24} />
+            </a>
+            {/* Facebook */}
+            <a href="https://www.facebook.com/atharva.soundankar.7/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Facebook">
+              <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook" width={24} height={24} />
+            </a>
+            {/* Threads */}
+            <a href="https://www.threads.com/@ai.with.atharva" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" title="Threads">
+              <img src="https://cdn.simpleicons.org/threads/FFFFFF" alt="Threads" width={24} height={24} />
+            </a>
+            {/* Gmail */}
+            <a href="mailto:atharva3895@gmail.com" className="opacity-80 hover:opacity-100 transition-opacity" title="Email">
+              <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail" width={24} height={24} />
             </a>
           </div>
 
