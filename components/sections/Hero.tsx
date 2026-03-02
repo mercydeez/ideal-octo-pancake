@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Terminal, Download, Rocket } from "lucide-react";
 import { PERSONAL_INFO } from "@/lib/constants";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function Hero() {
@@ -18,6 +18,34 @@ export default function Hero() {
   };
 
   const [imgError, setImgError] = useState(false);
+
+  // Typing animation state
+  const ROLES = ["AI & Big Data Engineer", "Data Scientist", "Data Analyst", "ML Practitioner"];
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = ROLES[roleIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting && displayed.length < current.length) {
+      // Typing
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 60);
+    } else if (!isDeleting && displayed.length === current.length) {
+      // Pause at full word, then start deleting
+      timeout = setTimeout(() => setIsDeleting(true), 1800);
+    } else if (isDeleting && displayed.length > 0) {
+      // Deleting
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 35);
+    } else if (isDeleting && displayed.length === 0) {
+      // Move to next role
+      setIsDeleting(false);
+      setRoleIndex((i) => (i + 1) % ROLES.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayed, isDeleting, roleIndex]);
 
   return (
     <section id="hero" className="relative w-full h-screen flex items-center justify-center px-4 md:px-12 overflow-hidden pointer-events-none">
@@ -92,6 +120,20 @@ export default function Hero() {
               <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
             </span>
           </h1>
+
+          {/* Typing role pill */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-3 mb-2 inline-flex items-center gap-2 rounded-md border border-cyan/20 bg-black/50 px-4 py-2 backdrop-blur-sm"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan animate-pulse flex-shrink-0" />
+            <span className="font-terminal text-cyan text-xs md:text-sm tracking-widest whitespace-nowrap">
+              {displayed}
+              <span className="animate-[blink_1s_step-end_infinite] ml-0.5 text-cyan">|</span>
+            </span>
+          </motion.div>
 
           <p className="font-terminal text-white/70 text-xs md:text-sm max-w-sm mt-3 leading-relaxed bg-void/50 backdrop-blur-md p-3 rounded-lg border-l-2 border-amber">
             {PERSONAL_INFO.subtitle}
