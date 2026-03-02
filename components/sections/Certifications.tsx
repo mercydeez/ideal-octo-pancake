@@ -37,15 +37,15 @@ const Certifications = React.memo(function Certifications() {
         {/* Masonry / Grid Layout */}
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          {/* MASTER CARD: Research Paper */}
+          {/* MASTER CARD: Research Paper — full-width horizontal banner */}
           {masterCard && (
-            <FadeInUp>
+            <FadeInUp className="md:col-span-3">
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                className="md:col-span-3 tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
+                className="tactical-panel p-8 rounded-2xl border-amber/30 relative overflow-hidden group"
                 style={{ background: "rgba(0,0,0,0.85)" }}
                 {...cursorProps}
               >
@@ -53,9 +53,10 @@ const Certifications = React.memo(function Certifications() {
                 <div className="absolute inset-0 bg-gradient-to-br from-amber/10 to-transparent opacity-50 pointer-events-none" />
                 <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber/20 blur-[100px] pointer-events-none" />
 
-                <div className="relative z-10 h-full flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-3 mb-6">
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                  {/* Left: header + title */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-4">
                       <div className="p-3 bg-amber/10 border border-amber/30 rounded-xl">
                         <FileText size={24} className="text-amber animate-pulse" />
                       </div>
@@ -63,56 +64,45 @@ const Certifications = React.memo(function Certifications() {
                         [ MASTER DOC: {(masterCard as any).badge} ]
                       </span>
                     </div>
-
-                    <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 uppercase tracking-tighter leading-tight">
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tighter leading-tight mb-3">
                       {masterCard.title}
                     </h3>
-
-                    <p className="text-white/60 font-mono text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+                    <p className="text-white/60 font-mono text-sm leading-relaxed line-clamp-3">
                       {masterCard.description}
                     </p>
                   </div>
 
-                  <div className="flex gap-4 mt-auto">
+                  {/* Right: action buttons stacked */}
+                  <div className="flex flex-row md:flex-col gap-3 flex-shrink-0">
                     <button
                       onClick={() => setSelectedPaper(masterCard.paperUrl || null)}
-                      className="flex items-center gap-2 text-void bg-amber hover:bg-white px-6 py-3 font-mono text-xs font-bold transition-colors"
+                      className="flex items-center gap-2 text-void bg-amber hover:bg-white px-5 py-3 font-mono text-xs font-bold transition-colors"
                     >
-                      <ExternalLink size={16} /> VIEW_PUBLICATION
+                      <ExternalLink size={14} /> VIEW_PAPER
                     </button>
                     <button
                       onClick={() => {
                         if ("citation" in masterCard) {
                           navigator.clipboard.writeText((masterCard as any).citation as string);
-                          alert("Citation copied to clipboard!");
+                          alert("Citation copied!");
                         }
                       }}
-                      className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-6 py-3 font-mono text-xs transition-colors bg-amber/5"
+                      className="flex items-center gap-2 text-amber hover:text-white border border-amber/30 hover:border-white px-5 py-3 font-mono text-xs transition-colors bg-amber/5"
                     >
-                      <FileText size={16} /> CITE_SOURCE
+                      <FileText size={14} /> CITE
                     </button>
-                    {("certUrl" in masterCard) && (
-                      <a
-                        href={(masterCard as any).certUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 text-white/50 border border-white/20 hover:text-white hover:border-white px-6 py-3 font-mono text-xs transition-colors"
-                      >
-                        <Award size={16} /> VERIFY_CERT
-                      </a>
-                    )}
                   </div>
                 </div>
               </motion.div>
             </FadeInUp>
           )}
 
-          {/* STANDARD CARDS */}
+          {/* STANDARD CARDS — uniform 3-col grid with fixed min height */}
           {standardCerts.map((cert, i) => (
             <FadeInUp key={i}>
               <motion.div
                 {...cursorProps}
-                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(123,47,190,0.2)] transition-all flex flex-col justify-between relative overflow-hidden group"
+                className="tactical-panel p-6 rounded-2xl border-white/10 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(123,47,190,0.2)] transition-all flex flex-col relative overflow-hidden group min-h-[220px]"
                 style={{
                   background: "rgba(0,0,0,0.7)",
                   backdropFilter: "blur(20px)"
@@ -136,10 +126,10 @@ const Certifications = React.memo(function Certifications() {
                     ) : <Award size={24} className="text-cyan mb-4 opacity-70 group-hover:text-amber transition-colors" />}
                   </div>
 
-                  <h3 className="text-xl font-display font-bold text-white mb-2 uppercase leading-tight mt-2">
+                  <h3 className="text-base font-display font-bold text-white mb-2 uppercase leading-tight">
                     {cert.title}
                   </h3>
-                  <p className="text-white/40 text-xs font-mono line-clamp-3 mb-6 leading-relaxed">
+                  <p className="text-white/40 text-xs font-mono line-clamp-2 mb-4 leading-relaxed flex-1">
                     {cert.description}
                   </p>
 
@@ -149,7 +139,7 @@ const Certifications = React.memo(function Certifications() {
                         href={cert.verifyUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="self-start text-[10px] md:text-xs font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 relative z-10 inline-flex"
+                        className="self-start text-[10px] font-mono text-cyan/70 hover:text-cyan border-b border-cyan/30 hover:border-cyan pb-1 transition-colors uppercase flex items-center gap-2 inline-flex"
                       >
                         DECRYPT_RECORD <ExternalLink size={12} />
                       </a>
