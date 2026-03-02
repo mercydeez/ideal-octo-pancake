@@ -26,8 +26,8 @@ const FOOTER_SOCIALS = [
     name: "Kaggle",
     href: "https://www.kaggle.com/atharvasoundankar",
     imgSrc: null,
-    monogram: "K",
-    monogramColor: "#20BEFF",
+    monogram: null,
+    monogramColor: null,
   },
   {
     name: "Medium",
@@ -80,7 +80,12 @@ const Footer = React.memo(function Footer() {
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-amber-500/30 transition-all group min-h-[44px]"
                 title={s.name}
               >
-                {(s as any).monogram ? (
+                {(s as any).monogram === null && !s.imgSrc ? (
+                  // Official Kaggle K logo (inline SVG from Simple Icons)
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="#20BEFF" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v12.562l6.44-6.235c.15-.161.297-.241.449-.241h3.275c.149 0 .223.053.207.159-.015.101-.086.181-.196.247l-6.568 6.172 6.788 8.634c.149.186.186.365.117.494z" />
+                  </svg>
+                ) : (s as any).monogram ? (
                   <span
                     className="font-display font-black text-base leading-none group-hover:scale-110 transition-transform inline-block"
                     style={{ color: (s as any).monogramColor }}
