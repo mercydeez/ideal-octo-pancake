@@ -169,6 +169,7 @@ export const PROJECTS = [
     problem: "Insurance data siloed with no unified analytics view.",
     approach: "Data modeling and DAX measures for full policy lifecycle analytics.",
     tech: ["Power BI", "DAX", "Data Modeling"],
+    image: "/images/projects/insurance.png",
     github: "https://github.com/mercydeez/Murphy_Insurance",
     category: ["Data Analysis"],
   },
