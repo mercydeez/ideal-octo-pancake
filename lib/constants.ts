@@ -259,14 +259,6 @@ export const BLOGS = [
     excerpt: "Building AI mirrors Ravan's mindset — powerful, intelligent, and dangerously capable.",
     url: "https://medium.com/@atharva3895/how-lanka-naresh-ravans-mindset-is-used-in-ai-today-and-its-vision-for-the-future-85fb6731f792",
   },
-  {
-    title: "Next Article Coming Soon...",
-    tag: "In Progress",
-    readTime: "",
-    excerpt: "Follow on Medium to get notified when the next article drops.",
-    url: "https://medium.com/@atharva3895",
-    comingSoon: true,
-  },
 ]
 
 export const SKILLS = {
@@ -321,11 +313,10 @@ export const SKILLS = {
 
 export const NAV_LINKS = [
   { label: "About", href: "#about" },
-  { label: "Education", href: "#education" },
+  { label: "Journey", href: "#journey" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Certifications", href: "#certifications" },
+  { label: "Credentials", href: "#certifications" },
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Terminal } from "lucide-react";
+import { Menu, X, Terminal, Download } from "lucide-react";
 import { NAV_LINKS, PERSONAL_INFO } from "@/lib/constants";
 
 export default function Navbar() {
@@ -103,8 +103,17 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Hire Me CTA */}
-          <div className="hidden md:block">
+          {/* Desktop CTA Buttons */}
+          <div className="hidden md:flex items-center gap-2">
+            <a
+              href={PERSONAL_INFO.resumeDownload}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:border-cyan/50 hover:bg-cyan/5 transition-all text-[10px] font-mono uppercase tracking-widest text-white/60 hover:text-white flex items-center gap-2"
+            >
+              <Download size={14} className="text-cyan" />
+              RESUME
+            </a>
             <button
               onClick={() => scrollTo("#contact")}
               className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:border-amber-500/50 hover:bg-amber-500/5 transition-all text-[10px] font-mono uppercase tracking-widest text-white/60 hover:text-white flex items-center gap-2"
@@ -159,9 +168,18 @@ export default function Navbar() {
                 ))}
               </div>
 
+              <a
+                href={PERSONAL_INFO.resumeDownload}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 bg-white/5 border border-cyan/30 text-cyan font-bold uppercase tracking-widest text-xs rounded-xl flex items-center justify-center gap-2"
+              >
+                <Download size={16} />
+                DOWNLOAD_RESUME
+              </a>
               <button
                 onClick={() => scrollTo("#contact")}
-                className="mt-auto mb-12 w-full py-4 bg-amber-500 text-black font-bold uppercase tracking-widest text-xs rounded-xl"
+                className="mt-3 w-full py-4 bg-amber-500 text-black font-bold uppercase tracking-widest text-xs rounded-xl"
               >
                 INIT_UPLINK
               </button>
