@@ -92,7 +92,19 @@ export default function ProjectExpanded() {
                     </div>
                 </div>
 
-                <div className="w-full lg:w-1/3 flex flex-col justify-end items-end z-10 h-full mt-8 lg:mt-0">
+                <div className="w-full lg:w-1/3 flex flex-col justify-end items-end z-10 h-full mt-8 lg:mt-0 gap-4">
+                    {/* Dashboard Screenshot */}
+                    {(luluProject as any).image && (
+                        <div className="w-full rounded-xl overflow-hidden border border-amber/30 shadow-2xl group/img">
+                            <img
+                                src={(luluProject as any).image}
+                                alt="Lulu Dashboard Screenshot"
+                                className="w-full h-auto object-cover group-hover/img:scale-105 transition-transform duration-700"
+                                loading="lazy"
+                            />
+                        </div>
+                    )}
+
                     {/* Metadata Terminal Log Simulation */}
                     <div className="tactical-border p-4 bg-void/80 w-full rounded-xl border border-white/10 shadow-2xl relative overflow-hidden h-48">
                         <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-2">

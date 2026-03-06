@@ -59,7 +59,7 @@ const Projects = React.memo(function Projects() {
                 layout
                 whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
                 transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                className="tactical-panel p-8 rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer h-full flex flex-col justify-between"
+                className="tactical-panel rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer h-full flex flex-col overflow-hidden"
                 onMouseEnter={() => {
                   setHoveringProject(true);
                   setCursorVariant('targeting');
@@ -69,37 +69,54 @@ const Projects = React.memo(function Projects() {
                   setCursorVariant('default');
                 }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
-                    {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
-                      project.category?.includes("Big Data") ? <Database size={24} /> :
-                        <Globe size={24} />}
+                {/* Project Screenshot */}
+                {(project as any).image && (
+                  <div className="relative w-full aspect-video overflow-hidden border-b border-white/5">
+                    <img
+                      src={(project as any).image}
+                      alt={project.name}
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                   </div>
-                  <div className="flex gap-4">
-                    <a href={project.github} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
-                      <Github size={20} />
-                    </a>
-                    {project.live && (
-                      <a href={project.live} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
-                        <ExternalLink size={20} />
-                      </a>
-                    )}
+                )}
+
+                <div className="p-8 flex flex-col flex-grow">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
+                      {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
+                        project.category?.includes("Big Data") ? <Database size={24} /> :
+                          <Globe size={24} />}
+                    </div>
+                    <div className="flex gap-4">
+                      {project.github && (
+                        <a href={project.github} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
+                          <Github size={20} />
+                        </a>
+                      )}
+                      {(project as any).live && (
+                        <a href={(project as any).live} target="_blank" className="text-white/30 hover:text-cyan transition-colors" rel="noreferrer">
+                          <ExternalLink size={20} />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
-                  {project.name}
-                </h3>
-                <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed flex-grow">
-                  {project.description}
-                </p>
+                  <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
+                    {project.name}
+                  </h3>
+                  <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed flex-grow">
+                    {project.description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {project.tech.map((tag, idx) => (
-                    <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
-                      {tag}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {project.tech.map((tag, idx) => (
+                      <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </FadeInUp>
