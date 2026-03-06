@@ -172,6 +172,21 @@ export const PROJECTS = [
     github: "https://github.com/mercydeez/Murphy_Insurance",
     category: ["Data Analysis"],
   },
+  {
+    id: "trustmetrix",
+    featured: false,
+    name: "TrustMetrix Design Ethics Study",
+    impact: "2 Designs",
+    impactLabel: "Contrasted",
+    description: "Two contrasting mobile app prototypes for a fictional social credit scoring system — Design A uses gamification psychology to maximize engagement, Design B maximizes transparency and informed consent. Built to demonstrate ethical tradeoffs in UI/UX design.",
+    problem: "How does UI design manipulate user perception of surveillance systems?",
+    approach: "Built two extreme versions of the same app — one dopamine-driven with badges, streaks and leaderboards, one document-style with full data transparency and opt-outs.",
+    tech: ["HTML", "CSS", "JavaScript", "UX Design", "Design Ethics"],
+    image: "/images/projects/trustmetrix.png",
+    live: "https://mercydeez.github.io/TrustMetrix-Prototype/",
+    github: "https://github.com/mercydeez/trustmetrix-prototype",
+    category: ["Full Stack"],
+  },
 ]
 
 export const EXPERIENCE = [
