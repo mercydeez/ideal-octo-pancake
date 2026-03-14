@@ -2,7 +2,7 @@
 
 import { useState, useCallback, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Splash from "@/components/ui/splash-components/Splash";
+import Splash from "@/components/Splash";
 import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Hero from "@/components/sections/Hero";
@@ -26,7 +26,7 @@ export default function Home() {
     <>
       <AnimatePresence mode="wait">
         {loading ? (
-          <Splash key="splash" onEnter={handleLoadComplete} />
+          <Splash key="splash" onComplete={handleLoadComplete} />
         ) : (
           <motion.div
             key="content"
