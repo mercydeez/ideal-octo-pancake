@@ -61,7 +61,7 @@ const Footer = React.memo(function Footer() {
   const cursorProps = useCursorHover();
 
   return (
-    <footer className="relative py-6 px-6 border-t border-white/5 bg-[#030303]">
+    <footer className="relative py-6 px-6 border-t border-white/5 bg-surface">
       <div className="max-w-7xl mx-auto">
         {/* Main Row */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
@@ -70,9 +70,9 @@ const Footer = React.memo(function Footer() {
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
               style={{
-                background: 'linear-gradient(135deg, rgba(255,107,53,0.2), rgba(0,240,255,0.2))',
-                border: '1px solid rgba(255,107,53,0.3)',
-                color: '#FF6B35',
+                background: 'linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2))',
+                border: '1px solid rgba(56,189,248,0.3)',
+                color: 'var(--color-primary)',
               }}
             >
               AS
@@ -92,7 +92,7 @@ const Footer = React.memo(function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 {...cursorProps}
-                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-amber-500/30 transition-all group min-h-[44px]"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-primary/30 transition-all group min-h-[44px]"
                 title={s.name}
               >
                 {(s as any).monogram === null && !s.imgSrc ? (
@@ -126,11 +126,11 @@ const Footer = React.memo(function Footer() {
             {...cursorProps}
             className="w-10 h-10 rounded-full flex items-center justify-center transition-all min-h-[44px] flex-shrink-0"
             style={{
-              background: 'rgba(255,107,53,0.15)',
-              border: '1px solid rgba(255,107,53,0.4)',
-              color: '#FF6B35',
+              background: 'rgba(56,189,248,0.15)',
+              border: '1px solid rgba(56,189,248,0.4)',
+              color: 'var(--color-primary)',
             }}
-            whileHover={{ y: -3, boxShadow: '0 0 20px rgba(255,107,53,0.4)' }}
+            whileHover={{ y: -3, boxShadow: '0 0 20px rgba(56,189,248,0.4)' }}
             whileTap={{ scale: 0.9 }}
             title="Back to top"
           >
@@ -143,7 +143,7 @@ const Footer = React.memo(function Footer() {
           <p className="text-white/50 font-mono text-[9px] uppercase tracking-[0.2em]">
             Built with ❤️ using Next.js, Three.js &amp; TailwindCSS
           </p>
-          <p className="text-amber-400/80 font-mono text-[9px] uppercase tracking-widest">
+          <p className="text-secondary/80 font-mono text-[9px] uppercase tracking-widest">
             Actively seeking AI Engineering &amp; Data Science roles
           </p>
           <p className="text-white/50 font-mono text-[9px] uppercase tracking-[0.2em]">

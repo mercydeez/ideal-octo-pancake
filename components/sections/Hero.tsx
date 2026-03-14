@@ -5,6 +5,7 @@ import { Terminal, Download, Rocket } from "lucide-react";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import ScrambleText from "@/components/ui/ScrambleText";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -64,108 +65,124 @@ export default function Hero() {
           className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10 order-2 md:order-1"
         >
           {/* Status badge */}
-          <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded-sm mb-6 border border-white/10 w-fit">
-            <Terminal size={14} className="text-emerald-500 animate-pulse" />
-            <span className="text-white/70 text-[10px] md:text-xs uppercase font-mono tracking-[0.2em]">
-              SYS.STATUS: <span className="text-emerald-500">{PERSONAL_INFO.status.toUpperCase()}</span>
-            </span>
-          </div>
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded-sm mb-6 border border-white/10 w-fit">
+              <Terminal size={14} className="text-primary animate-pulse" />
+              <span className="text-white/70 text-[10px] md:text-xs uppercase font-mono tracking-[0.2em]">
+                SYS.STATUS: <span className="text-primary">{PERSONAL_INFO.status.toUpperCase()}</span>
+              </span>
+            </div>
+          </ScrollReveal>
 
           {/* Name — architectural and stark */}
           <h1
-            className="text-cyber font-black text-white mb-3 flex flex-col leading-none w-full"
+            className="text-cyber font-black mb-3 flex flex-col leading-none w-full"
             style={{ fontSize: 'clamp(2rem, 4.2vw, 3.2rem)', letterSpacing: '0.05em' }}
           >
-            <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
-            <span className="text-white/50 leading-tight pb-2">
-              <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
-            </span>
+            <ScrollReveal direction="left" delay={0.2}>
+              <span className="text-highlight">
+                <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
+              </span>
+            </ScrollReveal>
+            <ScrollReveal direction="right" delay={0.35}>
+              <span className="text-text-2 leading-tight pb-2">
+                <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
+              </span>
+            </ScrollReveal>
           </h1>
 
           {/* Terminal typing block */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="mb-5 w-full max-w-md rounded-lg overflow-hidden border border-white/10"
-            style={{ background: 'rgba(5,5,5,0.9)', boxShadow: '0 0 25px rgba(0,240,255,0.08)' }}
-          >
-            {/* Terminal header */}
-            <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/5" style={{ background: 'rgba(255,255,255,0.04)' }}>
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber/80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-              <span className="ml-2 text-[9px] font-mono text-white/25 tracking-widest">role.sh</span>
-            </div>
-            {/* Terminal body */}
-            <div className="relative px-4 py-3 overflow-hidden">
-              <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,1) 2px, rgba(255,255,255,1) 3px)' }} />
-              <p className="relative font-mono text-[10px] text-white/30 mb-1.5">$ identify --role</p>
-              <div className="relative flex items-center">
-                <span className="text-[#00FF41] font-mono text-sm mr-1.5">›</span>
-                <span className="font-mono text-sm" style={{ color: '#00F0FF', textShadow: '0 0 10px rgba(0,240,255,0.6)' }}>
-                  {displayed}
-                </span>
-                <span className="font-mono text-sm animate-[blink_1s_step-end_infinite]"
-                  style={{ color: '#00F0FF', textShadow: '0 0 10px rgba(0,240,255,0.9)' }}>█</span>
+          <ScrollReveal direction="up" delay={0.5} className="w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="mb-5 w-full max-w-md rounded-lg overflow-hidden border border-white/10"
+              style={{ background: 'rgba(13,17,23,0.9)', boxShadow: '0 0 25px rgba(56,189,248,0.08)' }}
+            >
+              {/* Terminal header */}
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/5" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-highlight/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                <span className="ml-2 text-[9px] font-mono text-white/25 tracking-widest">role.sh</span>
               </div>
-            </div>
-          </motion.div>
+              {/* Terminal body */}
+              <div className="relative px-4 py-3 overflow-hidden">
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                  style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,1) 2px, rgba(255,255,255,1) 3px)' }} />
+                <p className="relative font-mono text-[10px] text-white/30 mb-1.5">$ identify --role</p>
+                <div className="relative flex items-center">
+                  <span className="text-primary font-mono text-sm mr-1.5">›</span>
+                  <span className="font-mono text-sm" style={{ color: 'var(--color-primary)', textShadow: '0 0 10px rgba(56,189,248,0.6)' }}>
+                    {displayed}
+                  </span>
+                  <span className="font-mono text-sm animate-[blink_1s_step-end_infinite]"
+                    style={{ color: 'var(--color-primary)', textShadow: '0 0 10px rgba(56,189,248,0.9)' }}>█</span>
+                </div>
+              </div>
+            </motion.div>
+          </ScrollReveal>
 
           {/* Subtitle */}
-          <p className="font-mono text-white/60 text-xs md:text-sm max-w-sm mb-8 leading-relaxed tactical-panel p-4 rounded-md border-l-2 border-l-cyan">
-            {PERSONAL_INFO.subtitle}
-          </p>
+          <ScrollReveal direction="up" delay={0.65}>
+            <p className="font-mono text-text-2 text-xs md:text-sm max-w-sm mb-8 leading-relaxed tactical-panel p-4 rounded-md border-l-2 border-l-primary">
+              {PERSONAL_INFO.subtitle}
+            </p>
+          </ScrollReveal>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto pointer-events-auto">
-            <a
-              href={PERSONAL_INFO.resumeDownload}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-white text-void font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-cyan hover:text-void transition-colors min-h-[44px]"
-            >
-              <Download size={14} /> EXTRACT_DATA
-            </a>
-            <button
-              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-6 py-3 border border-white/20 text-white/80 hover:bg-white/5 hover:border-white/50 hover:text-white font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-colors min-h-[44px]"
-            >
-              <Rocket size={14} /> DEPLOY_MODULES
-            </button>
-          </div>
+          <ScrollReveal direction="up" delay={0.8}>
+            <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto pointer-events-auto">
+              <a
+                href={PERSONAL_INFO.resumeDownload}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shimmer-btn px-6 py-3 bg-primary text-base font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 hover:shadow-[0_0_25px_rgba(56,189,248,0.3)] transition-all min-h-[44px]"
+              >
+                <Download size={14} /> EXTRACT_DATA
+              </a>
+              <button
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-6 py-3 border border-muted text-text-2 hover:bg-white/5 hover:border-primary/50 hover:text-text-1 font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-colors min-h-[44px]"
+              >
+                <Rocket size={14} /> DEPLOY_MODULES
+              </button>
+            </div>
+          </ScrollReveal>
 
           {/* Social icons */}
-          <div className="flex gap-3 flex-wrap pointer-events-auto">
-            <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="GitHub">
-              <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub" width={22} height={22} />
-            </a>
-            <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="LinkedIn">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-            </a>
-            <a href={PERSONAL_INFO.twitter} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="X/Twitter">
-              <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="Twitter" width={22} height={22} />
-            </a>
-            <a href={PERSONAL_INFO.kaggle} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Kaggle">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="#20BEFF"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v12.562l6.44-6.235c.15-.161.297-.241.449-.241h3.275c.149 0 .223.053.207.159-.015.101-.086.181-.196.247l-6.568 6.172 6.788 8.634c.149.186.186.365.117.494z" /></svg>
-            </a>
-            <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Medium">
-              <img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="Medium" width={22} height={22} />
-            </a>
-            <a href={PERSONAL_INFO.instagram} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Instagram">
-              <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" width={22} height={22} />
-            </a>
-            <a href="https://www.facebook.com/atharva.soundankar.7/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Facebook">
-              <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook" width={22} height={22} />
-            </a>
-            <a href="https://www.threads.com/@ai.with.atharva" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Threads">
-              <img src="https://cdn.simpleicons.org/threads/FFFFFF" alt="Threads" width={22} height={22} />
-            </a>
-            <a href="mailto:atharva3895@gmail.com" className="opacity-70 hover:opacity-100 transition-opacity" title="Gmail">
-              <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail" width={22} height={22} />
-            </a>
-          </div>
+          <ScrollReveal direction="up" delay={0.95}>
+            <div className="flex gap-3 flex-wrap pointer-events-auto">
+              <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="GitHub">
+                <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub" width={22} height={22} />
+              </a>
+              <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="LinkedIn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+              </a>
+              <a href={PERSONAL_INFO.twitter} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="X/Twitter">
+                <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="Twitter" width={22} height={22} />
+              </a>
+              <a href={PERSONAL_INFO.kaggle} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Kaggle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#20BEFF"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v12.562l6.44-6.235c.15-.161.297-.241.449-.241h3.275c.149 0 .223.053.207.159-.015.101-.086.181-.196.247l-6.568 6.172 6.788 8.634c.149.186.186.365.117.494z" /></svg>
+              </a>
+              <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Medium">
+                <img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="Medium" width={22} height={22} />
+              </a>
+              <a href={PERSONAL_INFO.instagram} target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Instagram">
+                <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" width={22} height={22} />
+              </a>
+              <a href="https://www.facebook.com/atharva.soundankar.7/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Facebook">
+                <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook" width={22} height={22} />
+              </a>
+              <a href="https://www.threads.com/@ai.with.atharva" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity" title="Threads">
+                <img src="https://cdn.simpleicons.org/threads/FFFFFF" alt="Threads" width={22} height={22} />
+              </a>
+              <a href="mailto:atharva3895@gmail.com" className="opacity-70 hover:opacity-100 transition-opacity" title="Gmail">
+                <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail" width={22} height={22} />
+              </a>
+            </div>
+          </ScrollReveal>
         </motion.div>
 
         {/* ── RIGHT: Profile Photo ── */}
@@ -174,6 +191,7 @@ export default function Hero() {
            style={{ y: photoY, scale: photoScale }}
            className="flex justify-center md:justify-center relative pointer-events-auto order-1 md:order-2"
          >
+          <ScrollReveal delay={0.3}>
            <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
              {/* Architectural HUD Rings */}
              <motion.div
@@ -182,13 +200,13 @@ export default function Hero() {
                className="absolute inset-0 rounded-full border border-dashed border-white/20"
              />
              <motion.div
-               className="absolute inset-[10px] rounded-full border border-cyan/10"
+               className="absolute inset-[10px] rounded-full border border-primary/10"
              />
              {/* Photo */}
-             <div className="absolute inset-4 rounded-full overflow-hidden border border-white/20 z-10 bg-[#050505] flex items-center justify-center shadow-2xl">
+             <div className="absolute inset-4 rounded-full overflow-hidden border border-white/20 z-10 bg-base flex items-center justify-center shadow-2xl">
                {imgError ? (
-                 <div className="w-full h-full flex items-center justify-center bg-[#050505]">
-                   <span className="text-4xl md:text-5xl font-mono font-bold text-white/50">AS</span>
+                 <div className="w-full h-full flex items-center justify-center bg-base">
+                   <span className="text-4xl md:text-5xl font-mono font-bold text-text-2">AS</span>
                  </div>
                ) : (
                  <img
@@ -204,6 +222,7 @@ export default function Hero() {
                <path d="M50 0 L50 5 M50 95 L50 100 M0 50 L5 50 M95 50 L100 50" stroke="currentColor" strokeWidth="0.5" />
              </svg>
            </div>
+          </ScrollReveal>
          </motion.div>
 
       </motion.div>

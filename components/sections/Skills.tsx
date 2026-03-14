@@ -13,11 +13,11 @@ const Skills = React.memo(function Skills() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-8 border-l-4 border-cyan pl-8"
+        className="mb-8 border-l-4 border-primary pl-8"
       >
-        <p className="text-cyan font-mono text-sm tracking-widest mb-2 uppercase">[ TECHNICAL_TOOLKIT ]</p>
-        <h2 className="text-3xl md:text-5xl font-display font-black text-white uppercase tracking-tighter">
-          <ScrambleText text="CORE " /><span className="text-cyan text-glow-cyan"><ScrambleText text="POWERS" /></span>
+        <p className="text-primary font-mono text-sm tracking-widest mb-2 uppercase">[ TECHNICAL_TOOLKIT ]</p>
+        <h2 className="text-3xl md:text-5xl font-display font-black text-text-1 uppercase tracking-tighter">
+          <ScrambleText text="CORE " /><span className="text-primary"><ScrambleText text="POWERS" /></span>
         </h2>
       </motion.div>
 
@@ -26,17 +26,17 @@ const Skills = React.memo(function Skills() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="w-full bg-amber-500/5 border-y border-amber-500/10 py-3 overflow-hidden whitespace-nowrap mb-8"
+        className="w-full bg-secondary/5 border-y border-secondary/10 py-3 overflow-hidden whitespace-nowrap mb-8"
       >
         <div className="flex items-center">
-          <span className="text-amber-400 font-mono text-[10px] font-bold uppercase tracking-widest px-4 border-r border-amber-500/30 shrink-0 z-10 bg-[#030303] relative">CURRENTLY MASTERING</span>
+          <span className="text-secondary font-mono text-[10px] font-bold uppercase tracking-widest px-4 border-r border-secondary/30 shrink-0 z-10 bg-base relative">CURRENTLY MASTERING</span>
           <div className="overflow-hidden flex-1">
-            <div className="animate-marquee gap-10 items-center text-amber-400 font-mono font-bold uppercase text-[10px] tracking-[0.15em] flex ml-4">
+            <div className="animate-marquee gap-10 items-center text-secondary font-mono font-bold uppercase text-[10px] tracking-[0.15em] flex ml-4">
               {[...Array(4)].map((_, i) => (
                 <div key={i} className="flex gap-10 items-center">
                   {CURRENTLY_LEARNING.map((token, j) => (
                     <span key={j} className="flex items-center gap-3">
-                      <span className="w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_6px_#FF6B35]" />
+                      <span className="w-1 h-1 bg-secondary rounded-full shadow-[0_0_6px_rgba(129,140,248,0.6)]" />
                       {token}
                     </span>
                   ))}
@@ -50,23 +50,23 @@ const Skills = React.memo(function Skills() {
       <div className="flex flex-col gap-4">
         {Object.entries(SKILLS).map(([groupTitle, skillsList], groupIdx) => (
           <StaggerContainer key={groupTitle}>
-            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "AI Engineering Core" ? "text-singularity-400" : "text-white/40"}`}>
+            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "AI Engineering Core" ? "text-secondary" : "text-text-3"}`}>
               {groupIdx + 1}. {groupTitle}
-              <div className={`h-px flex-1 ${groupTitle === "AI Engineering Core" ? "bg-singularity/50" : "bg-white/5"}`} />
+              <div className={`h-px flex-1 ${groupTitle === "AI Engineering Core" ? "bg-secondary/50" : "bg-white/5"}`} />
             </h3>
 
             <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1.5 md:gap-2">
-              {skillsList.map((skill, i) => (
+              {skillsList.map((skill) => (
                 <FadeInUp key={skill.name}>
                   <div
                     className="flex flex-col items-center justify-center gap-1 p-1.5 rounded-md
-                    border border-white/5 hover:border-[#FF6B35]/60
+                    border border-white/5 hover:border-primary/60
                     bg-white/[0.03] hover:bg-white/10
                     transition-all duration-300 hover:scale-105
                     cursor-default group h-14"
                   >
                     <div className="w-7 h-7 flex items-center justify-center
-                        bg-black/30 rounded p-1">
+                        bg-black/30 rounded p-1 group-hover:scale-110 transition-transform">
                       <img
                         src={skill.logo}
                         alt={skill.name}
@@ -79,8 +79,8 @@ const Skills = React.memo(function Skills() {
                         }}
                       />
                     </div>
-                    <span className="text-[9px] md:text-[10px] text-gray-400 
-                      group-hover:text-[#FF6B35] transition-colors text-center
+                    <span className="text-[9px] md:text-[10px] text-text-3 
+                      group-hover:text-primary transition-colors text-center
                       font-mono leading-tight">
                       {skill.name}
                     </span>

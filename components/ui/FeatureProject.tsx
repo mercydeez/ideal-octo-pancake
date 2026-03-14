@@ -9,24 +9,24 @@ import TechChain from "./TechChain";
 
 const MOBILE_TECH_CHAIN = [
     { label: "Next.js", sub: "Client Application", icon: Server, color: "#FFFFFF" },
-    { label: "FastAPI", sub: "AI Orchestration Layer", icon: Zap, color: "#FF6B35" },
+    { label: "FastAPI", sub: "AI Orchestration Layer", icon: Zap, color: "#818cf8" },
     { label: "OpenAI", sub: "LLM Inference", icon: Database, color: "#74AA9C" },
     { label: "Postgres & Redis", sub: "Data & Event Stream", icon: Database, color: "#4169E1" },
 ];
 
 const ARCH_NODES = [
-    { label: "NGINX", sub: "Reverse Proxy", icon: Shield, color: "#00F0FF", x: 50, row: 0 },
+    { label: "NGINX", sub: "Reverse Proxy", icon: Shield, color: "#38bdf8", x: 50, row: 0 },
     { label: "Next.js", sub: "Frontend SSR", icon: Server, color: "#FFFFFF", x: 20, row: 1 },
-    { label: "FastAPI", sub: "REST API", icon: Zap, color: "#FF6B35", x: 50, row: 1 },
+    { label: "FastAPI", sub: "REST API", icon: Zap, color: "#818cf8", x: 50, row: 1 },
     { label: "OpenAI", sub: "AI Chat", icon: Terminal, color: "#74AA9C", x: 80, row: 1 },
     { label: "PostgreSQL", sub: "Relational DB", icon: Database, color: "#4169E1", x: 30, row: 2 },
     { label: "Redis", sub: "Pub/Sub + Cache", icon: Database, color: "#FF4438", x: 70, row: 2 },
 ];
 
 const CASE_STUDY_METRICS = [
-    { value: "10", label: "Stores Tracked", color: "#00F0FF" },
-    { value: "50+", label: "Products Monitored", color: "#FF6B35" },
-    { value: "4-Tier", label: "RBAC System", color: "#7B2FBE" },
+    { value: "10", label: "Stores Tracked", color: "#38bdf8" },
+    { value: "50+", label: "Products Monitored", color: "#818cf8" },
+    { value: "4-Tier", label: "RBAC System", color: "#818cf8" },
     { value: "<200ms", label: "SSE Latency", color: "#14B8A6" },
 ];
 

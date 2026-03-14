@@ -3,15 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --void: #050505;
-  --cyan: #00F0FF;
-  --amber: #FF6B35;
-  --singularity: #7B2FBE;
+  --color-primary:   #38bdf8;
+  --color-secondary: #818cf8;
+  --color-highlight: #fb923c;
+  --color-surface:   #0d1117;
+  --color-base:      #060a14;
+  --color-muted:     #334155;
+  --color-text-1:    #f1f5f9;
+  --color-text-2:    #94a3b8;
+  --color-text-3:    #475569;
+
+  /* Legacy aliases */
+  --void: #060a14;
+  --cyan: #38bdf8;
+  --amber: #fb923c;
+  --singularity: #818cf8;
 }
 
 body {
-  background-color: var(--void);
-  color: #F5F5F5;
+  background-color: var(--color-base);
+  color: var(--color-text-1);
   overflow-x: hidden;
   font-family: var(--font-space), monospace;
 }
@@ -24,9 +35,9 @@ body {
 }
 
 ::selection {
-  background: rgba(0, 240, 255, 0.4);
+  background: rgba(56, 189, 248, 0.4);
   color: #fff;
-  text-shadow: 0 0 10px #00f0ff;
+  text-shadow: 0 0 10px var(--color-primary);
 }
 
 ::-webkit-scrollbar {
@@ -34,17 +45,17 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--color-base);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--color-muted);
   border-radius: 0;
 }
 
 /* Minimalist Monolith Tactical Panels */
 .tactical-panel {
-  background: rgba(10, 10, 11, 0.9);
+  background: rgba(13, 17, 23, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   transition: border-color 0.3s ease;
@@ -55,7 +66,7 @@ body {
 }
 
 .glass-card {
-  background: rgba(10, 10, 11, 0.7);
+  background: rgba(13, 17, 23, 0.7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -65,7 +76,7 @@ body {
 .tactical-border {
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  background-color: #0A0A0B;
+  background-color: var(--color-surface);
 }
 
 .tactical-border::before,
@@ -121,12 +132,8 @@ body {
 }
 
 @keyframes cursor-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes marquee {
@@ -140,9 +147,38 @@ body {
 
 /* Typing cursor blink */
 @keyframes blink {
-  0%,
-  100% { opacity: 1; }
+  0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* CTA Shimmer Sweep */
+@keyframes shimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 150%; }
+}
+
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.shimmer-btn:hover::after {
+  opacity: 1;
+  animation: shimmer 1.5s ease-in-out;
 }
 
 @layer utilities {
@@ -156,7 +192,7 @@ body {
 }
 
 @media (pointer: coarse) {
-  .hover\:border-cyan\/50:hover {
+  .hover\:border-primary\/50:hover {
     border-color: rgba(255, 255, 255, 0.05) !important;
   }
   .group:hover .group-hover\:scale-105 {

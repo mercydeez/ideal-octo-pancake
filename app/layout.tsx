@@ -37,7 +37,7 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable} ${bebasNeue.variable} ${spaceMono.variable}`}>
-      <body className="antialiased bg-[#050505] selection:bg-cyan/30 text-white">
+      <body className="antialiased bg-base selection:bg-primary/30 text-text-1">
 
         <SmoothScrollProvider>
 

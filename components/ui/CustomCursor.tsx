@@ -29,12 +29,12 @@ export default function CustomCursor() {
                 style={{
                     width: isDefault ? '12px' : '40px',
                     height: isDefault ? '12px' : '40px',
-                    backgroundColor: isDefault ? '#00F0FF' : 'transparent',
-                    border: isDefault ? 'none' : '2px dashed #FF6B35',
+                    backgroundColor: isDefault ? 'var(--color-primary)' : 'transparent',
+                    border: isDefault ? 'none' : '2px dashed var(--color-primary)',
                     borderRadius: '50%',
                     transition: 'all 0.15s ease',
                     animation: isDefault ? 'none' : 'cursor-spin 1s linear infinite',
-                    boxShadow: isDefault ? 'none' : '0 0 20px rgba(255,107,53,0.6)',
+                    boxShadow: isDefault ? 'none' : '0 0 20px rgba(56,189,248,0.6)',
                 }}
             />
         </div>

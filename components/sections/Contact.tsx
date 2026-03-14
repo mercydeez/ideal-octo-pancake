@@ -43,10 +43,10 @@ const Contact = React.memo(function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
         >
-          <div className="mb-8 border-l-4 border-amber-500 pl-8">
-            <p className="text-amber-400 font-mono text-sm tracking-widest mb-2 uppercase">[ TRANSMISSION_LINK ]</p>
-            <h2 className="text-5xl md:text-7xl font-display font-black text-white uppercase tracking-tighter">
-              <ScrambleText text="OPEN " /><span className="text-amber-400 text-glow-amber"><ScrambleText text="CHANNEL" /></span>
+          <div className="mb-8 border-l-4 border-secondary pl-8">
+            <p className="text-secondary font-mono text-sm tracking-widest mb-2 uppercase">[ TRANSMISSION_LINK ]</p>
+            <h2 className="text-5xl md:text-7xl font-display font-black text-text-1 uppercase tracking-tighter">
+              <ScrambleText text="OPEN " /><span className="text-secondary"><ScrambleText text="CHANNEL" /></span>
             </h2>
           </div>
 
@@ -77,30 +77,30 @@ const Contact = React.memo(function Contact() {
 
           <form onSubmit={handleSubmit} className="p-8 font-mono space-y-6">
             <div className="mb-4">
-              <p className="text-cyan mb-1">atharva@neural:~$ <span className="text-white">send_message</span></p>
+              <p className="text-primary mb-1">atharva@neural:~$ <span className="text-text-1">send_message</span></p>
               <p className="text-white/40 text-xs">Establishing secure connection via SSL/TLS...</p>
             </div>
 
             <div>
-              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">01. Name</label>
+              <label className="text-secondary text-[10px] uppercase tracking-widest mb-2 block">01. Name</label>
               <input
                 type="text"
                 required
                 value={form.name}
                 onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 placeholder="YOUR_NAME"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors min-h-[44px]"
               />
             </div>
             <div>
-              <label className="text-amber-400 text-[10px] uppercase tracking-widest mb-2 block">02. Email</label>
+              <label className="text-secondary text-[10px] uppercase tracking-widest mb-2 block">02. Email</label>
               <input
                 type="email"
                 required
                 value={form.email}
                 onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                 placeholder="YOUR_EMAIL"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors min-h-[44px]"
               />
             </div>
             <div>
@@ -111,7 +111,7 @@ const Contact = React.memo(function Contact() {
                 value={form.subject}
                 onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
                 placeholder="SUBJECT_LINE"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors min-h-[44px]"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors min-h-[44px]"
               />
             </div>
             <div>
@@ -122,7 +122,7 @@ const Contact = React.memo(function Contact() {
                 value={form.message}
                 onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                 placeholder="HOW_CAN_I_ASSIST?"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors resize-none"
               />
             </div>
 
@@ -131,9 +131,9 @@ const Contact = React.memo(function Contact() {
               disabled={loading}
               className="w-full py-4 rounded-xl flex items-center justify-center gap-3 group transition-all min-h-[44px] font-bold text-sm uppercase tracking-[0.2em] disabled:opacity-50"
               style={{
-                background: loading ? 'rgba(255,107,53,0.2)' : 'linear-gradient(135deg, rgba(255,107,53,0.3), rgba(255,184,0,0.2))',
-                border: '1px solid rgba(255,107,53,0.4)',
-                color: '#FF6B35',
+                background: loading ? 'rgba(56,189,248,0.2)' : 'linear-gradient(135deg, rgba(56,189,248,0.3), rgba(129,140,248,0.2))',
+                border: '1px solid rgba(56,189,248,0.4)',
+                color: 'var(--color-primary)',
               }}
             >
               {loading ? "TRANSMITTING..." : "TRANSMIT →"}
