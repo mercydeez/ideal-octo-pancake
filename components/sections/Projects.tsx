@@ -49,7 +49,7 @@ const Projects = React.memo(function Projects() {
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {(activeFilter === "All" || activeFilter === "Big Data" || activeFilter === "AI/ML") && (
+          {(activeFilter === "All" || activeFilter === "AI Systems" || activeFilter === "LLM/GenAI") && (
             <ProjectExpanded />
           )}
 
@@ -85,8 +85,8 @@ const Projects = React.memo(function Projects() {
                 <div className="p-8 flex flex-col flex-grow">
                   <div className="flex items-center justify-between mb-6">
                     <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-cyan">
-                      {project.category?.includes("Machine Learning") ? <Cpu size={24} /> :
-                        project.category?.includes("Big Data") ? <Database size={24} /> :
+                      {project.category?.includes("AI Systems") ? <Cpu size={24} /> :
+                        project.category?.includes("Vector Search") ? <Database size={24} /> :
                           <Globe size={24} />}
                     </div>
                     <div className="flex gap-4">

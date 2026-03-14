@@ -50,9 +50,9 @@ const Skills = React.memo(function Skills() {
       <div className="flex flex-col gap-4">
         {Object.entries(SKILLS).map(([groupTitle, skillsList], groupIdx) => (
           <StaggerContainer key={groupTitle}>
-            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "ML / AI" ? "text-singularity-400" : "text-white/40"}`}>
+            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "AI Engineering Core" ? "text-singularity-400" : "text-white/40"}`}>
               {groupIdx + 1}. {groupTitle}
-              <div className={`h-px flex-1 ${groupTitle === "ML / AI" ? "bg-singularity/50" : "bg-white/5"}`} />
+              <div className={`h-px flex-1 ${groupTitle === "AI Engineering Core" ? "bg-singularity/50" : "bg-white/5"}`} />
             </h3>
 
             <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1.5 md:gap-2">

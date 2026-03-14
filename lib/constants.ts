@@ -9,18 +9,18 @@ export const SOCIALS = [
 
 export const PERSONAL_INFO = {
   name: "Atharva Soundankar",
-  title: "AI & Big Data Engineer",
+  title: "AI Engineer",
   roles: [
-    "AI & Big Data Engineer",
-    "Data Scientist",
-    "ML Practitioner",
-    "Data Analyst",
+    "AI Engineer",
+    "LLM Application Developer",
+    "Backend AI Developer",
+    "AI Infrastructure Specialist",
   ],
-  subtitle: "Building scalable data pipelines and intelligent ML systems — from raw data to production-ready AI solutions.",
+  subtitle: "AI Engineer building production-ready LLM applications, AI APIs, and scalable AI infrastructure.",
   email: "atharva3895@gmail.com",
   phone: "+91-7798884495",
   location: "Dubai, United Arab Emirates",
-  status: "Open to AI/Data Engineering Roles",
+  status: "Open to AI Engineering Roles",
   github: "https://github.com/mercydeez",
   linkedin: "https://www.linkedin.com/in/atharva-soundankar/",
   twitter: "https://x.com/Atharva3895",
@@ -33,14 +33,13 @@ export const PERSONAL_INFO = {
 }
 
 export const BIO = [
-  "I'm an AI & Data Engineer who transforms raw data into decisions that matter — and documents the journey to make AI accessible for everyone.",
-  "Proficient in Python, SQL, and Machine Learning, I build end-to-end systems from data ingestion to production deployment. Currently pursuing Master of AI in Business at SP Jain School of Global Management, Mumbai.",
-  "I also run @ai.with.atharva on Instagram & Threads — simplifying AI concepts for students and early-career professionals.",
+  "I'm an AI Engineer specializing in building production-ready AI systems, LLM applications, and scalable AI infrastructure.",
+  "Proficient in Python, FastAPI, and Docker, I design and deploy backend AI services, multi-agent workflows using LangChain/LangGraph, and vector retrieval pipelines with Pinecone and modern LLM APIs.",
+  "I also run @ai.with.atharva on Instagram & Threads — sharing insights on LLM orchestration, GenAI development, and modern cloud deployment.",
 ]
 
 export const BIO_HIGHLIGHTED_WORDS = [
-  "Python", "SQL", "Machine Learning",
-  "SP Jain School of Global Management",
+  "Python", "FastAPI", "Docker", "LangChain/LangGraph", "Pinecone", "LLM APIs",
   "@ai.with.atharva"
 ]
 
@@ -86,108 +85,76 @@ export const EDUCATION = [
   },
 ]
 
-export type ProjectCategory = "All" | "Machine Learning" | "Data Analysis" | "Big Data" | "Full Stack" | "AI/ML";
+export type ProjectCategory = "All" | "AI Systems" | "LLM/GenAI" | "AI Infrastructure" | "Vector Search";
 
 export const PROJECT_FILTERS: ProjectCategory[] = [
   "All",
-  "Machine Learning",
-  "Data Analysis",
-  "Big Data",
-  "Full Stack",
-  "AI/ML",
+  "AI Systems",
+  "LLM/GenAI",
+  "AI Infrastructure",
+  "Vector Search",
 ];
 
 export const PROJECTS = [
   {
     id: "lulu",
     featured: true,
-    name: "Lulu Sales Intelligence Dashboard",
+    name: "Lulu Conversational AI Platform",
     badge: "⭐ ENTERPRISE",
     badgeColor: "#FFB800",
     impact: "15+",
     impactLabel: "Technologies",
-    description: "Enterprise real-time analytics platform for Lulu Hypermarket UAE. Event-driven architecture with SSE streaming, AI chat assistant with OpenAI integration, 4-tier RBAC, Docker Compose deployment, and CI/CD pipeline.",
-    problem: "Large retail operations lack real-time visibility across distributed stores.",
-    approach: "Built event-driven architecture with SSE streaming, Redis pub/sub, JWT RBAC, and AI-powered natural language querying.",
-    tech: ["Next.js", "FastAPI", "PostgreSQL", "Redis", "Docker", "OpenAI", "JWT", "SSE", "NGINX", "GitHub Actions"],
-    architecture: "NGINX → Next.js + FastAPI → PostgreSQL + Redis",
+    description: "Enterprise API-based AI system serving real-time predictions and natural language queries. Built on an event-driven architecture featuring an AI chat assistant with OpenAI integration, served via a FastAPI backend, Docker Compose deployment, and Redis pub/sub.",
+    problem: "Large retail operations lacked a centralized natural language interface for real-time data visibility.",
+    approach: "Engineered scalable backend AI services leveraging OpenAI APIs, SSE streaming, and Redis pub/sub inside containerized Docker infrastructure.",
+    tech: ["Python", "FastAPI", "Docker", "OpenAI", "PostgreSQL", "Redis", "Next.js"],
+    architecture: "Next.js → FastAPI + OpenAI → PostgreSQL + Redis",
     image: "/images/projects/lulu-dashboard.png",
     github: "https://github.com/mercydeez/lulu-sales-intelligence-dashboard",
-    category: ["Big Data", "Full Stack"],
+    category: ["AI Systems", "LLM/GenAI"],
   },
   {
-    id: "bombay-tribe",
+    id: "rag-pipeline",
     featured: false,
-    name: "Bombay Tribe Sales Dashboard",
-    impact: "₹1.57M",
-    impactLabel: "Revenue Tracked",
-    description: "Multi-page Power BI dashboard built for Bombay Tribe, a D2C clothing brand. Tracks order pipeline, product performance, user analytics, and affiliate network across 3 pages.",
-    problem: "D2C brand had no unified view of sales, product performance, and affiliate activity.",
-    approach: "Built 3-page Power BI dashboard covering order lifecycle, product category analysis, and user/affiliate tracking with interactive filters.",
-    tech: ["Power BI", "DAX", "Data Modeling", "D2C Analytics"],
-    image: "/images/projects/bombay-tribe.png",
+    name: "Enterprise RAG Pipeline",
+    impact: "TBD",
+    impactLabel: "Sub-Second Retrieval",
+    description: "A production-grade Retrieval-Augmented Generation API for querying extensive internal document stores. Uses Pinecone for vector search architecture and FastAPI for secure model serving.",
+    problem: "Organizations need accurate LLM answers rooted in proprietary, private documentation without hallucinations.",
+    approach: "Built a vector search system embedding documents into Pinecone, implementing semantic search, and wrapping in a LangChain-driven FastAPI service.",
+    tech: ["LangChain", "Pinecone", "OpenAI", "Python", "Docker", "FastAPI"],
+    image: "", 
     github: "",
-    category: ["Data Analysis"],
+    category: ["Vector Search", "LLM/GenAI"],
   },
   {
-    id: "forest-fire",
+    id: "agent-automation",
     featured: false,
-    name: "Forest Fire Risk Prediction",
-    impact: "Real-time",
-    impactLabel: "Predictions",
-    description: "End-to-end ML pipeline predicting forest fire risk from environmental sensors. Deployed on Streamlit Cloud with real-time risk scoring.",
-    problem: "Environmental monitoring needs automated early warning systems.",
-    approach: "Data ingestion, feature engineering, Random Forest classification, deployed via Streamlit.",
-    tech: ["Python", "Scikit-learn", "Pandas", "Streamlit"],
-    image: "/images/projects/forest-fire-safe.png",
-    live: "https://forest-fire-risk-prediction-d9vmff5zuuvjvgoyjqjvpr.streamlit.app/",
-    github: "https://github.com/mercydeez/forest-fire-risk-prediction",
-    category: ["Machine Learning"],
+    name: "Multi-Agent Support Automation",
+    impact: "TBD",
+    impactLabel: "Tasks Automated",
+    description: "Intelligent workflow automation using LangGraph and n8n to ingest webhook tickets, analyze sentiment via Claude/Gemini APIs, and autonomously route or draft responses.",
+    problem: "High volume support tickets require manual human triage before resolution, creating a bottleneck.",
+    approach: "Deployed stateful multi-agent AI pipelines with LangGraph orchestrated via n8n automation workflows over a FastAPI backend.",
+    tech: ["LangGraph", "Claude/Gemini APIs", "FastAPI", "n8n", "Python"],
+    image: "", 
+    github: "",
+    category: ["AI Systems", "LLM/GenAI"],
   },
   {
-    id: "lung-cancer",
+    id: "hf-microservice",
     featured: false,
-    name: "Lung Cancer Risk Prediction",
-    impact: "RFC",
-    impactLabel: "Classifier",
-    description: "Clinical symptom classification using Random Forest. End-to-end ML pipeline with feature selection, model evaluation, deployed on Streamlit Cloud.",
-    problem: "Clinical symptom data needs fast ML-based risk screening.",
-    approach: "Supervised classification pipeline with feature selection and model evaluation.",
-    tech: ["Python", "Random Forest", "Scikit-learn", "Streamlit"],
-    image: "/images/projects/lung-cancer.png",
-    live: "https://mercydeez-lung-cancer-predictor-app-cc7nc0.streamlit.app/",
-    github: "https://github.com/mercydeez/lung_cancer_predictor",
-    category: ["Machine Learning"],
-  },
-  {
-    id: "insurance",
-    featured: false,
-    name: "Insurance Analysis Dashboard",
-    impact: "BI",
-    impactLabel: "Dashboard",
-    description: "Multi-page Power BI dashboard covering policy sales, claims analysis, customer demographics, and revenue trends for Murphy Insurance.",
-    problem: "Insurance data siloed with no unified analytics view.",
-    approach: "Data modeling and DAX measures for full policy lifecycle analytics.",
-    tech: ["Power BI", "DAX", "Data Modeling"],
-    image: "/images/projects/insurance.png",
-    github: "https://github.com/mercydeez/Murphy_Insurance",
-    category: ["Data Analysis"],
-  },
-  {
-    id: "trustmetrix",
-    featured: false,
-    name: "TrustMetrix Design Ethics Study",
-    impact: "2 Designs",
-    impactLabel: "Contrasted",
-    description: "Two contrasting mobile app prototypes for a fictional social credit scoring system — Design A uses gamification psychology to maximize engagement, Design B maximizes transparency and informed consent. Built to demonstrate ethical tradeoffs in UI/UX design.",
-    problem: "How does UI design manipulate user perception of surveillance systems?",
-    approach: "Built two extreme versions of the same app — one dopamine-driven with badges, streaks and leaderboards, one document-style with full data transparency and opt-outs.",
-    tech: ["HTML", "CSS", "JavaScript", "UX Design", "Design Ethics"],
-    image: "/images/projects/trustmetrix.png",
-    live: "https://mercydeez.github.io/TrustMetrix-Prototype/",
-    github: "https://github.com/mercydeez/trustmetrix-prototype",
-    category: ["Full Stack"],
-  },
+    name: "Hugging Face Inference Microservice",
+    impact: "TBD",
+    impactLabel: "Model Serving",
+    description: "Stateless containerized microservice serving an open-source Hugging Face model as an AI inference API. Deployed via Docker to scalable AWS/GCP cloud instances.",
+    problem: "Need secure, scalable, internal API access to custom fine-tuned open source models isolated from vendor lock-in.",
+    approach: "Wrapped Hugging Face transformers in a scalable backend API endpoint, built a robust Docker image, and deployed to serverless cloud infrastructure.",
+    tech: ["Hugging Face Transformers", "FastAPI", "Docker", "AWS", "Python"],
+    image: "", 
+    github: "",
+    category: ["AI Infrastructure"],
+  }
 ]
 
 export const EXPERIENCE = [
@@ -278,52 +245,36 @@ export const BLOGS = [
 ]
 
 export const SKILLS = {
-  "ML / AI": [
-    { name: "TensorFlow", logo: "https://cdn.simpleicons.org/tensorflow/FF6F00" },
-    { name: "PyTorch", logo: "https://cdn.simpleicons.org/pytorch/EE4C2C" },
-    { name: "Scikit-learn", logo: "https://cdn.simpleicons.org/scikitlearn/F7931E" },
-    { name: "Pandas", logo: "https://cdn.simpleicons.org/pandas/8B8BCD" },
-    { name: "NumPy", logo: "https://cdn.simpleicons.org/numpy/4DABCF" },
-    { name: "LangChain", logo: "https://cdn.simpleicons.org/langchain/00A67E" },
-    { name: "OpenAI", logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.612-1.5z'/%3E%3C/svg%3E" },
-    { name: "Claude", logo: "data:image/svg+xml,%3Csvg role='img' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23D97757' d='m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z'/%3E%3C/svg%3E" },
-    { name: "HuggingFace", logo: "https://cdn.simpleicons.org/huggingface/FFD21E" },
-    { name: "MLflow", logo: "https://cdn.simpleicons.org/mlflow/0194E2" },
-    { name: "Weights & Biases", logo: "https://cdn.simpleicons.org/weightsandbiases/FFBE00" },
+  "AI Engineering Core": [
+    { name: "Python", logo: "https://cdn.simpleicons.org/python/3776AB" },
+    { name: "FastAPI", logo: "https://cdn.simpleicons.org/fastapi/009688" },
+    { name: "Docker", logo: "https://cdn.simpleicons.org/docker/2496ED" },
   ],
-  "Big Data": [
-    { name: "Apache Spark", logo: "https://cdn.simpleicons.org/apachespark/E25A1C" },
-    { name: "Kafka", logo: "https://cdn.simpleicons.org/apachekafka/FFFFFF" },
-    { name: "Airflow", logo: "https://cdn.simpleicons.org/apacheairflow/017CEE" },
-    { name: "Snowflake", logo: "https://cdn.simpleicons.org/snowflake/29B5E8" },
+  "Cloud & Infrastructure": [
+    { name: "AWS", logo: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
+    { name: "Azure", logo: "https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" },
+    { name: "GCP", logo: "https://cdn.simpleicons.org/googlecloud/4285F4" },
     { name: "Databricks", logo: "https://cdn.simpleicons.org/databricks/FF3621" },
   ],
-  "Languages & Core": [
-    { name: "Python", logo: "https://cdn.simpleicons.org/python/3776AB" },
-    { name: "SQL", logo: "https://cdn.simpleicons.org/mysql/4479A1" },
+  "LLM & GenAI Frameworks": [
+    { name: "LangChain", logo: "https://cdn.simpleicons.org/langchain/00A67E" },
+    { name: "LangGraph", logo: "https://cdn.simpleicons.org/langchain/00A67E" },
+    { name: "Hugging Face", logo: "https://cdn.simpleicons.org/huggingface/FFD21E" },
   ],
-  "Cloud & DevOps": [
-    { name: "Azure", logo: "https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" },
-    { name: "AWS", logo: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
-    { name: "GCP", logo: "https://cdn.simpleicons.org/googlecloud/4285F4" },
-    { name: "Docker", logo: "https://cdn.simpleicons.org/docker/2496ED" },
-    { name: "Git", logo: "https://cdn.simpleicons.org/git/F05032" },
-    { name: "GitHub", logo: "https://cdn.simpleicons.org/github/FFFFFF" },
+  "AI APIs": [
+    { name: "OpenAI", logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.612-1.5z'/%3E%3C/svg%3E" },
+    { name: "Claude", logo: "data:image/svg+xml,%3Csvg role='img' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23D97757' d='m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z'/%3E%3C/svg%3E" },
+    { name: "Gemini", logo: "https://cdn.simpleicons.org/googlegemini/8E75B2" }
   ],
-  "Databases & Vector Stores": [
-    { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/4169E1" },
-    { name: "MongoDB", logo: "https://cdn.simpleicons.org/mongodb/47A248" },
-    { name: "Redis", logo: "https://cdn.simpleicons.org/redis/FF4438" },
+  "Vector Databases": [
     { name: "Pinecone", logo: "https://avatars.githubusercontent.com/u/54333248?s=200&v=4" },
   ],
-  "Web & Frameworks": [
-    { name: "FastAPI", logo: "https://cdn.simpleicons.org/fastapi/009688" },
-    { name: "Streamlit", logo: "https://cdn.simpleicons.org/streamlit/FF4B4B" },
+  "AI Development Tools": [
+    { name: "Cursor", logo: "https://cdn.simpleicons.org/cursor/FFFFFF" },
+    { name: "Antigravity", logo: "https://upload.wikimedia.org/wikipedia/commons/2/22/DeepMind_logo.svg" },
   ],
-  "Data Visualization": [
-    { name: "Power BI", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" },
-    { name: "Matplotlib", logo: "https://upload.wikimedia.org/wikipedia/commons/8/84/Matplotlib_icon.svg" },
-    { name: "Plotly", logo: "https://cdn.simpleicons.org/plotly/7B8EC8" },
+  "Automation & Integration": [
+    { name: "n8n", logo: "https://cdn.simpleicons.org/n8n/FF6D5A" },
   ],
 };
 
