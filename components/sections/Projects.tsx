@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { PROJECTS, PROJECT_FILTERS, type ProjectCategory } from "@/lib/constants";
 import { useState } from "react";
 import { Github, ExternalLink, Cpu, Database, Globe } from "lucide-react";
-import ProjectExpanded from "@/components/ui/ProjectExpanded";
+import FeatureProject from "@/components/ui/FeatureProject";
 import { useStore, useCursorStore } from "@/lib/store";
 import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
@@ -15,8 +15,8 @@ const Projects = React.memo(function Projects() {
   const setCursorVariant = useCursorStore((state) => state.setCursorVariant);
 
   const filtered = activeFilter === "All"
-    ? PROJECTS.filter(p => !p.featured)
-    : PROJECTS.filter(p => p.category?.includes(activeFilter) && !p.featured);
+    ? PROJECTS
+    : PROJECTS.filter(p => p.category?.includes(activeFilter));
 
   return (
     <section id="projects" className="relative py-16 md:py-20 px-4 md:px-6">
@@ -31,12 +31,12 @@ const Projects = React.memo(function Projects() {
           <h2 className="text-3xl md:text-3xl lg:text-4xl font-display font-black text-white mb-4 uppercase">
             <ScrambleText text="PROJECT " /><span className="text-cyan"><ScrambleText text="MATRIX" /></span>
           </h2>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+          <div className="flex justify-start md:justify-center overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-2 md:gap-3 pb-4">
             {PROJECT_FILTERS.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 md:px-6 md:py-2 rounded-full font-mono text-[10px] md:text-xs tracking-widest transition-all ${activeFilter === filter
+                className={`flex-shrink-0 snap-start px-4 py-2 md:px-6 md:py-2 rounded-full font-mono text-[10px] md:text-xs tracking-widest transition-all ${activeFilter === filter
                   ? "bg-cyan text-void border-cyan shadow-[0_0_15px_#00f5ff]"
                   : "text-white/40 hover:text-cyan border border-white/10 hover:border-cyan/50"
                   }`}
@@ -47,26 +47,31 @@ const Projects = React.memo(function Projects() {
           </div>
         </motion.div>
 
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {(activeFilter === "All" || activeFilter === "AI Systems" || activeFilter === "LLM/GenAI") && (
-            <ProjectExpanded />
+            <FeatureProject />
           )}
 
           {filtered.map((project, i) => (
             <FadeInUp key={project.name} className="h-full">
               <motion.div
                 layout
-                whileHover={{ y: -10, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.15)" }}
-                transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                className="tactical-panel rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] cursor-pointer h-full flex flex-col overflow-hidden"
+                whileHover={{ y: -5, boxShadow: "0 20px 40px -20px rgba(0,240,255,0.1)" }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="tactical-panel rounded-2xl group border border-white/5 hover:border-cyan/50 transition-all hover:bg-white/[0.02] h-full flex flex-col overflow-hidden"
                 onMouseEnter={() => {
-                  setHoveringProject(true);
-                  setCursorVariant('targeting');
+                  if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
+                    setHoveringProject(true);
+                    setCursorVariant('targeting');
+                  }
                 }}
                 onMouseLeave={() => {
-                  setHoveringProject(false);
-                  setCursorVariant('default');
+                  if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
+                     setHoveringProject(false);
+                     setCursorVariant('default');
+                  }
                 }}
               >
                 {/* Project Screenshot */}
@@ -106,13 +111,13 @@ const Projects = React.memo(function Projects() {
                   <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 uppercase tracking-tighter">
                     {project.name}
                   </h3>
-                  <p className="text-white/50 text-xs md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed flex-grow">
+                  <p className="text-white/60 text-sm md:text-sm font-mono line-clamp-3 mb-8 leading-relaxed flex-grow">
                     {project.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2 mt-auto">
                     {project.tech.map((tag, idx) => (
-                      <span key={idx} className="text-[9px] md:text-[10px] font-mono text-cyan/70 border border-cyan/20 px-2 py-1 rounded bg-cyan/5">
+                      <span key={idx} className="text-[10px] md:text-[11px] font-mono text-white/50 border border-white/10 px-2 py-1 rounded bg-white/5">
                         {tag}
                       </span>
                     ))}

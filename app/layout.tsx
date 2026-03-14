@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Space_Grotesk, Syncopate } from "next/font/google";
-import CanvasLayer from "@/components/three/CanvasLayer";
+import GridBackground from "@/components/ui/GridBackground";
 import CommandBar from "@/components/ui/CommandBar";
 import CustomCursor from "@/components/ui/CustomCursor";
 import MouseSpotlight from "@/components/ui/MouseSpotlight";
@@ -35,15 +35,15 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable}`}>
-      <body className="antialiased bg-void selection:bg-cyan/30 text-white">
+      <body className="antialiased bg-[#050505] selection:bg-cyan/30 text-white">
 
         <SmoothScrollProvider>
 
           {/* =======================================================
-            PHYSICAL LAYER (z-0): Persistent WebGL Context
+            PHYSICAL LAYER (z-0): CSS Architectural Grid
             ======================================================= */}
           <div className="fixed inset-0 z-0 pointer-events-none">
-            <CanvasLayer />
+            <GridBackground />
           </div>
 
           {/* =======================================================

@@ -64,20 +64,20 @@ export default function Hero() {
           className="flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto z-10 order-2 md:order-1"
         >
           {/* Status badge */}
-          <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded mb-6 border-cyan/50 w-fit">
-            <Terminal size={14} className="text-amber animate-pulse" />
-            <span className="text-cyan text-[10px] md:text-xs uppercase font-terminal tracking-[0.3em]">
-              SYS.STATUS: {PERSONAL_INFO.status.toUpperCase()}
+          <div className="tactical-panel px-4 py-1.5 flex items-center gap-2 rounded-sm mb-6 border border-white/10 w-fit">
+            <Terminal size={14} className="text-emerald-500 animate-pulse" />
+            <span className="text-white/70 text-[10px] md:text-xs uppercase font-mono tracking-[0.2em]">
+              SYS.STATUS: <span className="text-emerald-500">{PERSONAL_INFO.status.toUpperCase()}</span>
             </span>
           </div>
 
-          {/* Name — big, bold, unmissable */}
+          {/* Name — architectural and stark */}
           <h1
-            className="text-cyber font-black text-white mb-3 drop-shadow-2xl flex flex-col leading-none w-full"
-            style={{ fontSize: 'clamp(2rem, 4.2vw, 3.2rem)', letterSpacing: '0.02em' }}
+            className="text-cyber font-black text-white mb-3 flex flex-col leading-none w-full"
+            style={{ fontSize: 'clamp(2rem, 4.2vw, 3.2rem)', letterSpacing: '0.05em' }}
           >
             <ScrambleText text={PERSONAL_INFO.name.split(" ")[0]} delay={200} />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-amber leading-tight pb-2">
+            <span className="text-white/50 leading-tight pb-2">
               <ScrambleText text={PERSONAL_INFO.name.split(" ").slice(1).join(" ")} delay={500} />
             </span>
           </h1>
@@ -114,7 +114,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Subtitle */}
-          <p className="font-terminal text-white/70 text-xs md:text-sm max-w-sm mb-8 leading-relaxed bg-void/50 backdrop-blur-md p-3 rounded-lg border-l-2 border-amber">
+          <p className="font-mono text-white/60 text-xs md:text-sm max-w-sm mb-8 leading-relaxed tactical-panel p-4 rounded-md border-l-2 border-l-cyan">
             {PERSONAL_INFO.subtitle}
           </p>
 
@@ -124,15 +124,15 @@ export default function Hero() {
               href={PERSONAL_INFO.resumeDownload}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-cyan text-void font-bold font-terminal text-sm tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white transition-colors min-h-[44px]"
+              className="px-6 py-3 bg-white text-void font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-cyan hover:text-void transition-colors min-h-[44px]"
             >
-              <Download size={16} /> EXTRACT_DATA
+              <Download size={14} /> EXTRACT_DATA
             </a>
             <button
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-6 py-3 border border-amber/50 text-amber hover:bg-amber/10 font-bold font-terminal text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-colors min-h-[44px]"
+              className="px-6 py-3 border border-white/20 text-white/80 hover:bg-white/5 hover:border-white/50 hover:text-white font-bold font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-colors min-h-[44px]"
             >
-              <Rocket size={16} /> DEPLOY_MODULES
+              <Rocket size={14} /> DEPLOY_MODULES
             </button>
           </div>
 
@@ -170,50 +170,41 @@ export default function Hero() {
 
         {/* ── RIGHT: Profile Photo ── */}
         <motion.div
-          variants={itemVariants}
-          style={{ y: photoY, scale: photoScale }}
-          className="flex justify-center md:justify-center relative pointer-events-auto order-1 md:order-2"
-        >
-          <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
-            {/* HUD Rings */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-              className="absolute inset-0 rounded-full border border-cyan/40"
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-              className="absolute inset-0 sm:inset-[-16px] rounded-full border-t border-b border-amber/50"
-            />
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-              className="absolute inset-[10px] rounded-full blur-sm opacity-50"
-              style={{ background: 'conic-gradient(from 0deg, #00F0FF, #FF6B35, #00F0FF)' }}
-            />
-            {/* Photo */}
-            <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-void z-10 shadow-[0_0_60px_rgba(0,240,255,0.3)] bg-military flex items-center justify-center">
-              {imgError ? (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan/20 to-amber/20">
-                  <span className="text-4xl md:text-5xl font-display font-black text-white mix-blend-screen opacity-50">AS</span>
-                </div>
-              ) : (
-                <img
-                  src="/images/profile.png"
-                  alt={PERSONAL_INFO.name}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                  onError={() => setImgError(true)}
-                />
-              )}
-            </div>
-            {/* Crosshairs */}
-            <svg className="absolute w-[130%] h-[130%] text-cyan/30 pointer-events-none animate-pulse" viewBox="0 0 100 100">
-              <path d="M50 0 L50 10 M50 90 L50 100 M0 50 L10 50 M90 50 L100 50" stroke="currentColor" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.2" strokeDasharray="2 4" />
-            </svg>
-          </div>
-        </motion.div>
+           variants={itemVariants}
+           style={{ y: photoY, scale: photoScale }}
+           className="flex justify-center md:justify-center relative pointer-events-auto order-1 md:order-2"
+         >
+           <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
+             {/* Architectural HUD Rings */}
+             <motion.div
+               animate={{ rotate: 90 }}
+               transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+               className="absolute inset-0 rounded-full border border-dashed border-white/20"
+             />
+             <motion.div
+               className="absolute inset-[10px] rounded-full border border-cyan/10"
+             />
+             {/* Photo */}
+             <div className="absolute inset-4 rounded-full overflow-hidden border border-white/20 z-10 bg-[#050505] flex items-center justify-center shadow-2xl">
+               {imgError ? (
+                 <div className="w-full h-full flex items-center justify-center bg-[#050505]">
+                   <span className="text-4xl md:text-5xl font-mono font-bold text-white/50">AS</span>
+                 </div>
+               ) : (
+                 <img
+                   src="/images/profile.png"
+                   alt={PERSONAL_INFO.name}
+                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                   onError={() => setImgError(true)}
+                 />
+               )}
+             </div>
+             {/* Blueprint Measurement Markers */}
+             <svg className="absolute w-[110%] h-[110%] text-white/10 pointer-events-none" viewBox="0 0 100 100">
+               <path d="M50 0 L50 5 M50 95 L50 100 M0 50 L5 50 M95 50 L100 50" stroke="currentColor" strokeWidth="0.5" />
+             </svg>
+           </div>
+         </motion.div>
 
       </motion.div>
     </section>

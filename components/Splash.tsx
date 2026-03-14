@@ -3,309 +3,226 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
-// ─── Loading messages for Phase 4 ───────────────────────────────────────────
+// ─── Digital Optics Loading Messages ───────────────────────────────────────
 const LOADING_MESSAGES = [
-    "CALIBRATING NEURAL SYSTEMS...",
-    "MAPPING STAR COORDINATES...",
-    "SYNCHRONIZING DATA STREAMS...",
-    "ESTABLISHING DEEP SPACE LINK...",
+    "ALIGNING OPTICAL CONDUITS...",
+    "FOCUSING COGNITIVE LENSES...",
+    "REFRACTING DATA STREAMS...",
+    "INITIATING PRISM CORE...",
 ];
 
-// ─── Particle data generated once ────────────────────────────────────────────
-const PARTICLE_COUNT = 80;
-const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
-    const angle = (i / PARTICLE_COUNT) * 2 * Math.PI + (Math.random() - 0.5) * 0.4;
-    const dist = 0.35 + Math.random() * 0.25; // 35–60 vw/vh
-    const colorRand = Math.random();
-    const color =
-        colorRand < 0.33 ? "#ffffff" : colorRand < 0.66 ? "#00F0FF" : "#7B2FBE";
-    const size = 2 + Math.random() * 2;
-    return {
-        id: i,
-        x: `${Math.cos(angle) * dist * 100}vw`,
-        y: `${Math.sin(angle) * dist * 100}vh`,
-        color,
-        size,
-        duration: 0.55 + Math.random() * 0.3,
-        delay: Math.random() * 0.15,
-    };
-});
+const VIBGYOR = [
+    { color: "#FF0000", angle: -18, label: "Red" },     // Top
+    { color: "#FF7F00", angle: -12, label: "Orange" },
+    { color: "#FFFF00", angle: -6,  label: "Yellow" },
+    { color: "#00FF00", angle: 0,   label: "Green" },   // Center
+    { color: "#0000FF", angle: 6,   label: "Blue" },
+    { color: "#4B0082", angle: 12,  label: "Indigo" },
+    { color: "#8B00FF", angle: 18,  label: "Violet" },  // Bottom
+];
 
-// ─── Name letters ─────────────────────────────────────────────────────────────
-const NAME = "ATHARVA SOUNDANKAR";
-const NAME_LETTERS = NAME.split("");
-
-// ─── Splash Component ─────────────────────────────────────────────────────────
 export default function Splash({ onComplete }: { onComplete: () => void }) {
-    const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4 | 5>(0);
+    const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
     const [msgIdx, setMsgIdx] = useState(0);
     const [barWidth, setBarWidth] = useState(0);
     const [exiting, setExiting] = useState(false);
     const skipRef = useRef(false);
 
-    // ─── SSR-safe localStorage check ───────────────────────────────────────────
     useEffect(() => {
-        const hasVisited =
-            typeof window !== "undefined" &&
-            localStorage.getItem("space_visited") === "true";
+        const hasVisited = typeof window !== "undefined" && localStorage.getItem("optics_visited") === "true";
         skipRef.current = hasVisited;
-        // Start: if visited skip to Phase 3
-        setPhase(hasVisited ? 3 : 0);
-    }, []);
-
-    // ─── Phase timer sequence ───────────────────────────────────────────────────
-    useEffect(() => {
-        const skip = skipRef.current;
-
+        
         const timers: ReturnType<typeof setTimeout>[] = [];
-
-        if (!skip) {
-            // Full sequence
-            timers.push(setTimeout(() => setPhase(1), 200));
-            timers.push(setTimeout(() => setPhase(2), 800));
-            timers.push(setTimeout(() => setPhase(3), 1500));
-            timers.push(setTimeout(() => setPhase(4), 2200));
+        
+        if (!skipRef.current) {
+            // Full Sequence
+            timers.push(setTimeout(() => setPhase(1), 500));  // Light beam enters
+            timers.push(setTimeout(() => setPhase(2), 1500)); // Prism refracts
+            timers.push(setTimeout(() => setPhase(3), 2500)); // Name illuminates
+            
             timers.push(
                 setTimeout(() => {
-                    localStorage.setItem("space_visited", "true");
+                    localStorage.setItem("optics_visited", "true");
                     setExiting(true);
-                    setTimeout(onComplete, 400);
-                }, 2800)
+                    setTimeout(onComplete, 800);
+                }, 5500)
             );
         } else {
-            // Short sequence from Phase 3
-            timers.push(setTimeout(() => setPhase(4), 500));
+            // Fast Boot Sequence
+            setPhase(3);
             timers.push(
                 setTimeout(() => {
-                    localStorage.setItem("space_visited", "true");
                     setExiting(true);
-                    setTimeout(onComplete, 400);
-                }, 1200)
+                    setTimeout(onComplete, 600);
+                }, 1500)
             );
         }
 
         return () => timers.forEach(clearTimeout);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [onComplete]);
 
-    // ─── Loading bar animation (Phase 4) ──────────────────────────────────────
+    // Loading bar and messages
     useEffect(() => {
-        if (phase !== 4) return;
-        const interval = setInterval(() => {
-            setBarWidth((prev) => {
-                if (prev >= 100) { clearInterval(interval); return 100; }
-                return prev + 3.5;
-            });
+        const barInterval = setInterval(() => {
+            setBarWidth((prev) => (prev >= 100 ? 100 : prev + (skipRef.current ? 4 : 0.6)));
         }, 20);
-        return () => clearInterval(interval);
-    }, [phase]);
-
-    // ─── Cycling messages (Phase 4) ───────────────────────────────────────────
-    useEffect(() => {
-        if (phase !== 4) return;
-        const interval = setInterval(() => {
+        
+        const msgInterval = setInterval(() => {
             setMsgIdx((prev) => (prev + 1) % LOADING_MESSAGES.length);
-        }, 400);
-        return () => clearInterval(interval);
-    }, [phase]);
+        }, 800);
+
+        return () => {
+            clearInterval(barInterval);
+            clearInterval(msgInterval);
+        };
+    }, []);
 
     return (
         <AnimatePresence>
             {!exiting && (
                 <motion.div
-                    key="splash"
+                    key="splash-optics"
                     initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, filter: "blur(12px)" }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden"
-                    style={{ background: "#030303" }}
+                    exit={{ opacity: 0, filter: "blur(20px)" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-[#030303]"
                 >
-                    {/* ── PHASE 1: Single point of light ─────────────────────────────── */}
-                    <AnimatePresence>
-                        {phase === 1 && (
-                            <motion.div
-                                key="singularity-point"
-                                initial={{ opacity: 0, scale: 0, backgroundColor: "#ffffff" }}
-                                animate={{
-                                    opacity: [0, 1, 1, 1],
-                                    scale: [1, 4, 2],
-                                    backgroundColor: ["#ffffff", "#7B2FBE", "#7B2FBE"],
-                                    boxShadow: [
-                                        "0 0 0px 0px rgba(255,255,255,0)",
-                                        "0 0 30px 10px rgba(123,47,190,0.8)",
-                                        "0 0 15px 5px rgba(123,47,190,0.6)",
-                                    ],
-                                }}
-                                exit={{ opacity: 0, scale: 8, filter: "blur(10px)" }}
-                                transition={{ duration: 0.6, ease: "easeOut" }}
-                                style={{
-                                    position: "absolute",
-                                    width: "2px",
-                                    height: "2px",
-                                    borderRadius: "50%",
-                                }}
-                            />
-                        )}
-                    </AnimatePresence>
+                    {/* Background Grid - Barely Visible */}
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-                    {/* ── PHASE 2: Particle explosion ─────────────────────────────────── */}
-                    <AnimatePresence>
-                        {phase === 2 && (
-                            <div
-                                key="particle-field"
-                                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                            >
-                                {particles.map((p) => (
+                    <div className="relative flex flex-col items-center justify-center w-full max-w-6xl h-full">
+                        
+                        {/* Optics Assembly (Translates Up in Phase 3) */}
+                        <motion.div
+                            animate={{ y: phase >= 3 ? -100 : 0 }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
+                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                        >
+                            {/* ─── PHASE 1: Laser Beam Entering ─── */}
+                            <AnimatePresence>
+                                {(phase >= 1) && (
                                     <motion.div
-                                        key={p.id}
-                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                                        animate={{
-                                            x: p.x,
-                                            y: p.y,
-                                            opacity: [1, 0.8, 0],
-                                            scale: [1, 0.6],
-                                        }}
-                                        transition={{
-                                            duration: p.duration,
-                                            delay: p.delay,
-                                            ease: "easeOut",
-                                        }}
-                                        style={{
-                                            position: "absolute",
-                                            width: p.size,
-                                            height: p.size,
-                                            borderRadius: "50%",
-                                            backgroundColor: p.color,
-                                            boxShadow: `0 0 6px 2px ${p.color}88`,
-                                        }}
+                                        initial={{ width: 0, opacity: 0 }}
+                                        animate={{ width: "50%", opacity: 1 }}
+                                        transition={{ duration: 0.8, ease: "easeOut" }}
+                                        className="absolute left-0 top-1/2 -translate-y-[1px] h-[3px] bg-white shadow-[0_0_15px_#fff,0_0_30px_#fff]"
+                                        style={{ transformOrigin: "left" }}
                                     />
-                                ))}
-                            </div>
-                        )}
-                    </AnimatePresence>
+                                )}
+                            </AnimatePresence>
 
-                    {/* ── PHASES 3+: Name, subtitle, bar ──────────────────────────────── */}
-                    <AnimatePresence>
-                        {phase >= 3 && (
-                            <motion.div
-                                key="name-block"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex flex-col items-center gap-4 px-6 text-center"
-                            >
-                                {/* Name — two guaranteed rows, never mid-word wrap */}
-                                <h1
-                                    className="flex flex-col items-center gap-0 leading-none"
-                                    style={{ fontFamily: "var(--font-syncopate), sans-serif" }}
-                                >
-                                    {/* First name */}
-                                    <div className="flex justify-center overflow-hidden">
-                                        {"ATHARVA".split("").map((char, i) => (
-                                            <motion.span
-                                                key={`first-${i}`}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: i * 0.06, duration: 0.3, ease: "easeOut" }}
-                                                className="text-white font-black uppercase"
-                                                style={{
-                                                    fontSize: "clamp(1.6rem, 8vw, 3rem)",
-                                                    letterSpacing: "0.12em",
-                                                    textShadow: phase >= 3 ? "0 0 20px rgba(0,240,255,0.6), 0 0 40px rgba(0,240,255,0.2)" : "none",
+                            {/* ─── PHASE 2: True Glass Prism ─── */}
+                            <AnimatePresence>
+                                {phase >= 1 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0, y: 30 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
+                                        className="absolute z-20 w-48 h-48 drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex justify-center items-center"
+                                    >
+                                        {/* SVG Prism Shape */}
+                                        <svg viewBox="0 0 100 100" className="absolute w-full h-full inset-0 z-10">
+                                            <defs>
+                                                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+                                                    <stop offset="50%" stopColor="rgba(255,255,255,0.05)" />
+                                                    <stop offset="100%" stopColor="rgba(255,255,255,0.15)" />
+                                                </linearGradient>
+                                                <linearGradient id="edgeHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" stopColor="rgba(255,255,255,1)" />
+                                                    <stop offset="100%" stopColor="rgba(255,255,255,0.2)" />
+                                                </linearGradient>
+                                            </defs>
+                                            <polygon points="50,10 10,90 90,90" fill="url(#glassGradient)" stroke="url(#edgeHighlight)" strokeWidth="0.5" />
+                                            {/* Inner 3D facet reflection */}
+                                            <line x1="50" y1="10" x2="50" y2="90" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+                                            <line x1="50" y1="90" x2="10" y2="90" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+                                        </svg>
+                                        {/* Glass Blur Background exactly inside the triangle */}
+                                        <div 
+                                            className="absolute inset-0 backdrop-blur-md" 
+                                            style={{ clipPath: "polygon(50% 10%, 10% 90%, 90% 90%)" }} 
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* ─── PHASE 2b: VIBGYOR Refracted Beams ─── */}
+                            <AnimatePresence>
+                                {phase >= 2 && (
+                                    <div className="absolute left-[50%] right-0 top-1/2 -translate-y-1/2 h-0 flex items-center justify-start z-10 pointer-events-none">
+                                        {VIBGYOR.map((beam, i) => (
+                                            <motion.div
+                                                key={beam.label}
+                                                initial={{ width: 0, opacity: 0 }}
+                                                animate={{ width: "100%", opacity: [0, 1, 0.8] }}
+                                                transition={{ duration: 1, ease: "easeOut", delay: i * 0.05 }}
+                                                className="absolute left-0 h-[4px] rounded-r-full mix-blend-screen"
+                                                style={{ 
+                                                    transformOrigin: "left",
+                                                    backgroundColor: beam.color,
+                                                    transform: `rotate(${beam.angle}deg)`,
+                                                    boxShadow: `0 0 15px ${beam.color}, 0 0 30px ${beam.color}88`,
+                                                    filter: "blur(1.5px)",
+                                                    width: "120vw", // Span all the way out of screen
                                                 }}
-                                            >
-                                                {char}
-                                            </motion.span>
+                                            />
                                         ))}
                                     </div>
-                                    {/* Last name */}
-                                    <div className="flex justify-center overflow-hidden">
-                                        {"SOUNDANKAR".split("").map((char, i) => (
-                                            <motion.span
-                                                key={`last-${i}`}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: (7 + 1 + i) * 0.06, duration: 0.3, ease: "easeOut" }}
-                                                className="font-black uppercase"
-                                                style={{
-                                                    fontSize: "clamp(1.6rem, 8vw, 3rem)",
-                                                    letterSpacing: "0.12em",
-                                                    color: "transparent",
-                                                    backgroundImage: "linear-gradient(90deg, #00F0FF, #FF6B35)",
-                                                    WebkitBackgroundClip: "text",
-                                                    backgroundClip: "text",
-                                                    textShadow: "none",
-                                                }}
-                                            >
-                                                {char}
-                                            </motion.span>
-                                        ))}
-                                    </div>
-                                </h1>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
 
-                                {/* Subtitle */}
-                                <motion.p
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: NAME_LETTERS.length * 0.06 + 0.2, duration: 0.4 }}
-                                    className="font-bold uppercase tracking-[0.4em]"
-                                    style={{
-                                        fontFamily: "var(--font-space), monospace",
-                                        fontSize: "clamp(0.65rem, 1.5vw, 0.9rem)",
-                                        color: "#FF6B35",
-                                    }}
+                        {/* ─── PHASE 3: Content Reveals ─── */}
+                        <AnimatePresence>
+                            {phase >= 3 && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+                                    animate={{ opacity: 1, y: 130, filter: "blur(0px)" }}
+                                    transition={{ duration: 1 }}
+                                    className="absolute z-30 flex flex-col items-center pointer-events-none"
                                 >
-                                    AI &amp; BIG DATA ENGINEER
-                                </motion.p>
+                                    <div className="flex flex-col items-center">
+                                        <h1 className="text-cyber font-black text-white text-4xl md:text-6xl tracking-[0.2em] mb-2 text-center drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
+                                            ATHARVA
+                                        </h1>
+                                        <h2 className="text-cyber font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan via-white to-[#FF6B35] text-2xl md:text-4xl tracking-[0.2em]">
+                                            SOUNDANKAR
+                                        </h2>
+                                        
+                                        <div className="h-[1px] w-[140%] bg-gradient-to-r from-transparent via-white/30 to-transparent my-6" />
+                                        
+                                        <p className="font-mono text-xs tracking-[0.3em] uppercase text-white/50 mb-8">
+                                            AI &amp; BIG DATA ENGINEER
+                                        </p>
 
-                                {/* ── PHASE 4: Loading bar + messages ──────────────────────── */}
-                                <AnimatePresence>
-                                    {phase >= 4 && (
-                                        <motion.div
-                                            key="loading-block"
-                                            initial={{ opacity: 0, y: 8 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="w-full max-w-sm flex flex-col items-center gap-3 mt-4"
-                                        >
-                                            {/* Loading bar */}
-                                            <div
-                                                className="w-full h-[2px] rounded-full overflow-hidden"
-                                                style={{ background: "rgba(255,255,255,0.08)" }}
-                                            >
-                                                <motion.div
-                                                    style={{
-                                                        height: "100%",
-                                                        width: `${barWidth}%`,
-                                                        background: "linear-gradient(90deg, #00F0FF, #FF6B35, #7B2FBE)",
-                                                        borderRadius: "9999px",
-                                                    }}
-                                                    transition={{ duration: 0.02 }}
-                                                />
+                                        {/* Loading Elements */}
+                                        <div className="w-[300px] h-[1px] bg-white/10 relative overflow-hidden">
+                                            <motion.div 
+                                                className="absolute top-0 left-0 h-full bg-cyan shadow-[0_0_8px_#00F0FF]"
+                                                style={{ width: `${barWidth}%` }}
+                                            />
+                                        </div>
+                                        
+                                        <div className="w-[300px] flex justify-between items-center mt-3 text-[9px] font-mono tracking-widest uppercase">
+                                            <div className="text-white/40">
+                                                {LOADING_MESSAGES[msgIdx]}
                                             </div>
+                                            <div className="text-cyan">
+                                                {Math.floor(barWidth)}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
 
-                                            {/* Cycling messages */}
-                                            <AnimatePresence mode="wait">
-                                                <motion.p
-                                                    key={msgIdx}
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{ duration: 0.15 }}
-                                                    className="font-mono text-[10px] tracking-widest uppercase"
-                                                    style={{ color: "rgba(255,255,255,0.3)" }}
-                                                >
-                                                    {LOADING_MESSAGES[msgIdx]}
-                                                </motion.p>
-                                            </AnimatePresence>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    {/* Ambient Light Refraction */}
+                    <div className="absolute inset-0 pointer-events-none mix-blend-screen opacity-30">
+                        <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan rounded-full blur-[120px]" />
+                        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#FF6B35] rounded-full blur-[150px]" />
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>
