@@ -300,10 +300,6 @@ export default function Splash({ onComplete }: { onComplete: () => void }) {
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="fixed inset-0 z-[200] overflow-hidden select-none pointer-events-none bg-[#050505]"
         >
-          <style>{`
-            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400&display=swap');
-          `}</style>
-          
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block z-0" />
 
           {/* HR Lines */}

@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Space_Grotesk, Syncopate } from "next/font/google";
+import { Space_Grotesk, Syncopate, Bebas_Neue, Space_Mono } from "next/font/google";
 import GridBackground from "@/components/ui/GridBackground";
 import CommandBar from "@/components/ui/CommandBar";
 import CustomCursor from "@/components/ui/CustomCursor";
@@ -8,6 +8,8 @@ import MouseSpotlight from "@/components/ui/MouseSpotlight";
 // Cyber Typography
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
 const syncopate = Syncopate({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-syncopate" });
+const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas" });
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: "400", variable: "--font-mono" });
 
 export const metadata = {
   title: "Atharva Soundankar | AI & Big Data Engineer Portfolio",
@@ -34,7 +36,7 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${syncopate.variable} ${bebasNeue.variable} ${spaceMono.variable}`}>
       <body className="antialiased bg-[#050505] selection:bg-cyan/30 text-white">
 
         <SmoothScrollProvider>
