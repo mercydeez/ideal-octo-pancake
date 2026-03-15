@@ -6,6 +6,7 @@ import { PERSONAL_INFO } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import ScrambleText from "@/components/ui/ScrambleText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import ProfileCard from "@/components/ui/ProfileCard";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -192,36 +193,27 @@ export default function Hero() {
            className="flex justify-center md:justify-center relative pointer-events-auto order-1 md:order-2"
          >
           <ScrollReveal delay={0.3}>
-           <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
-             {/* Architectural HUD Rings */}
-             <motion.div
-               animate={{ rotate: 90 }}
-               transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-               className="absolute inset-0 rounded-full border border-dashed border-white/20"
-             />
-             <motion.div
-               className="absolute inset-[10px] rounded-full border border-primary/10"
-             />
-             {/* Photo */}
-             <div className="absolute inset-4 rounded-full overflow-hidden border border-white/20 z-10 bg-base flex items-center justify-center shadow-2xl">
-               {imgError ? (
-                 <div className="w-full h-full flex items-center justify-center bg-base">
-                   <span className="text-4xl md:text-5xl font-mono font-bold text-text-2">AS</span>
-                 </div>
-               ) : (
-                 <img
-                   src="/images/profile.png"
-                   alt={PERSONAL_INFO.name}
-                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                   onError={() => setImgError(true)}
-                 />
-               )}
-             </div>
-             {/* Blueprint Measurement Markers */}
-             <svg className="absolute w-[110%] h-[110%] text-white/10 pointer-events-none" viewBox="0 0 100 100">
-               <path d="M50 0 L50 5 M50 95 L50 100 M0 50 L5 50 M95 50 L100 50" stroke="currentColor" strokeWidth="0.5" />
-             </svg>
-           </div>
+            <div className="relative group">
+              {/* Background ambient glow specific to the card */}
+              <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <ProfileCard 
+                name={PERSONAL_INFO.name}
+                title={PERSONAL_INFO.title}
+                handle="mercydeez"
+                status="AVAILABLE_FOR_PHASE_1"
+                avatarUrl="/images/profile.png"
+                onContactClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                behindGlowColor="var(--color-primary)"
+                className="shadow-2xl"
+              />
+
+              {/* Blueprint Measurement Markers — kept for architectural feel */}
+              <svg className="absolute -inset-[10%] w-[120%] h-[120%] text-white/5 pointer-events-none" viewBox="0 0 100 100">
+                <path d="M50 0 L50 5 M50 95 L50 100 M0 50 L5 50 M95 50 L100 50" stroke="currentColor" strokeWidth="0.2" />
+                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.1" strokeDasharray="1 2" />
+              </svg>
+            </div>
           </ScrollReveal>
          </motion.div>
 
