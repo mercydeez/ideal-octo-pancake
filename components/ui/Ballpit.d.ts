@@ -5,30 +5,20 @@ export interface BallpitProps {
   followCursor?: boolean;
   skills?: Array<{
     name: string;
-    color: string;
+    color?: string;
     logo?: string;
   }>;
-  count?: number;
-  colors?: number[];
-  ambientColor?: number;
-  ambientIntensity?: number;
-  lightIntensity?: number;
-  minSize?: number;
-  maxSize?: number;
+  gravity?: number;
   friction?: number;
   wallBounce?: number;
-  gravity?: number;
+  minSize?: number;
+  maxSize?: number;
+  // Physics config props supported by createBallpit opts
   maxVelocity?: number;
   maxX?: number;
   maxY?: number;
   maxZ?: number;
-  controlSphere0?: boolean;
-  materialParams?: {
-    metalness?: number;
-    roughness?: number;
-    clearcoat?: number;
-    clearcoatRoughness?: number;
-  };
+  size0?: number;
 }
 
 declare const Ballpit: React.FC<BallpitProps>;
