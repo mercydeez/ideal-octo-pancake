@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { SKILLS } from "@/lib/constants";
+import { SKILLS_FLAT, CURRENTLY_LEARNING } from "@/lib/constants";
 import { StaggerContainer, FadeInUp } from "@/components/ui/ScrollReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
-import { CURRENTLY_LEARNING } from "@/lib/constants";
+import Ballpit from "@/components/ui/Ballpit";
 
 const Skills = React.memo(function Skills() {
   return (
@@ -47,50 +47,25 @@ const Skills = React.memo(function Skills() {
         </div>
       </motion.div>
 
-      <div className="flex flex-col gap-4">
-        {Object.entries(SKILLS).map(([groupTitle, skillsList], groupIdx) => (
-          <StaggerContainer key={groupTitle}>
-            <h3 className={`font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 flex items-center gap-3 ${groupTitle === "AI Engineering Core" ? "text-secondary" : "text-text-3"}`}>
-              {groupIdx + 1}. {groupTitle}
-              <div className={`h-px flex-1 ${groupTitle === "AI Engineering Core" ? "bg-secondary/50" : "bg-white/5"}`} />
-            </h3>
-
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1.5 md:gap-2">
-              {skillsList.map((skill) => (
-                <FadeInUp key={skill.name}>
-                  <div
-                    className="flex flex-col items-center justify-center gap-1 p-1.5 rounded-md
-                    border border-white/5 hover:border-primary/60
-                    bg-white/[0.03] hover:bg-white/10
-                    transition-all duration-300 hover:scale-105
-                    cursor-default group h-14"
-                  >
-                    <div className="w-7 h-7 flex items-center justify-center
-                        bg-black/30 rounded p-1 group-hover:scale-110 transition-transform">
-                      <img
-                        src={skill.logo}
-                        alt={skill.name}
-                        width={24}
-                        height={24}
-                        className="object-contain w-full h-full"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    </div>
-                    <span className="text-[9px] md:text-[10px] text-text-3 
-                      group-hover:text-primary transition-colors text-center
-                      font-mono leading-tight">
-                      {skill.name}
-                    </span>
-                  </div>
-                </FadeInUp>
-              ))}
-            </div>
-          </StaggerContainer>
-        ))}
-      </div>
+      <StaggerContainer>
+        <FadeInUp>
+          <div className="w-full h-[560px] rounded-xl overflow-hidden">
+            <Ballpit
+              followCursor={true}
+              gravity={0}
+              count={SKILLS_FLAT.length}
+              colors={SKILLS_FLAT.map(s => parseInt(s.color.replace('#', ''), 16))}
+              ambientColor={0xffffff}
+              ambientIntensity={1}
+              lightIntensity={200}
+              minSize={0.5}
+              maxSize={1.2}
+              friction={0.9975}
+              wallBounce={0.95}
+            />
+          </div>
+        </FadeInUp>
+      </StaggerContainer>
     </section>
   );
 });
