@@ -54,6 +54,7 @@ const Skills = React.memo(function Skills() {
               followCursor={true}
               gravity={0}
               count={SKILLS_FLAT.length}
+              skills={SKILLS_FLAT}
               colors={SKILLS_FLAT.map(s => parseInt(s.color.replace('#', ''), 16))}
               ambientColor={0xffffff}
               ambientIntensity={1}

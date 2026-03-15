@@ -254,12 +254,10 @@ function S(e) {
         document.body.addEventListener('pointermove', M);
         document.body.addEventListener('pointerleave', L);
         document.body.addEventListener('click', C);
-
         document.body.addEventListener('touchstart', TouchStart, { passive: false });
         document.body.addEventListener('touchmove', TouchMove, { passive: false });
         document.body.addEventListener('touchend', TouchEnd, { passive: false });
         document.body.addEventListener('touchcancel', TouchEnd, { passive: false });
-
         R = true;
       }
     }
@@ -271,121 +269,56 @@ function S(e) {
       document.body.removeEventListener('pointermove', M);
       document.body.removeEventListener('pointerleave', L);
       document.body.removeEventListener('click', C);
-
       document.body.removeEventListener('touchstart', TouchStart);
       document.body.removeEventListener('touchmove', TouchMove);
       document.body.removeEventListener('touchend', TouchEnd);
       document.body.removeEventListener('touchcancel', TouchEnd);
-
       R = false;
     }
   };
   return t;
 }
-
-function M(e) {
-  A.x = e.clientX;
-  A.y = e.clientY;
-  processInteraction();
-}
-
+function M(e) { A.x = e.clientX; A.y = e.clientY; processInteraction(); }
 function processInteraction() {
   for (const [elem, t] of b) {
     const i = elem.getBoundingClientRect();
     if (D(i)) {
       P(t, i);
-      if (!t.hover) {
-        t.hover = true;
-        t.onEnter(t);
-      }
+      if (!t.hover) { t.hover = true; t.onEnter(t); }
       t.onMove(t);
-    } else if (t.hover && !t.touching) {
-      t.hover = false;
-      t.onLeave(t);
-    }
+    } else if (t.hover && !t.touching) { t.hover = false; t.onLeave(t); }
   }
 }
-
 function C(e) {
-  A.x = e.clientX;
-  A.y = e.clientY;
-  for (const [elem, t] of b) {
-    const i = elem.getBoundingClientRect();
-    P(t, i);
-    if (D(i)) t.onClick(t);
-  }
+  A.x = e.clientX; A.y = e.clientY;
+  for (const [elem, t] of b) { const i = elem.getBoundingClientRect(); P(t, i); if (D(i)) t.onClick(t); }
 }
-
-function L() {
-  for (const t of b.values()) {
-    if (t.hover) {
-      t.hover = false;
-      t.onLeave(t);
-    }
-  }
-}
-
+function L() { for (const t of b.values()) { if (t.hover) { t.hover = false; t.onLeave(t); } } }
 function TouchStart(e) {
   if (e.touches.length > 0) {
-    e.preventDefault();
-    A.x = e.touches[0].clientX;
-    A.y = e.touches[0].clientY;
-
+    e.preventDefault(); A.x = e.touches[0].clientX; A.y = e.touches[0].clientY;
     for (const [elem, t] of b) {
       const rect = elem.getBoundingClientRect();
-      if (D(rect)) {
-        t.touching = true;
-        P(t, rect);
-        if (!t.hover) {
-          t.hover = true;
-          t.onEnter(t);
-        }
-        t.onMove(t);
-      }
+      if (D(rect)) { t.touching = true; P(t, rect); if (!t.hover) { t.hover = true; t.onEnter(t); } t.onMove(t); }
     }
   }
 }
-
 function TouchMove(e) {
   if (e.touches.length > 0) {
-    e.preventDefault();
-    A.x = e.touches[0].clientX;
-    A.y = e.touches[0].clientY;
-
+    e.preventDefault(); A.x = e.touches[0].clientX; A.y = e.touches[0].clientY;
     for (const [elem, t] of b) {
-      const rect = elem.getBoundingClientRect();
-      P(t, rect);
-
-      if (D(rect)) {
-        if (!t.hover) {
-          t.hover = true;
-          t.touching = true;
-          t.onEnter(t);
-        }
-        t.onMove(t);
-      } else if (t.hover && t.touching) {
-        t.onMove(t);
-      }
+      const rect = elem.getBoundingClientRect(); P(t, rect);
+      if (D(rect)) { if (!t.hover) { t.hover = true; t.touching = true; t.onEnter(t); } t.onMove(t); }
+      else if (t.hover && t.touching) { t.onMove(t); }
     }
   }
 }
-
 function TouchEnd() {
-  for (const [, t] of b) {
-    if (t.touching) {
-      t.touching = false;
-      if (t.hover) {
-        t.hover = false;
-        t.onLeave(t);
-      }
-    }
-  }
+  for (const [, t] of b) { if (t.touching) { t.touching = false; if (t.hover) { t.hover = false; t.onLeave(t); } } }
 }
-
 function P(e, t) {
   const { position: i, nPosition: s } = e;
-  i.x = A.x - t.left;
-  i.y = A.y - t.top;
+  i.x = A.x - t.left; i.y = A.y - t.top;
   s.x = (i.x / t.width) * 2 - 1;
   s.y = (-i.y / t.height) * 2 + 1;
 }
@@ -396,16 +329,9 @@ function D(e) {
 }
 
 const { randFloat: k, randFloatSpread: E } = o;
-const F = new a();
-const I = new a();
-const O = new a();
-const V = new a();
-const B = new a();
-const N = new a();
-const _ = new a();
-const j = new a();
-const H = new a();
-const T = new a();
+const F = new a(); const I = new a(); const O = new a(); const V = new a();
+const B = new a(); const N = new a(); const _ = new a(); const j = new a();
+const H = new a(); const T = new a();
 
 class W {
   constructor(e) {
@@ -421,67 +347,45 @@ class W {
     const { config: e, positionData: t } = this;
     this.center.toArray(t, 0);
     for (let i = 1; i < e.count; i++) {
-      const s = 3 * i;
-      t[s] = E(2 * e.maxX);
-      t[s + 1] = E(2 * e.maxY);
-      t[s + 2] = E(2 * e.maxZ);
+      const s = 3 * i; t[s] = E(2 * e.maxX); t[s + 1] = E(2 * e.maxY); t[s + 2] = E(2 * e.maxZ);
     }
   }
   setSizes() {
     const { config: e, sizeData: t } = this;
     t[0] = e.size0;
-    for (let i = 1; i < e.count; i++) {
-      t[i] = k(e.minSize, e.maxSize);
-    }
+    for (let i = 1; i < e.count; i++) { t[i] = k(e.minSize, e.maxSize); }
   }
   update(e) {
     const { config: t, center: i, positionData: s, sizeData: n, velocityData: o } = this;
     let r = 0;
     if (t.controlSphere0) {
-      r = 1;
-      F.fromArray(s, 0);
-      F.lerp(i, 0.1).toArray(s, 0);
-      V.set(0, 0, 0).toArray(o, 0);
+      r = 1; F.fromArray(s, 0); F.lerp(i, 0.1).toArray(s, 0); V.set(0, 0, 0).toArray(o, 0);
     }
     for (let idx = r; idx < t.count; idx++) {
       const base = 3 * idx;
-      I.fromArray(s, base);
-      B.fromArray(o, base);
+      I.fromArray(s, base); B.fromArray(o, base);
       B.y -= e.delta * t.gravity * n[idx];
-      B.multiplyScalar(t.friction);
-      B.clampLength(0, t.maxVelocity);
-      I.add(B);
-      I.toArray(s, base);
-      B.toArray(o, base);
+      B.multiplyScalar(t.friction); B.clampLength(0, t.maxVelocity);
+      I.add(B); I.toArray(s, base); B.toArray(o, base);
     }
     for (let idx = r; idx < t.count; idx++) {
       const base = 3 * idx;
-      I.fromArray(s, base);
-      B.fromArray(o, base);
+      I.fromArray(s, base); B.fromArray(o, base);
       const radius = n[idx];
       for (let jdx = idx + 1; jdx < t.count; jdx++) {
         const otherBase = 3 * jdx;
-        O.fromArray(s, otherBase);
-        N.fromArray(o, otherBase);
+        O.fromArray(s, otherBase); N.fromArray(o, otherBase);
         const otherRadius = n[jdx];
         _.copy(O).sub(I);
         const dist = _.length();
         const sumRadius = radius + otherRadius;
         if (dist < sumRadius) {
           const overlap = sumRadius - dist;
-          j.copy(_)
-            .normalize()
-            .multiplyScalar(0.5 * overlap);
+          j.copy(_).normalize().multiplyScalar(0.5 * overlap);
           H.copy(j).multiplyScalar(Math.max(B.length(), 1));
           T.copy(j).multiplyScalar(Math.max(N.length(), 1));
-          I.sub(j);
-          B.sub(H);
-          I.toArray(s, base);
-          B.toArray(o, base);
-          O.add(j);
-          N.add(T);
-          O.toArray(s, otherBase);
-          N.toArray(o, otherBase);
+          I.sub(j); B.sub(H); I.toArray(s, base); B.toArray(o, base);
+          O.add(j); N.add(T); O.toArray(s, otherBase); N.toArray(o, otherBase);
         }
       }
       if (t.controlSphere0) {
@@ -492,30 +396,16 @@ class W {
           const diff = sumRadius0 - dist;
           j.copy(_.normalize()).multiplyScalar(diff);
           H.copy(j).multiplyScalar(Math.max(B.length(), 2));
-          I.sub(j);
-          B.sub(H);
+          I.sub(j); B.sub(H);
         }
       }
-      if (Math.abs(I.x) + radius > t.maxX) {
-        I.x = Math.sign(I.x) * (t.maxX - radius);
-        B.x = -B.x * t.wallBounce;
-      }
+      if (Math.abs(I.x) + radius > t.maxX) { I.x = Math.sign(I.x) * (t.maxX - radius); B.x = -B.x * t.wallBounce; }
       if (t.gravity === 0) {
-        if (Math.abs(I.y) + radius > t.maxY) {
-          I.y = Math.sign(I.y) * (t.maxY - radius);
-          B.y = -B.y * t.wallBounce;
-        }
-      } else if (I.y - radius < -t.maxY) {
-        I.y = -t.maxY + radius;
-        B.y = -B.y * t.wallBounce;
-      }
+        if (Math.abs(I.y) + radius > t.maxY) { I.y = Math.sign(I.y) * (t.maxY - radius); B.y = -B.y * t.wallBounce; }
+      } else if (I.y - radius < -t.maxY) { I.y = -t.maxY + radius; B.y = -B.y * t.wallBounce; }
       const maxBoundary = Math.max(t.maxZ, t.maxSize);
-      if (Math.abs(I.z) + radius > maxBoundary) {
-        I.z = Math.sign(I.z) * (t.maxZ - radius);
-        B.z = -B.z * t.wallBounce;
-      }
-      I.toArray(s, base);
-      B.toArray(o, base);
+      if (Math.abs(I.z) + radius > maxBoundary) { I.z = Math.sign(I.z) * (t.maxZ - radius); B.z = -B.z * t.wallBounce; }
+      I.toArray(s, base); B.toArray(o, base);
     }
   }
 }
@@ -551,29 +441,10 @@ class Y extends c {
 }
 
 const X = {
-  count: 200,
-  colors: [0, 0, 0],
-  ambientColor: 16777215,
-  ambientIntensity: 1,
-  lightIntensity: 200,
-  materialParams: {
-    metalness: 0.5,
-    roughness: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.15
-  },
-  minSize: 0.5,
-  maxSize: 1,
-  size0: 1,
-  gravity: 0.5,
-  friction: 0.9975,
-  wallBounce: 0.95,
-  maxVelocity: 0.15,
-  maxX: 5,
-  maxY: 5,
-  maxZ: 2,
-  controlSphere0: false,
-  followCursor: true
+  count: 200, colors: [0, 0, 0], ambientColor: 16777215, ambientIntensity: 1,
+  lightIntensity: 200, materialParams: { metalness: 0.5, roughness: 0.5, clearcoat: 1, clearcoatRoughness: 0.15 },
+  minSize: 0.5, maxSize: 1, size0: 1, gravity: 0.5, friction: 0.9975, wallBounce: 0.95,
+  maxVelocity: 0.15, maxX: 5, maxY: 5, maxZ: 2, controlSphere0: false, followCursor: true
 };
 
 const U = new m();
@@ -601,13 +472,7 @@ class Z extends d {
     if (Array.isArray(e) && e.length > 1) {
       const t = (function (e) {
         let t, i;
-        function setColors(e) {
-          t = e;
-          i = [];
-          t.forEach(col => {
-            i.push(new l(col));
-          });
-        }
+        function setColors(e) { t = e; i = []; t.forEach(col => { i.push(new l(col)); }); }
         setColors(e);
         return {
           setColors,
@@ -627,9 +492,7 @@ class Z extends d {
       })(e);
       for (let idx = 0; idx < this.count; idx++) {
         this.setColorAt(idx, t.getColorAt(idx / this.count));
-        if (idx === 0) {
-          this.light.color.copy(t.getColorAt(idx / this.count));
-        }
+        if (idx === 0) { this.light.color.copy(t.getColorAt(idx / this.count)); }
       }
       this.instanceColor.needsUpdate = true;
     }
@@ -638,11 +501,8 @@ class Z extends d {
     this.physics.update(e);
     for (let idx = 0; idx < this.count; idx++) {
       U.position.fromArray(this.physics.positionData, 3 * idx);
-      if (idx === 0 && this.config.followCursor === false) {
-        U.scale.setScalar(0);
-      } else {
-        U.scale.setScalar(this.physics.sizeData[idx]);
-      }
+      if (idx === 0 && this.config.followCursor === false) { U.scale.setScalar(0); }
+      else { U.scale.setScalar(this.physics.sizeData[idx]); }
       U.updateMatrix();
       this.setMatrixAt(idx, U.matrix);
       if (idx === 0) this.light.position.copy(U.position);
@@ -652,11 +512,7 @@ class Z extends d {
 }
 
 function createBallpit(e, t = {}) {
-  const i = new x({
-    canvas: e,
-    size: 'parent',
-    rendererOptions: { antialias: true, alpha: true }
-  });
+  const i = new x({ canvas: e, size: 'parent', rendererOptions: { antialias: true, alpha: true } });
   let s;
   i.renderer.toneMapping = v;
   i.camera.position.set(0, 0, 20);
@@ -668,11 +524,9 @@ function createBallpit(e, t = {}) {
   const o = new w(new a(0, 0, 1), 0);
   const r = new a();
   let c = false;
-
   e.style.touchAction = 'none';
   e.style.userSelect = 'none';
   e.style.webkitUserSelect = 'none';
-
   const h = S({
     domElement: e,
     onMove() {
@@ -682,72 +536,127 @@ function createBallpit(e, t = {}) {
       s.physics.center.copy(r);
       s.config.controlSphere0 = true;
     },
-    onLeave() {
-      s.config.controlSphere0 = false;
-    }
+    onLeave() { s.config.controlSphere0 = false; }
   });
   function initialize(e) {
-    if (s) {
-      i.clear();
-      i.scene.remove(s);
-    }
+    if (s) { i.clear(); i.scene.remove(s); }
     s = new Z(i.renderer, e);
     i.scene.add(s);
   }
-  i.onBeforeRender = e => {
-    if (!c) s.update(e);
-  };
-  i.onAfterResize = e => {
-    s.config.maxX = e.wWidth / 2;
-    s.config.maxY = e.wHeight / 2;
-  };
+  i.onBeforeRender = e => { if (!c) s.update(e); };
+  i.onAfterResize = e => { s.config.maxX = e.wWidth / 2; s.config.maxY = e.wHeight / 2; };
   return {
     three: i,
-    get spheres() {
-      return s;
-    },
-    setCount(e) {
-      initialize({ ...s.config, count: e });
-    },
-    togglePause() {
-      c = !c;
-    },
-    dispose() {
-      h.dispose();
-      i.dispose();
-    }
+    get spheres() { return s; },
+    setCount(e) { initialize({ ...s.config, count: e }); },
+    togglePause() { c = !c; },
+    dispose() { h.dispose(); i.dispose(); }
   };
 }
 
-const Ballpit = ({ className = '', followCursor = true, ...props }) => {
+// ── Logo overlay: projects img elements over each ball using 3D→2D projection ──
+function startLogoOverlay(bp, skills, canvas, labelContainer) {
+  if (!labelContainer || !skills || skills.length === 0) return () => { };
+
+  const tmpVec = new a();
+  const imgs = [];
+
+  skills.forEach((skill) => {
+    if (!skill.logo) return;
+    const img = document.createElement('img');
+    img.src = skill.logo;
+    img.alt = skill.name || '';
+    img.style.cssText = [
+      'position:absolute',
+      'width:32px',
+      'height:32px',
+      'object-fit:contain',
+      'transform:translate(-50%,-50%)',
+      'pointer-events:none',
+      'opacity:0',
+      'transition:opacity 0.4s',
+      'filter:drop-shadow(0 2px 6px rgba(0,0,0,0.9))',
+    ].join(';');
+    img.onload = () => { img.style.opacity = '1'; };
+    img.onerror = () => { img.remove(); };
+    labelContainer.appendChild(img);
+    imgs.push(img);
+  });
+
+  let rafId;
+  const camera = bp.three.camera;
+
+  function updatePositions() {
+    rafId = requestAnimationFrame(updatePositions);
+    const spheres = bp.spheres;
+    if (!spheres) return;
+    const W = canvas.offsetWidth;
+    const H = canvas.offsetHeight;
+    // ball index 0 is the cursor-follow sphere, skills start at index 1
+    // but if followCursor=false count starts at 0, so we offset by 1
+    const offset = 1;
+    imgs.forEach((img, i) => {
+      const ballIdx = i + offset;
+      const pd = spheres.physics.positionData;
+      if (!pd || ballIdx * 3 + 2 >= pd.length) return;
+      tmpVec.set(pd[ballIdx * 3], pd[ballIdx * 3 + 1], pd[ballIdx * 3 + 2]);
+      tmpVec.project(camera);
+      const x = (tmpVec.x * 0.5 + 0.5) * W;
+      const y = (tmpVec.y * -0.5 + 0.5) * H;
+      img.style.left = x + 'px';
+      img.style.top = y + 'px';
+    });
+  }
+
+  updatePositions();
+  return () => { cancelAnimationFrame(rafId); imgs.forEach(img => img.remove()); };
+}
+
+const Ballpit = ({ className = '', followCursor = true, skills = [], ...props }) => {
   const canvasRef = useRef(null);
-  const spheresInstanceRef = useRef(null);
+  const labelsRef = useRef(null);
+  const spheresRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const labelContainer = labelsRef.current;
     if (!canvas) return;
 
-    // Wait for canvas to be visible in DOM with valid dimensions
+    let stopLogos = () => { };
+
     const init = () => {
       if (canvas.offsetWidth === 0 || canvas.offsetHeight === 0) {
         requestAnimationFrame(init);
         return;
       }
-      spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props });
+      const bp = createBallpit(canvas, { followCursor, ...props });
+      spheresRef.current = bp;
+
+      // Start logo overlay after a short delay so physics has initialized
+      setTimeout(() => {
+        stopLogos = startLogoOverlay(bp, skills, canvas, labelContainer);
+      }, 300);
     };
 
     const raf = requestAnimationFrame(init);
 
     return () => {
       cancelAnimationFrame(raf);
-      if (spheresInstanceRef.current) {
-        spheresInstanceRef.current.dispose();
+      stopLogos();
+      if (spheresRef.current) {
+        spheresRef.current.dispose();
+        spheresRef.current = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <canvas className={`${className} w-full h-full`} ref={canvasRef} />;
+  return (
+    <div className={`${className} w-full h-full relative`} style={{ touchAction: 'none' }}>
+      <canvas ref={canvasRef} className="w-full h-full block" />
+      <div ref={labelsRef} className="absolute inset-0 pointer-events-none" />
+    </div>
+  );
 };
 
 export default Ballpit;
